@@ -1,0 +1,11 @@
+#FORM ±íµ¥
+--form--
+FORM_NAME = "SendAction"
+FORM_FILETYPE = "SendAction.js"
+FORM_TYPE = "AJAX"
+#FORM AJAX
+AJAX_BUTTON_NAME = "Button1"
+AJAX_FORM = "SendAction"
+AJAX_RECV_FILE = "ServSendAction.java"
+AJAX_RECV_Struct = "Send_Action_struct"
+--end--

@@ -1,0 +1,13 @@
+$('#AplDate').val(data.AplDate);
+$('#StartDate').val(data.StartDate);
+$('#EndDate').val(data.EndDate);
+$('#SalesOriginicleType').val(data.SalesOriginicleType);
+$('#PayType').val(data.PayType);
+$('#ShortRateTyVehicleFlag').val(data.ShortRateTyVehicleFlag);
+$('#ShortPercenOwnerFlag').val(data.ShortPercenOwnerFlag);
+$('#Examinant').val(data.Examinant);
+$('#SaleOfficeNnVehicleFlag').val(data.SaleOfficeNnVehicleFlag);
+$('#SalesNo').val(data.SalesNo);
+$('#AgentNo').val(data.AgentNo);
+$('#SettleType').val(data.SettleType);
+$('#Arbitrator').val(data.Arbitrator);
