@@ -1,0 +1,1 @@
+aTempMap.put("{{name}}",rs.getString("{{name}}")); //{{remarks}}

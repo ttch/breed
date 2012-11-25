@@ -1,0 +1,20 @@
+
+import datastruct.plc
+
+
+function Regplc( DataStruct.plc )
+{
+	[
+		begintrans
+		check DataStruct.plc.Person.Apl
+		check DataStruct.plc.Person.Isd
+		check DataStruct.plc.plcinfo
+		check DataStruct.plc.subject
+		for (albt : DataStruct.plc.Lbts){
+			check albt
+		}
+		[ check raise  ->  {!}  Rollback  : {=}  insert DataStruct.plc into Persistence.plc ]
+			commit
+		]
+}
+

@@ -1,0 +1,40 @@
+/***********************************************************
+
+	input text html 和android通用设备
+
+***********************************************************/
+
+import sys;
+
+object input_text{
+	function __init__(){
+		#this 代表自身
+		this.fieldlabel.caption = fieldchnname;	
+	}
+	sys.tpl tplfile;
+	property string fieldname;
+
+	property string fieldchnname;
+
+	property object parent = NULL;
+
+	~android.compile{
+		property string orientation;
+		property string layout_width;
+		property string layout_height;
+		property string layout_weight;
+	}
+	
+		输出函数
+	
+	function rendering(){
+		tplfile.rendering(this);	
+	}
+
+	#连接输出函数 针对于与sec关键字的支持
+	function out(){
+		return rendering	
+	}
+	property Label fieldlabel;
+}
+

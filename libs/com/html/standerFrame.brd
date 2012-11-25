@@ -1,0 +1,14 @@
+component standerFrame
+
+import sys;
+
+
+object standerFrame{
+	
+	sys.tpl tplfile;
+
+	function display_body(content_str){
+		tplfile.readering(content_str):	
+	}
+
+}

@@ -1,0 +1,24 @@
+component file
+
+function __init_(){
+	#关联到python file模块
+	alias:sys.file
+}
+
+/* 设置 mod e*/
+function mode(mode){
+	f.setmode(mode);
+}
+
+function open(filename,pattern){
+
+	var f = sys.file.open(filename,pattern);
+}
+
+function out(filename,out_str){
+	f.write(out_str);
+}
+
+function close(){
+	f.close();
+}

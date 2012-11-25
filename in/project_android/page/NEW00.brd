@@ -1,0 +1,150 @@
+page NEW00
+
+
+#导入组件规则是，有文件导入文件，没文件导入目录下所有的问题，但并不包括子目录，且有同名的要报错
+if ( system.type.andorid ) {
+	import com.android.standerFrame;
+}
+if ( system.template.name == 'jjs') {
+	import com.html.standerFrame;
+}
+
+import sys;
+import com.ui.LinearLayout;
+import com.ui.ScrollView;
+import com.ui.TableLayout;
+import com.ui.input_text;
+import com.ui.input_date;
+import com.ui.input_select;
+import com.assioc.*;
+
+@define
+	field MAIN (extends : stander){
+		
+		function main( CONTENT_INFO ){
+			if ( system.type.android ) {
+				standerFrame.display_body( CONTENT_INFO ) );
+			}
+		}
+	}
+
+	field CONTENT_INFO ( extends : LinearLayout ) {
+		fieldname = 'CONTENT_INFO';
+		fieldchnname = '主栏';
+		parent = MAIN;
+		if ( system.type.android ) {
+			orientation = 'horizontal';
+			layout_width = 'match_parent';
+			layout_height = 'wrap_content';
+			layout_weight = '1';
+		}
+		file.out('c:\\Project_out\\init_js'); #初始化脚本
+	}
+
+	field MAIN_SCROLL ( extends : ScrollView ) {
+		fieldname = 'MAIN_SCROLL';
+		fieldchnname = '滚动栏';
+		parent = MAIN_INFO;
+		if ( system.type.android ) {	
+			orientation = 'horizontal';
+			layout_width = 'match_parent';
+			layout_height = 'wrap_content';
+			layout_weight = '1';
+		}	
+	}
+	
+	field MAIN_TABLE ( extends : TableLayout ) {
+		fieldname = 'MAIN_TABLE';
+		fieldchnname = '排版主页';
+		parent = MAIN_SCROLL;
+		#~符号是告诉编译器特殊处理，针对某环境，某编译器或者未知的某元素
+		if ( system.type.android ) {
+			orientation = 'horizontal';
+			layout_width = 'match_parent';
+			layout_height = 'wrap_content';
+			layout_weight = '1';
+		}
+	}
+	
+
+
+	fieldset input_sec ( extends : input_text  ) [
+		{ EdtFlightNum : '航班号' },
+		{ edtBnfName : '受益人姓名' },
+		{ edtBnfNumber : '受益人证件号' },
+		{ edtOfficeNo : '营业网点' }
+	
+	];
+
+	fieldset select_sec ( extends : input_select ) [
+		{ SpnRelationshipInsured : '与被保险人关系' },
+		{ edtBnfType : '受益人证件类型'},
+		{ edtBnfRelation : '受益关系'}
+	];
+
+	fieldset date_sec ( extends : inut_date ) [
+		{ edtStartDate : '起保日期' },
+		{ edtEndDate : '终保日期' }
+	];
+	# set 设置一个集合变量，集合变量，能够把变量和各种类型组合起来，然后通过sec关键字对其下面的所有元素进行统一赋值
+	set sub_sec =[
+		input_sec,
+		select_sec,
+		date_sec
+	];
+	# sec关键字 用来设置一个集合的相同对象的属性值
+	# index 是一项特殊属性
+	sec sub_sec.input_sec.TableRow.fieldname = 'TAB_ROW_'+sub_sec.index
+	sec input_sec.fieldlength = 50;
+	sec input_sec.mustinput = 'Y';
+	sec input_sec.layout_width = 'match_parent';
+	sec input_sec.layout_height = 'wrap_content';
+	sec input_sec.layout_weight = '1';
+
+@end
+
+@function
+
+	function __init__(){
+		var main_str = '';
+
+		/*构建所有*/
+		main_str = sub_sec.out();
+	
+		main_str = MAIN.main(main_str);
+
+		sys.file.open('C:\\Project_out\\new00.xml','w');
+		#调用file组件函数，把本类的东西都写入到文件中
+		sys.file.out(main_str);
+		sys.file.close();
+	}
+
+	function main(){
+		__init__();
+	}
+@end
+
+@assioc
+	/*
+		1 检测对象其实就是一个函数和一个可变参数列表。
+		2 对于模版化，只关注针对模版的参数。
+		3 为了简化，这里只设置赋值不赋值，关联不关联。
+		4 参数有名称问题，这个不属于语言所关注的方向。
+		5 关联采用迟编译，先编译完所有的关联对象再进行运行时解析。
+	*/
+	#构建一个不能为空的对象
+	#object instend
+	#如果是一个对象，需要对对象进行组织生成，然后打包进jinja2中	
+	assiocset input_sec [ notnull, notchn ]{
+		( notnull [ "", "","" ] ),
+		( notchn [ "", "" , ""] )
+	};
+	assioc input_sec.edtBnfNumber [ mustpersonid ]{
+		( mustpersonid [ "","",""] )
+	};
+@end
+
+
+
+
+

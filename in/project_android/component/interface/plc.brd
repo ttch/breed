@@ -1,0 +1,54 @@
+component plc
+
+import datastruct.plc
+import sys.string
+import sys.int
+
+@function
+	#设置plc结构的函数
+	function set_plcinfo(
+		[in] plc plc_info,
+		[return] int result
+	){
+		
+
+
+	}
+
+	#通过保单号获得plc结构的函数
+	function get_plcinfo(
+		[in] string PlcNo,
+		[out] plc plc_info,
+		[return] int result
+	){
+
+
+	}
+
+	#建立一章保单
+	function crt_plcinfo(
+		[in] plc plc_info,
+		[out] string PlcNo,
+		[return] int result){
+	}
+@end
+
+@define
+
+	interface plc(){
+		#struct
+		plc.custom Apl;
+		plc.custom Isd;
+		plc.plc_info info;
+
+		#function
+		set_plcinfo plcinfo_func_set;
+		get_plcinfo plcinfo_func_get;
+		crt_plcinfo plcinfo_func_crt;
+
+
+
+	}
+
+
+@end
