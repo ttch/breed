@@ -1,6 +1,4 @@
-# what is breed
-	
-## License
+breed
+=====
 
- (GNU GENERAL PUBLIC LICENSE Version 3)
- see by License.txt
+breed system
