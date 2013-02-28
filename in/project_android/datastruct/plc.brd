@@ -5,12 +5,41 @@ datastruct plc
 
 
 @define
+	
+	struct Person (){
+		String CustomID;				/*	客户编号 */
+		String CustomName;
+		String Sex;
+		Date Birthday;
+		String PersonType;
+		String PaperType;
+		String PaperNo;
+		String Tel;
+		String Mobile;
+		String Fax;
+		String ZipCode;
+		String Addr;
+		String PostAddr;
+		String UnitName;
+		String UnitAddr;
+		String UnitTel;
+		String UnitZipCode;
+	}
+
 	#基础的客户类
 	struct custom ( ){
+		logic{
+		( ? Byte PptType == 1)			/* 个人户 */
+			Person typeis
+		( ? Byte PptType == 2)			/* 集体户 */
+			Unit typeis
+		}
 	}
+
+
 	#投保人类
 	struct apl ( extend custom ){
-	
+		ohave( CustomID,Name );	
 	
 	}
 

@@ -43,7 +43,7 @@ tokens = [
 	 'COMMA','COLON','MLINECOMMENT','TILDE','NUMBER','AT'
 ]+ keywords.values()
 
-t_ignore = ' \t'
+t_ignore = ' \t\n\r'
 
 def t_COMMENT(t):
 	r'\#.*'
@@ -93,4 +93,5 @@ def t_error(t):
 	t.lexer.skip(1)
 	print t
 
-lex.lex()
+def getlex():
+	return lex.lex()

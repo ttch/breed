@@ -4,8 +4,11 @@
 import breed_import
 
 
-g_import = breed_import.g_import
+is_debug = True
 
+g_import = breed_import.g
 
-g_project_dir = ".\\in\\project_android\\"
+g_main_dir = "./"
+g_libs_dir = "./libs/"
+g_project_dir = "./in/project_android/"
 

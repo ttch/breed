@@ -1,32 +1,31 @@
 # *-* coding=utf-8 *-*
 
 import breed_lex
+import file_
+
+import breed_debug as debug
 
 
 #compileing function
-def Compile( filename ):
-	s = ""
-	f = open(filename)
-	for x in f.readlines():
-		s = s+ x
-	breed_lex.lex.input(s)
-	"""
-	这地方分四大词组，我们这里只处理两个，一个是component 一个是datastruct
+def compile( filename ):
+	s = file_.getSource(filename)
+	lexer = breed_lex.getlex()
+	lexer.input(s)
+	tokenList =  file_.getTokenList(lexer)
 
-
-
-	"""
-
-
-	token = breed_lex.lex.token()
+	token = tokenList.popleft()
 	#raise Exception("test",u"错误啊错误")
+	
 	if token.type == "COMPONENT":
+		debug.logs(" breed _ intep 开始编译......... [ %s ] ",(filename))
 		import breed_component
 		component = breed_component.component()
-		component.Compile(breed_lex.lex)
-		print "this id = "+ component.ID.value
+		debug.logs("获取程序的完全import路径名 ....[ %s ]" , (file_.getImportNameByFileName(filename) ))
+		component.compile( file_.getImportNameByFileName(filename) , tokenList )
 	elif token.type == "DATASTRUCT":
 		import breed_datastruct
-		print u"这个是数据结构"
+		u"这个是数据结构"
 	else:
 		raise u"错误"
+	import breed_runtime
+	breed_runtime.echo()

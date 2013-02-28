@@ -1,0 +1,15 @@
+component string
+
+@define
+	# string interface
+	interface string(){
+		# 	一般字符串有两种形式 一种强类型语言，另一种是弱类型语言。
+		#	String 有 声明，转换。暂时不支持转换，只用于声明
+		#	如果是弱类型语言就不声明
+		
+		#模版名称
+
+
+	}
+@end
+

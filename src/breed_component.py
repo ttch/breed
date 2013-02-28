@@ -1,23 +1,22 @@
 
+# *.* coding=utf-8 *.*
 import breed_import
-
+	
 class component:
 	def __init__(self):
 		self.lex = None
 		self.ID = None
-		self.process_pack()
+		self.fullname = None
 	
 	def readNext(self):
-		return self.lex.token()
-	
-	def process_pack(self):
-		def p_at(token):
-			print token
-			print "hello"
-		self.p_pack = {"AT":p_at}
+		count = 0
+		if ( len(self.lex) == 0 ): return None
+		return self.lex.popleft()
+
 	
 	def p_import(self,token):
-		breed_import.compile(token,self.lex)
+		""" 调用 breed_import 模块编译 """
+		breed_import.compile(self.fullname,self.lex)
 
 	def p_at(self,token):
 		{
@@ -27,21 +26,40 @@ class component:
 		}.get(token.type,self.p_default)(token)
 	
 	def p_default(self,token):
-		print "error token_id : " + token.value
+		#print "error token_id : " + token.value
+		return None
+
+	def p_getID(self,token):
+		# get lib id  first search to libs directory and search to project component directory
+		return token
+	
 
 	# Compile Component source
-	def Compile(self,lex):
+	def compile(self,fullname,lex):
 		self.lex = lex
+		self.fullname = fullname
+		
 		token = self.readNext()
-		#process and save component ID
-		if token.type == "ID":
-			self.ID = token
+
+		self.ID ={
+			"ID" : lambda token : self.p_getID(token)
+		
+		}.get(token.type,self.p_default)(token)
+
 		#processing statment	
 		while(True):
 			token = self.readNext()
+
+
 			if token == None: break
+
 			#syn begin
 			{
+			
 				"AT" : lambda token : self.p_at(token),
 				"IMPORT": lambda token : self.p_import(token) 
+
 			}.get(token.type,self.p_default)(token)
+
+import g_class
+g_class.ADD("component",component)
