@@ -1,6 +1,7 @@
 # *.* coding=utf-8 *.*
 
 import file_
+import breed_debug as debug
 
 
 # import package datastruct
@@ -15,4 +16,8 @@ class package:
 		return ( name in self.requrelist )
 
 	def add_requre( self , pkgname ):
+		debug.logs( " add to package : %s " , ( pkgname ))
 		self.requrelist.append( pkgname )
+
+	def isRequred( self , name ):
+		return ( name in self.requrelist )

@@ -16,6 +16,7 @@ class component:
 	
 	def p_import(self,token):
 		""" 调用 breed_import 模块编译 """
+		self.lex.appendleft(token)
 		breed_import.compile(self.fullname,self.lex)
 
 	def p_at(self,token):

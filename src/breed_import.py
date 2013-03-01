@@ -11,32 +11,41 @@ class b_import:
 	def compile(self,name):
 		return g_class.CALL("component",name)
 
-
-def compile(curComponentName,stat):
-	#获得包名字
-	name = ""
-	while (True):
-		token = stat.popleft()
-		if token == None or token.type == "SEMI":
-			break
-		name = name + token.value
-	debug.logs( " breed_import 获取模块  %s " , ( name ) )
-	pkg = runtime.getPackage( name )
-	#debug.logs( "编译模块 %s 的 子列表为： %s " , ( curComponentName , pkg.requredList) )
-
-	if pkg != None or runtime.isCompiled( pkg ):
-		if name not in pkg.requredList :
-			return
-		else:
-			npkg = runtime.getpackage( name )
-			if npkg == None:
-				debug.logs( " breed_import 编译模块 not requred %s " , ( name ) )
-				npkg = runtime.addPackage( name , g.compile(name) )
-			else :
+#to-do getimportlist
+def get_import_list(stat):
+	token = ""
+	begin = False
+	while True:
+		x = stat.popleft()
+		if begin == False:
+			if x.type == "IMPORT":
+				begin = True
+				token = ""
+				continue
+			else:
+				stat.appendleft(x)
 				return
-	else:
-		debug.logs( " breed_import 编译模块 no Compiled %s " , ( name ) )
-		runtime.addPackage( name  , g.compile(name) ) 	
+		if begin == True:
+			if x.type != "SEMI" :
+				token = token + x.value
+			elif x.type == "SEMI":
+				begin = False
+				yield token
+			#if x.type != "IMPORT":
+			#	return
 
+def compile(name,stat):
+	#获得包名字
+	ilist = [ y for y in get_import_list(stat)]
+	print ilist
+	debug.log( list )
+	pkg = runtime.getPackage( name )
+	if pkg == None:
+		pkg = import_.package(name)
+		runtime.addPackage( name , pkg )
+	for x in ilist:
+		if not runtime.isCompiled( x ):
+			npkg = runtime.addPackage( x ,g.compile( x ))
+			pkg.add_requre(npkg)
 #公用的import list 模块
 g = b_import()

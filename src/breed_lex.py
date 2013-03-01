@@ -95,3 +95,7 @@ def t_error(t):
 
 def getlex():
 	return lex.lex()
+
+def input(lx,s):
+	lx.input(s)
+	return lx

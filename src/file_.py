@@ -46,17 +46,17 @@ def isInLib( names , libs ):
 	
 	return ( i , ( True if i == len( libs ) else False) )
 
-#通过名字获取到完整的路径名
+#通过名字获取到完整的import路径
 def getImportNameByFileName( name ):
 	names =  getNameListInName(name)
-	#print ".".join(names)
-	libs =  getNameListInName(global_var.g_libs_dir)
-	projectlibs =  getNameListInName(global_var.g_project_dir )
-	(l ,isIn) = isInLib( names , libs )
+
+	(l ,isIn) = isInLib( names , getNameListInName(global_var.g_libs_dir) )
 
 	if isIn == True:
 		return ".".join( names[l:len(names)] )
-	(l , isIn) = isInLib( names , projectlibs )
+
+	(l , isIn) = isInLib( names , getNameListInName(global_var.g_project_dir ) )
 	if isIn == True:
 		return ".".join( names[l:len(names)] )
+
 	return None

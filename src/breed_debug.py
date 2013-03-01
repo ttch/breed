@@ -1,9 +1,11 @@
 # *.* coding=utf-8 *.*
-
+import global_var
 
 
 def log( s ):
-	print s
+	if global_var.is_debug == True:
+		print s
 
 def logs( s , t ):
-	print s % t
+	if global_var.is_debug == True:
+		print s % t

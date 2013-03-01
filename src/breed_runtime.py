@@ -17,6 +17,7 @@ class brdRuntime:
 	# package 为import_.py中的
 	def addPackage( self , name , package ) :
 		self.compiledObj[name] = package
+		return package
 	
 	def getPackage( self , name ):
 		debug.logs( " breed_runtime 传入名字是 %s  " , ( name ) )
@@ -28,7 +29,7 @@ class brdRuntime:
 def echo():
 	for x in runtime.compiledObj:
 		print x
-
+		print runtime.compiledObj[x].requrelist
 
 runtime = brdRuntime()
 	
