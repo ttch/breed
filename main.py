@@ -1,11 +1,13 @@
 # *-* coding=utf-8 *-*
 
 import sys
-sys.path.append("./src")
+
+
+sys.path.append(	"./src" 				)
+
 
 from global_var import g_project_dir
 import breed_debug as debug
-
 
 
 import breed_intep

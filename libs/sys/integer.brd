@@ -1,3 +1,34 @@
 component integer
 
-#import sys.string;
+import sys.language;
+
+/*
+
+	case 1 ( [IN][OUT][IN_OUT][RETURN] Integer x )
+	case 2 Integer x = 0;
+	case 3 Integer x;
+
+
+	C ( int x ) ( int &x) ( int & x ) ( int function_name(); )
+	
+	
+
+	jinjia : 
+*/
+
+
+@define
+	type Integer( action , language ) {
+		if ( language == '' ){
+			language = sys.language;
+		}
+		return language{
+			'C' 			:	'int',
+			'python'		:	'',
+			'java'			:	'Integer',
+			'native java'	:	'int',
+			'default		:	''
+		};
+	}	
+@end
+

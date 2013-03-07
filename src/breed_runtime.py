@@ -30,6 +30,8 @@ def echo():
 	for x in runtime.compiledObj:
 		print x
 		print runtime.compiledObj[x].requrelist
+		for y in runtime.compiledObj[x].requrelist:
+			print y
 
 runtime = brdRuntime()
 	

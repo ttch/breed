@@ -1,0 +1,891 @@
+shift/reduce conflict in state 54 resolved as shift.
+
+
+Unused terminals:
+
+   EXTEND
+   NUMBER
+   MLINECOMMENT
+   COMMENT
+   NEWLINE
+   COLON
+   TILDE
+   PLUS
+   STRING
+   EQUALS
+   STRUCT
+   QUES
+   TYPE
+
+Grammar
+
+Rule 1     statment -> component_statment import_statements at_statments
+Rule 2     component_statment -> COMPONENT ID
+Rule 3     import_statements -> import_statement
+Rule 4     import_statements -> import_statements import_statement
+Rule 5     import_statement -> IMPORT qualified_name SEMI
+Rule 6     at_statments -> at_statment
+Rule 7     at_statments -> at_statments at_statment
+Rule 8     at_statment -> AT at_operater_statment at_end_statment
+Rule 9     at_operater_statment -> FUNCTION function_statments
+Rule 10    at_operater_statment -> FUNCTION
+Rule 11    at_operater_statment -> DEFINE define_statments
+Rule 12    at_operater_statment -> DEFINE
+Rule 13    at_end_statment -> AT END
+Rule 14    define_statments -> interface_statments
+Rule 15    interface_statments -> interface_statment
+Rule 16    interface_statments -> interface_statments interface_statment
+Rule 17    interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN
+Rule 18    interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN
+Rule 19    interface_declare_statments -> field_declare
+Rule 20    interface_declare_statments -> interface_declare_statments field_declare
+Rule 21    interface_declare_statments -> function_declare
+Rule 22    interface_declare_statments -> interface_declare_statments function_declare
+Rule 23    field_declare -> type_specifier declarator_name SEMI
+Rule 24    function_declare -> FUNC ID ID SEMI
+Rule 25    function_statments -> function_statment
+Rule 26    function_statments -> function_statments function_statment
+Rule 27    function_statment -> FUNC function_declarator BLPAREN BRPAREN
+Rule 28    function_declarator -> ID LPAREN function_paras RPAREN
+Rule 29    function_paras -> function_para
+Rule 30    function_paras -> function_paras function_para
+Rule 31    function_para -> FLPAREN function_para_action FRPAREN type_specifier declarator_name
+Rule 32    function_para -> function_para COMMA function_para
+Rule 33    function_para_action -> IN
+Rule 34    function_para_action -> OUT
+Rule 35    function_para_action -> RETURN
+Rule 36    function_para_action -> IN_OUT
+Rule 37    type_specifier -> qualified_name
+Rule 38    declarator_name -> ID
+Rule 39    qualified_name -> ID
+Rule 40    qualified_name -> qualified_name DOT ID
+Rule 41    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AT                   : 8 13
+BLPAREN              : 17 18 27
+BRPAREN              : 17 18 27
+COLON                : 
+COMMA                : 32
+COMMENT              : 
+COMPONENT            : 2
+DEFINE               : 11 12
+DOT                  : 40
+END                  : 13
+EQUALS               : 
+EXTEND               : 
+FLPAREN              : 31
+FRPAREN              : 31
+FUNC                 : 24 27
+FUNCTION             : 9 10
+ID                   : 2 17 18 24 24 28 38 39 40
+IMPORT               : 5
+IN                   : 33
+INTERFACE            : 17 18
+IN_OUT               : 36
+LPAREN               : 17 18 28
+MLINECOMMENT         : 
+NEWLINE              : 
+NUMBER               : 
+OUT                  : 34
+PLUS                 : 
+QUES                 : 
+RETURN               : 35
+RPAREN               : 17 18 28
+SEMI                 : 5 23 24
+STRING               : 
+STRUCT               : 
+TILDE                : 
+TYPE                 : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+at_end_statment      : 8
+at_operater_statment : 8
+at_statment          : 6 7
+at_statments         : 1 7
+component_statment   : 1
+declarator_name      : 23 31
+define_statments     : 11
+empty                : 
+field_declare        : 19 20
+function_declarator  : 27
+function_declare     : 21 22
+function_para        : 29 30 32 32
+function_para_action : 31
+function_paras       : 28 30
+function_statment    : 25 26
+function_statments   : 9 26
+import_statement     : 3 4
+import_statements    : 1 4
+interface_declare_statments : 17 20 22
+interface_statment   : 15 16
+interface_statments  : 14 16
+qualified_name       : 5 37 40
+statment             : 0
+type_specifier       : 23 31
+
+
+Parsing method: LALR
+
+
+state 0
+
+    (0) S' -> . statment
+    (1) statment -> . component_statment import_statements at_statments
+    (2) component_statment -> . COMPONENT ID
+
+    COMPONENT       shift and go to state 2
+
+
+    component_statment             shift and go to state 1
+    statment                       shift and go to state 3
+
+state 1
+
+    (1) statment -> component_statment . import_statements at_statments
+    (3) import_statements -> . import_statement
+    (4) import_statements -> . import_statements import_statement
+    (5) import_statement -> . IMPORT qualified_name SEMI
+
+    IMPORT          shift and go to state 5
+
+
+    import_statements              shift and go to state 6
+    import_statement               shift and go to state 4
+
+state 2
+
+    (2) component_statment -> COMPONENT . ID
+
+    ID              shift and go to state 7
+
+
+
+state 3
+
+    (0) S' -> statment .
+
+
+
+
+state 4
+
+    (3) import_statements -> import_statement .
+
+    IMPORT          reduce using rule 3 (import_statements -> import_statement .)
+    AT              reduce using rule 3 (import_statements -> import_statement .)
+
+
+
+state 5
+
+    (5) import_statement -> IMPORT . qualified_name SEMI
+    (39) qualified_name -> . ID
+    (40) qualified_name -> . qualified_name DOT ID
+
+    ID              shift and go to state 9
+
+
+    qualified_name                 shift and go to state 8
+
+state 6
+
+    (1) statment -> component_statment import_statements . at_statments
+    (4) import_statements -> import_statements . import_statement
+    (6) at_statments -> . at_statment
+    (7) at_statments -> . at_statments at_statment
+    (5) import_statement -> . IMPORT qualified_name SEMI
+    (8) at_statment -> . AT at_operater_statment at_end_statment
+
+    IMPORT          shift and go to state 5
+    AT              shift and go to state 13
+
+
+    at_statment                    shift and go to state 10
+    import_statement               shift and go to state 11
+    at_statments                   shift and go to state 12
+
+state 7
+
+    (2) component_statment -> COMPONENT ID .
+
+    IMPORT          reduce using rule 2 (component_statment -> COMPONENT ID .)
+
+
+
+state 8
+
+    (5) import_statement -> IMPORT qualified_name . SEMI
+    (40) qualified_name -> qualified_name . DOT ID
+
+    SEMI            shift and go to state 15
+    DOT             shift and go to state 14
+
+
+
+state 9
+
+    (39) qualified_name -> ID .
+
+    SEMI            reduce using rule 39 (qualified_name -> ID .)
+    DOT             reduce using rule 39 (qualified_name -> ID .)
+    ID              reduce using rule 39 (qualified_name -> ID .)
+
+
+
+state 10
+
+    (6) at_statments -> at_statment .
+
+    AT              reduce using rule 6 (at_statments -> at_statment .)
+    $end            reduce using rule 6 (at_statments -> at_statment .)
+
+
+
+state 11
+
+    (4) import_statements -> import_statements import_statement .
+
+    IMPORT          reduce using rule 4 (import_statements -> import_statements import_statement .)
+    AT              reduce using rule 4 (import_statements -> import_statements import_statement .)
+
+
+
+state 12
+
+    (1) statment -> component_statment import_statements at_statments .
+    (7) at_statments -> at_statments . at_statment
+    (8) at_statment -> . AT at_operater_statment at_end_statment
+
+    $end            reduce using rule 1 (statment -> component_statment import_statements at_statments .)
+    AT              shift and go to state 13
+
+
+    at_statment                    shift and go to state 16
+
+state 13
+
+    (8) at_statment -> AT . at_operater_statment at_end_statment
+    (9) at_operater_statment -> . FUNCTION function_statments
+    (10) at_operater_statment -> . FUNCTION
+    (11) at_operater_statment -> . DEFINE define_statments
+    (12) at_operater_statment -> . DEFINE
+
+    FUNCTION        shift and go to state 17
+    DEFINE          shift and go to state 19
+
+
+    at_operater_statment           shift and go to state 18
+
+state 14
+
+    (40) qualified_name -> qualified_name DOT . ID
+
+    ID              shift and go to state 20
+
+
+
+state 15
+
+    (5) import_statement -> IMPORT qualified_name SEMI .
+
+    IMPORT          reduce using rule 5 (import_statement -> IMPORT qualified_name SEMI .)
+    AT              reduce using rule 5 (import_statement -> IMPORT qualified_name SEMI .)
+
+
+
+state 16
+
+    (7) at_statments -> at_statments at_statment .
+
+    AT              reduce using rule 7 (at_statments -> at_statments at_statment .)
+    $end            reduce using rule 7 (at_statments -> at_statments at_statment .)
+
+
+
+state 17
+
+    (9) at_operater_statment -> FUNCTION . function_statments
+    (10) at_operater_statment -> FUNCTION .
+    (25) function_statments -> . function_statment
+    (26) function_statments -> . function_statments function_statment
+    (27) function_statment -> . FUNC function_declarator BLPAREN BRPAREN
+
+    AT              reduce using rule 10 (at_operater_statment -> FUNCTION .)
+    FUNC            shift and go to state 21
+
+
+    function_statment              shift and go to state 22
+    function_statments             shift and go to state 23
+
+state 18
+
+    (8) at_statment -> AT at_operater_statment . at_end_statment
+    (13) at_end_statment -> . AT END
+
+    AT              shift and go to state 24
+
+
+    at_end_statment                shift and go to state 25
+
+state 19
+
+    (11) at_operater_statment -> DEFINE . define_statments
+    (12) at_operater_statment -> DEFINE .
+    (14) define_statments -> . interface_statments
+    (15) interface_statments -> . interface_statment
+    (16) interface_statments -> . interface_statments interface_statment
+    (17) interface_statment -> . INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN
+    (18) interface_statment -> . INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN
+
+    AT              reduce using rule 12 (at_operater_statment -> DEFINE .)
+    INTERFACE       shift and go to state 29
+
+
+    interface_statment             shift and go to state 26
+    define_statments               shift and go to state 27
+    interface_statments            shift and go to state 28
+
+state 20
+
+    (40) qualified_name -> qualified_name DOT ID .
+
+    SEMI            reduce using rule 40 (qualified_name -> qualified_name DOT ID .)
+    DOT             reduce using rule 40 (qualified_name -> qualified_name DOT ID .)
+    ID              reduce using rule 40 (qualified_name -> qualified_name DOT ID .)
+
+
+
+state 21
+
+    (27) function_statment -> FUNC . function_declarator BLPAREN BRPAREN
+    (28) function_declarator -> . ID LPAREN function_paras RPAREN
+
+    ID              shift and go to state 31
+
+
+    function_declarator            shift and go to state 30
+
+state 22
+
+    (25) function_statments -> function_statment .
+
+    FUNC            reduce using rule 25 (function_statments -> function_statment .)
+    AT              reduce using rule 25 (function_statments -> function_statment .)
+
+
+
+state 23
+
+    (9) at_operater_statment -> FUNCTION function_statments .
+    (26) function_statments -> function_statments . function_statment
+    (27) function_statment -> . FUNC function_declarator BLPAREN BRPAREN
+
+    AT              reduce using rule 9 (at_operater_statment -> FUNCTION function_statments .)
+    FUNC            shift and go to state 21
+
+
+    function_statment              shift and go to state 32
+
+state 24
+
+    (13) at_end_statment -> AT . END
+
+    END             shift and go to state 33
+
+
+
+state 25
+
+    (8) at_statment -> AT at_operater_statment at_end_statment .
+
+    AT              reduce using rule 8 (at_statment -> AT at_operater_statment at_end_statment .)
+    $end            reduce using rule 8 (at_statment -> AT at_operater_statment at_end_statment .)
+
+
+
+state 26
+
+    (15) interface_statments -> interface_statment .
+
+    INTERFACE       reduce using rule 15 (interface_statments -> interface_statment .)
+    AT              reduce using rule 15 (interface_statments -> interface_statment .)
+
+
+
+state 27
+
+    (11) at_operater_statment -> DEFINE define_statments .
+
+    AT              reduce using rule 11 (at_operater_statment -> DEFINE define_statments .)
+
+
+
+state 28
+
+    (14) define_statments -> interface_statments .
+    (16) interface_statments -> interface_statments . interface_statment
+    (17) interface_statment -> . INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN
+    (18) interface_statment -> . INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN
+
+    AT              reduce using rule 14 (define_statments -> interface_statments .)
+    INTERFACE       shift and go to state 29
+
+
+    interface_statment             shift and go to state 34
+
+state 29
+
+    (17) interface_statment -> INTERFACE . ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN
+    (18) interface_statment -> INTERFACE . ID LPAREN RPAREN BLPAREN BRPAREN
+
+    ID              shift and go to state 35
+
+
+
+state 30
+
+    (27) function_statment -> FUNC function_declarator . BLPAREN BRPAREN
+
+    BLPAREN         shift and go to state 36
+
+
+
+state 31
+
+    (28) function_declarator -> ID . LPAREN function_paras RPAREN
+
+    LPAREN          shift and go to state 37
+
+
+
+state 32
+
+    (26) function_statments -> function_statments function_statment .
+
+    FUNC            reduce using rule 26 (function_statments -> function_statments function_statment .)
+    AT              reduce using rule 26 (function_statments -> function_statments function_statment .)
+
+
+
+state 33
+
+    (13) at_end_statment -> AT END .
+
+    AT              reduce using rule 13 (at_end_statment -> AT END .)
+    $end            reduce using rule 13 (at_end_statment -> AT END .)
+
+
+
+state 34
+
+    (16) interface_statments -> interface_statments interface_statment .
+
+    INTERFACE       reduce using rule 16 (interface_statments -> interface_statments interface_statment .)
+    AT              reduce using rule 16 (interface_statments -> interface_statments interface_statment .)
+
+
+
+state 35
+
+    (17) interface_statment -> INTERFACE ID . LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN
+    (18) interface_statment -> INTERFACE ID . LPAREN RPAREN BLPAREN BRPAREN
+
+    LPAREN          shift and go to state 38
+
+
+
+state 36
+
+    (27) function_statment -> FUNC function_declarator BLPAREN . BRPAREN
+
+    BRPAREN         shift and go to state 39
+
+
+
+state 37
+
+    (28) function_declarator -> ID LPAREN . function_paras RPAREN
+    (29) function_paras -> . function_para
+    (30) function_paras -> . function_paras function_para
+    (31) function_para -> . FLPAREN function_para_action FRPAREN type_specifier declarator_name
+    (32) function_para -> . function_para COMMA function_para
+
+    FLPAREN         shift and go to state 41
+
+
+    function_para                  shift and go to state 42
+    function_paras                 shift and go to state 40
+
+state 38
+
+    (17) interface_statment -> INTERFACE ID LPAREN . RPAREN BLPAREN interface_declare_statments BRPAREN
+    (18) interface_statment -> INTERFACE ID LPAREN . RPAREN BLPAREN BRPAREN
+
+    RPAREN          shift and go to state 43
+
+
+
+state 39
+
+    (27) function_statment -> FUNC function_declarator BLPAREN BRPAREN .
+
+    FUNC            reduce using rule 27 (function_statment -> FUNC function_declarator BLPAREN BRPAREN .)
+    AT              reduce using rule 27 (function_statment -> FUNC function_declarator BLPAREN BRPAREN .)
+
+
+
+state 40
+
+    (28) function_declarator -> ID LPAREN function_paras . RPAREN
+    (30) function_paras -> function_paras . function_para
+    (31) function_para -> . FLPAREN function_para_action FRPAREN type_specifier declarator_name
+    (32) function_para -> . function_para COMMA function_para
+
+    RPAREN          shift and go to state 44
+    FLPAREN         shift and go to state 41
+
+
+    function_para                  shift and go to state 45
+
+state 41
+
+    (31) function_para -> FLPAREN . function_para_action FRPAREN type_specifier declarator_name
+    (33) function_para_action -> . IN
+    (34) function_para_action -> . OUT
+    (35) function_para_action -> . RETURN
+    (36) function_para_action -> . IN_OUT
+
+    IN              shift and go to state 47
+    OUT             shift and go to state 50
+    RETURN          shift and go to state 46
+    IN_OUT          shift and go to state 48
+
+
+    function_para_action           shift and go to state 49
+
+state 42
+
+    (29) function_paras -> function_para .
+    (32) function_para -> function_para . COMMA function_para
+
+    RPAREN          reduce using rule 29 (function_paras -> function_para .)
+    FLPAREN         reduce using rule 29 (function_paras -> function_para .)
+    COMMA           shift and go to state 51
+
+
+
+state 43
+
+    (17) interface_statment -> INTERFACE ID LPAREN RPAREN . BLPAREN interface_declare_statments BRPAREN
+    (18) interface_statment -> INTERFACE ID LPAREN RPAREN . BLPAREN BRPAREN
+
+    BLPAREN         shift and go to state 52
+
+
+
+state 44
+
+    (28) function_declarator -> ID LPAREN function_paras RPAREN .
+
+    BLPAREN         reduce using rule 28 (function_declarator -> ID LPAREN function_paras RPAREN .)
+
+
+
+state 45
+
+    (30) function_paras -> function_paras function_para .
+    (32) function_para -> function_para . COMMA function_para
+
+    RPAREN          reduce using rule 30 (function_paras -> function_paras function_para .)
+    FLPAREN         reduce using rule 30 (function_paras -> function_paras function_para .)
+    COMMA           shift and go to state 51
+
+
+
+state 46
+
+    (35) function_para_action -> RETURN .
+
+    FRPAREN         reduce using rule 35 (function_para_action -> RETURN .)
+
+
+
+state 47
+
+    (33) function_para_action -> IN .
+
+    FRPAREN         reduce using rule 33 (function_para_action -> IN .)
+
+
+
+state 48
+
+    (36) function_para_action -> IN_OUT .
+
+    FRPAREN         reduce using rule 36 (function_para_action -> IN_OUT .)
+
+
+
+state 49
+
+    (31) function_para -> FLPAREN function_para_action . FRPAREN type_specifier declarator_name
+
+    FRPAREN         shift and go to state 53
+
+
+
+state 50
+
+    (34) function_para_action -> OUT .
+
+    FRPAREN         reduce using rule 34 (function_para_action -> OUT .)
+
+
+
+state 51
+
+    (32) function_para -> function_para COMMA . function_para
+    (31) function_para -> . FLPAREN function_para_action FRPAREN type_specifier declarator_name
+    (32) function_para -> . function_para COMMA function_para
+
+    FLPAREN         shift and go to state 41
+
+
+    function_para                  shift and go to state 54
+
+state 52
+
+    (17) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN . interface_declare_statments BRPAREN
+    (18) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN . BRPAREN
+    (19) interface_declare_statments -> . field_declare
+    (20) interface_declare_statments -> . interface_declare_statments field_declare
+    (21) interface_declare_statments -> . function_declare
+    (22) interface_declare_statments -> . interface_declare_statments function_declare
+    (23) field_declare -> . type_specifier declarator_name SEMI
+    (24) function_declare -> . FUNC ID ID SEMI
+    (37) type_specifier -> . qualified_name
+    (39) qualified_name -> . ID
+    (40) qualified_name -> . qualified_name DOT ID
+
+    BRPAREN         shift and go to state 61
+    FUNC            shift and go to state 55
+    ID              shift and go to state 9
+
+
+    type_specifier                 shift and go to state 56
+    qualified_name                 shift and go to state 59
+    field_declare                  shift and go to state 58
+    function_declare               shift and go to state 60
+    interface_declare_statments    shift and go to state 57
+
+state 53
+
+    (31) function_para -> FLPAREN function_para_action FRPAREN . type_specifier declarator_name
+    (37) type_specifier -> . qualified_name
+    (39) qualified_name -> . ID
+    (40) qualified_name -> . qualified_name DOT ID
+
+    ID              shift and go to state 9
+
+
+    type_specifier                 shift and go to state 62
+    qualified_name                 shift and go to state 59
+
+state 54
+
+    (32) function_para -> function_para COMMA function_para .
+    (32) function_para -> function_para . COMMA function_para
+
+  ! shift/reduce conflict for COMMA resolved as shift.
+    RPAREN          reduce using rule 32 (function_para -> function_para COMMA function_para .)
+    FLPAREN         reduce using rule 32 (function_para -> function_para COMMA function_para .)
+    COMMA           shift and go to state 51
+
+  ! COMMA           [ reduce using rule 32 (function_para -> function_para COMMA function_para .) ]
+
+
+state 55
+
+    (24) function_declare -> FUNC . ID ID SEMI
+
+    ID              shift and go to state 63
+
+
+
+state 56
+
+    (23) field_declare -> type_specifier . declarator_name SEMI
+    (38) declarator_name -> . ID
+
+    ID              shift and go to state 65
+
+
+    declarator_name                shift and go to state 64
+
+state 57
+
+    (17) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments . BRPAREN
+    (20) interface_declare_statments -> interface_declare_statments . field_declare
+    (22) interface_declare_statments -> interface_declare_statments . function_declare
+    (23) field_declare -> . type_specifier declarator_name SEMI
+    (24) function_declare -> . FUNC ID ID SEMI
+    (37) type_specifier -> . qualified_name
+    (39) qualified_name -> . ID
+    (40) qualified_name -> . qualified_name DOT ID
+
+    BRPAREN         shift and go to state 68
+    FUNC            shift and go to state 55
+    ID              shift and go to state 9
+
+
+    type_specifier                 shift and go to state 56
+    qualified_name                 shift and go to state 59
+    field_declare                  shift and go to state 66
+    function_declare               shift and go to state 67
+
+state 58
+
+    (19) interface_declare_statments -> field_declare .
+
+    BRPAREN         reduce using rule 19 (interface_declare_statments -> field_declare .)
+    FUNC            reduce using rule 19 (interface_declare_statments -> field_declare .)
+    ID              reduce using rule 19 (interface_declare_statments -> field_declare .)
+
+
+
+state 59
+
+    (37) type_specifier -> qualified_name .
+    (40) qualified_name -> qualified_name . DOT ID
+
+    ID              reduce using rule 37 (type_specifier -> qualified_name .)
+    DOT             shift and go to state 14
+
+
+
+state 60
+
+    (21) interface_declare_statments -> function_declare .
+
+    BRPAREN         reduce using rule 21 (interface_declare_statments -> function_declare .)
+    FUNC            reduce using rule 21 (interface_declare_statments -> function_declare .)
+    ID              reduce using rule 21 (interface_declare_statments -> function_declare .)
+
+
+
+state 61
+
+    (18) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN .
+
+    INTERFACE       reduce using rule 18 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN .)
+    AT              reduce using rule 18 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN .)
+
+
+
+state 62
+
+    (31) function_para -> FLPAREN function_para_action FRPAREN type_specifier . declarator_name
+    (38) declarator_name -> . ID
+
+    ID              shift and go to state 65
+
+
+    declarator_name                shift and go to state 69
+
+state 63
+
+    (24) function_declare -> FUNC ID . ID SEMI
+
+    ID              shift and go to state 70
+
+
+
+state 64
+
+    (23) field_declare -> type_specifier declarator_name . SEMI
+
+    SEMI            shift and go to state 71
+
+
+
+state 65
+
+    (38) declarator_name -> ID .
+
+    SEMI            reduce using rule 38 (declarator_name -> ID .)
+    COMMA           reduce using rule 38 (declarator_name -> ID .)
+    RPAREN          reduce using rule 38 (declarator_name -> ID .)
+    FLPAREN         reduce using rule 38 (declarator_name -> ID .)
+
+
+
+state 66
+
+    (20) interface_declare_statments -> interface_declare_statments field_declare .
+
+    BRPAREN         reduce using rule 20 (interface_declare_statments -> interface_declare_statments field_declare .)
+    FUNC            reduce using rule 20 (interface_declare_statments -> interface_declare_statments field_declare .)
+    ID              reduce using rule 20 (interface_declare_statments -> interface_declare_statments field_declare .)
+
+
+
+state 67
+
+    (22) interface_declare_statments -> interface_declare_statments function_declare .
+
+    BRPAREN         reduce using rule 22 (interface_declare_statments -> interface_declare_statments function_declare .)
+    FUNC            reduce using rule 22 (interface_declare_statments -> interface_declare_statments function_declare .)
+    ID              reduce using rule 22 (interface_declare_statments -> interface_declare_statments function_declare .)
+
+
+
+state 68
+
+    (17) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN .
+
+    INTERFACE       reduce using rule 17 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN .)
+    AT              reduce using rule 17 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN .)
+
+
+
+state 69
+
+    (31) function_para -> FLPAREN function_para_action FRPAREN type_specifier declarator_name .
+
+    COMMA           reduce using rule 31 (function_para -> FLPAREN function_para_action FRPAREN type_specifier declarator_name .)
+    RPAREN          reduce using rule 31 (function_para -> FLPAREN function_para_action FRPAREN type_specifier declarator_name .)
+    FLPAREN         reduce using rule 31 (function_para -> FLPAREN function_para_action FRPAREN type_specifier declarator_name .)
+
+
+
+state 70
+
+    (24) function_declare -> FUNC ID ID . SEMI
+
+    SEMI            shift and go to state 72
+
+
+
+state 71
+
+    (23) field_declare -> type_specifier declarator_name SEMI .
+
+    BRPAREN         reduce using rule 23 (field_declare -> type_specifier declarator_name SEMI .)
+    FUNC            reduce using rule 23 (field_declare -> type_specifier declarator_name SEMI .)
+    ID              reduce using rule 23 (field_declare -> type_specifier declarator_name SEMI .)
+
+
+
+state 72
+
+    (24) function_declare -> FUNC ID ID SEMI .
+
+    BRPAREN         reduce using rule 24 (function_declare -> FUNC ID ID SEMI .)
+    FUNC            reduce using rule 24 (function_declare -> FUNC ID ID SEMI .)
+    ID              reduce using rule 24 (function_declare -> FUNC ID ID SEMI .)
+
+

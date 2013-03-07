@@ -31,13 +31,10 @@ def get_import_list(stat):
 			elif x.type == "SEMI":
 				begin = False
 				yield token
-			#if x.type != "IMPORT":
-			#	return
 
 def compile(name,stat):
 	#获得包名字
 	ilist = [ y for y in get_import_list(stat)]
-	print ilist
 	debug.log( list )
 	pkg = runtime.getPackage( name )
 	if pkg == None:
@@ -47,5 +44,7 @@ def compile(name,stat):
 		if not runtime.isCompiled( x ):
 			npkg = runtime.addPackage( x ,g.compile( x ))
 			pkg.add_requre(npkg)
+
+
 #公用的import list 模块
 g = b_import()

@@ -1,6 +1,7 @@
 # *-* coding=utf-8 *-*
 
 import breed_lex
+import breed_yacc
 import file_
 
 import breed_debug as debug
@@ -8,6 +9,13 @@ import breed_debug as debug
 
 #compileing function
 def compile( filename ):
+	lexer = breed_lex.getlex()
+
+	s = file_.getSource( filename )
+	lexer.input(s)
+	breed_yacc.get_yacc(lexer)
+
+"""
 	s = file_.getSource(filename)
 	lexer = breed_lex.getlex()
 	lexer.input(s)
@@ -27,5 +35,6 @@ def compile( filename ):
 		u"这个是数据结构"
 	else:
 		raise u"错误"
-	import breed_runtime
-	breed_runtime.echo()
+"""
+	#import breed_runtime
+	#breed_runtime.echo()

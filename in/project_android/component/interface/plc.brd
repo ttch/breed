@@ -6,7 +6,7 @@ import sys.integer;
 
 @function
 	#设置plc结构的函数
-	function set_plcinfo(
+	func set_plcinfo(
 		[in] plc plc_info,
 		[return] integer result
 	){
@@ -16,7 +16,7 @@ import sys.integer;
 	}
 
 	#通过保单号获得plc结构的函数
-	function get_plcinfo(
+	func get_plcinfo(
 		[in] string PlcNo,
 		[out] plc plc_info,
 		[return] integer result
@@ -25,8 +25,12 @@ import sys.integer;
 
 	}
 
+
+@end
+
+@function
 	#建立一章保单
-	function crt_plcinfo(
+	func crt_plcinfo(
 		[in] plc plc_info,
 		[out] string PlcNo,
 		[return] integer result
@@ -44,13 +48,10 @@ import sys.integer;
 		plc.plc_info info;
 
 		#function
-		set_plcinfo plcinfo_func_set;
-		get_plcinfo plcinfo_func_get;
-		crt_plcinfo plcinfo_func_crt;
-
-
+		func set_plcinfo plcinfo_func_set;
+		func get_plcinfo plcinfo_func_get;
+		func crt_plcinfo plcinfo_func_crt;
 
 	}
-
 
 @end

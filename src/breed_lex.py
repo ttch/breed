@@ -9,29 +9,25 @@ from ply import *
 
 keywords = {
 	'component'	:	'COMPONENT',
-	
 	'import'	:	'IMPORT',
-
 	'extend'	:	'EXTEND',
-
 	'end'		:	'END',
-
+	#interface
+	'interface'	:	'INTERFACE',
 	#function
 	'function'	:	'FUNCTION',
-
+	'func'		:	'FUNC',
 	'in'		:	'IN',
-	
 	'out'		:	'OUT',
-	
 	'return'	:	'RETURN',
-
 	'in_out'	:	'IN_OUT',
 
 	#define segment 
 	'define'	:	'DEFINE',
 
 	#struct
-	'struct'	:	'STRUCT'
+	'struct'	:	'STRUCT',
+	'type'		:	'TYPE'
 }
 
 
@@ -43,25 +39,26 @@ tokens = [
 	 'COMMA','COLON','MLINECOMMENT','TILDE','NUMBER','AT'
 ]+ keywords.values()
 
-t_ignore = ' \t\n\r'
+t_ignore = ' \t\r'
 
 def t_COMMENT(t):
 	r'\#.*'
-	return t
+	pass
+
 def t_MLINECOMMENT(t):
 	r'/\*(.|\n)*?\*/'
-	return t
-	#t.lexer.lineno += t.value.count('\n')
+	pass
 
 def t_ID(t):
 	r'[A-Za-z_][\w_]*'
 	t.type = keywords.get(t.value,'ID')
-	# Check for reserved words
 	return t
+
 def t_STRING(t):
 	r'\'([^\\\n]|(\\.))*?\''
 	#r'\'([^\\|\n]|\\.)*\''
 	return t
+
 def t_NUMBER(t):
 	r'([0123456789])+'
 	return t
@@ -84,9 +81,7 @@ t_AT = r'@'
 
 def t_NEWLINE(t):
 	r'\n+'
-	t.lexer.lineno += 1
-	return t
-
+	t.lexer.lineno += t.value.count("\n")
 
 def t_error(t):
 	print "Illegal character", repr(t.value[0]),t.lineno
@@ -98,4 +93,5 @@ def getlex():
 
 def input(lx,s):
 	lx.input(s)
+	x = lx
 	return lx

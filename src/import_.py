@@ -21,3 +21,8 @@ class package:
 
 	def isRequred( self , name ):
 		return ( name in self.requrelist )
+
+	def __str__(self):
+		return "package ( name = %s , filename = %s ,fullname = %s ) " % ( self.packagename,self.packagefile , self.packageFullName)
+	def __repr__(self):
+		return str(self)
