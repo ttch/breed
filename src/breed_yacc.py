@@ -4,16 +4,12 @@ import breed_lex
 
 from collections import deque
 import function_
-
+import breed_runtime
+import import_
 tokens = breed_lex.tokens
 
 precedence = (
 )
-
-component = {}
-importlist = []
-function_list = {}
-stack = deque()
 
 #--------------------------main statment---------------------------
 def p_statment( p ):
@@ -25,7 +21,11 @@ def p_statment( p ):
 #-----------------------component statment-------------------------
 def p_component_statment(p):
 	'component_statment : COMPONENT ID'
-	component[p[2]] = ""
+	rt = p.parser.runtime
+	pck = import_.package(p[2])
+
+	rt[p[2]] = pck
+	rt.curPkg = pck
 	pass
 
 #--------------------------import statment-------------------------
@@ -37,8 +37,12 @@ def p_import_statements( p ):
 
 def p_import_statement(p):
 	'import_statement : IMPORT qualified_name SEMI'
-	importlist.append(deque(stack))
-	stack.clear()
+
+	rt = p.parser.runtime
+	cur = rt.curPkg
+
+	cur.add_requre( ".".join( rt.getStack() ) )
+	rt.getStack().clear()
 	pass
 
 
@@ -67,6 +71,7 @@ def p_at_operater_statment( p ):
 def p_at_end_statment( p ):
 	' at_end_statment : AT END'
 	pass
+
 #--------------------------define statment-----------------------
 
 def p_define_statments( p ):
@@ -102,11 +107,13 @@ def p_field_declare( p ):
 	'''
 		field_declare : type_specifier declarator_name SEMI
 	'''
+	pass
 
 def p_function_declare ( p ):
 	'''
 		function_declare : FUNC ID ID SEMI
 	'''
+	pass
 
 #--------------------------function statment---------------------
 
@@ -126,7 +133,10 @@ def p_function_declarator(p):
 	"""
 		function_declarator : ID LPAREN function_paras RPAREN
 	"""
-	print 'function name is ' , p[1]
+	rt = p.parser.runtime
+
+	rt.curFunction = function_.function( p[1] )
+		
 	pass
 
 def p_function_paras(p):
@@ -150,14 +160,17 @@ def p_function_para_action( p ):
 		| RETURN
 		| IN_OUT
 	'''
-	print p[1]
 	pass
 
 #--------------------type and declare qualified name (common) statment--------------------
+
 def p_type_specifier(p):
 	'type_specifier : qualified_name '
-	print "type is:", deque(stack)
-	stack.clear()
+
+	rt = p.parser.runtime
+
+	print "type is:", deque(p.parser.runtime.getStack())
+	p.parser.runtime.getStack().clear()
 	pass
 
 def p_declarator_name(p):
@@ -170,9 +183,9 @@ def p_qualified_name(p):
 	| qualified_name DOT ID
 	"""
 	if len(p) == 2:
-		stack.append(p[1])
+		p.parser.runtime.getStack().append(p[1])
 	if len(p)== 4:
-		stack.append(p[3])
+		p.parser.runtime.getStack().append(p[3])
 	pass
 
 
@@ -191,8 +204,9 @@ def p_error(p):
 
 def get_yacc(l):
 	b = yacc.yacc()
+
+	b.runtime = breed_runtime.brdRuntime()
+
 	b.error = 0
 	result = b.parse(lexer = l , debug=1)
-	print component
-	print importlist
 	if b.error : return None

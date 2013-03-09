@@ -7,83 +7,112 @@
 from ply import *
 
 keywords = {
-	'double'				:' DOUBLE',
-	'import'				:' IMPORT',
-	'private'				:' PRIVATE',
-	'throws'				:' THROWS',
-	'break'					:' BREAK',
-	'else'					:' ELSE',
-	'inner'					:' INNER',
-	'protected'				:' PROTECTED',
-	'transient'				:' TRANSIENT',
-	'byte'					:' BYTE',
-	'extends'				:' EXTENDS',
-	'instanceof'			:' INSTANCEOF',
-	'public'				:' PUBLIC',
-	'try'					:' TRY',
-	'case'					:' CASE',
-	'final'					:' FINAL',
-	'int'					:' INT',
-	'rest'					:' REST',
-	'var'					:' VAR',
-	'cast'					:' CAST',
-	'finally'				:' FINALLY',
-	'interface'				:' INTERFACE',
-	'return'				:' RETURN',
-	'void'					:' VOID',
-	'catch'					:' CATCH',
-	'float'					:' FLOAT',
-	'long'					:' LONG',
-	'short'					:' SHORT',
-	'volatile'				:' VOLATILE',
-	'char'					:' CHAR',
-	'for'					:' FOR',
-	'native'				:' NATIVE',
-	'static'				:' STATIC',
-	'while'					:' WHILE',
-	'class'					:' CLASS',
-	'future'				:' FUTURE',
-	'new'					:' NEW',
-	'super'					:' SUPER',
-	'const'					:' CONST',
-	'generic'				:' GENERIC',
-	'null'					:' NULL',
-	'switch'				:' SWITCH',
-	'continue'				:' CONTINUE',
-	'goto'					:' GOTO',
-	'operator'				:' OPERATOR',
-	'synchronized'			:' SYNCHRONIZED',
-	'default'				:' DEFAULT',
-	'if'					:' IF',
-	'outer'					:' OUTER',
-	'this'					:' THIS'
+	'double'				:'DOUBLE',
+	'import'				:'IMPORT',
+	'private'				:'PRIVATE',
+	'throws'				:'THROWS',
+	'break'					:'BREAK',
+	'else'					:'ELSE',
+	'inner'					:'INNER',
+	'protected'				:'PROTECTED',
+	'transient'				:'TRANSIENT',
+	'byte'					:'BYTE',
+	'extends'				:'EXTENDS',
+	'instanceof'			:'INSTANCEOF',
+	'public'				:'PUBLIC',
+	'try'					:'TRY',
+	'case'					:'CASE',
+	'final'					:'FINAL',
+	'int'					:'INT',
+	'rest'					:'REST',
+	'var'					:'VAR',
+	'cast'					:'CAST',
+	'finally'				:'FINALLY',
+	'interface'				:'INTERFACE',
+	'return'				:'RETURN',
+	'void'					:'VOID',
+	'catch'					:'CATCH',
+	'float'					:'FLOAT',
+	'long'					:'LONG',
+	'short'					:'SHORT',
+	'volatile'				:'VOLATILE',
+	'char'					:'CHAR',
+	'for'					:'FOR',
+	'native'				:'NATIVE',
+	'static'				:'STATIC',
+	'while'					:'WHILE',
+	'class'					:'CLASS',
+	'future'				:'FUTURE',
+	'new'					:'NEW',
+	'super'					:'SUPER',
+	'const'					:'CONST',
+	'generic'				:'GENERIC',
+	'null'					:'NULL',
+	'switch'				:'SWITCH',
+	'continue'				:'CONTINUE',
+	'goto'					:'GOTO',
+	'operator'				:'OPERATOR',
+	'synchronized'			:'SYNCHRONIZED',
+	'default'				:'DEFAULT',
+	'if'					:'IF',
+	'outer'					:'OUTER',
+	'this'					:'THIS'
 }
 
 
 tokens = [
+	'MCOMMENT','LCOMMENT',
+	'NUMBER','ID',
+	'OP_EQ', 'OP_LE', 'OP_GE', 'OP_NE', 
+	'OP_LOR', 'OP_LAND', 'OP_INC', 'OP_DEC',
+	'OP_SHR', 'OP_SHL', 'OP_SHRR', 'ASS_ADD',
+	'ASS_SUB', 'ASS_MUL', 'ASS_DIV', 'ASS_AND',
+	'ASS_OR', 'ASS_XOR', 'ASS_MOD', 'ASS_SHL',
+	'ASS_SHR', 'ASS_SHRR', 'NEWLINE',
 
-
+	'PLUS','EQUALS','LPAREN','RPAREN',
+	'BLPAREN','BRPAREN','DOT','SEMI',
+	'FLPAREN','FRPAREN','COLON','COMMA',
+	'QUES','TILDE','AT','LESS','MORE'
 ]+ keywords.values()
 
-t_ignore = ' \t\n\r\b\f':
-	pass
 
-def t_comment1( t ):
+t_PLUS	= r'\+'
+t_EQUALS  = r'='
+t_LPAREN  = r'\('
+t_RPAREN  = r'\)'
+t_BLPAREN = r'\{'
+t_BRPAREN = r'\}'
+t_DOT	 = r'\.'
+t_SEMI	= r';'
+t_FLPAREN = r'\['
+t_FRPAREN = r'\]'
+t_COLON = r'\:'
+t_COMMA = r'\,'
+t_QUES  = r'\?'
+t_TILDE = r'\~'
+t_AT = r'@'
+t_LESS = r'<'
+t_MORE = r'>'
+
+t_ignore = ' \t\r'
+
+def t_MCOMMENT( t ):
 	r'/\*(.|\n)*?\*/'
 	pass
 
-def t_comment2( t ):
+def t_LCOMMENT( t ):
 	r'[\/][\/].*'
 	pass
 
 def t_NUMBER(t):
 	r'([0123456789])+'
 	return t
-def t_HEX_NUMBER(t):
-	r'[0]([x]|[X])1([0123456789])+'
-	return t
+#def t_HEX_NUMBER(t):
+#	r'[0]([x]|[X])1([0123456789])+'
+#	return t
 
-def t_literal ( t ):
+#def t_literal ( t ):
 
 
 def t_ID(t):
@@ -96,26 +125,25 @@ t_OP_EQ		=	r'=='
 t_OP_LE		=	r'<='
 t_OP_GE		=	r'>='
 t_OP_NE		= 	r'!='
-t_OP_LOR	=	r'||'
-t_OP_LAND	=	r'&&'
-t_OP_INC	=	r'++'
+t_OP_LOR	=	r'\|\|'
+t_OP_LAND	=	r'\&\&'
+t_OP_INC	=	r'\+\+'
 t_OP_DEC	=	r'--'
 t_OP_SHR	=	r'>>'
 t_OP_SHL	=	r'<<'
-t_OP_SHRR	=	r'>>>'
+t_OP_SHRR	=	r'\>\>\>'
 
-t_ASS_ADD	=	r'+='
+t_ASS_ADD	=	r'\+='
 t_ASS_SUB	=	r'-='
-t_ASS_MUL	=	r'*='
+t_ASS_MUL	=	r'\*\='
 t_ASS_DIV	=	r'/='
 t_ASS_AND		=	r"&="
-t_ASS_OR		=	r"|="
+t_ASS_OR		=	r"\|\="
 t_ASS_XOR		=	r"^="
 t_ASS_MOD		=	r"%="
-t_ASS_SHL		=	r"<<="
-t_ASS_SHR		=	r">>="
-t_ASS_SHRR	=	r">>>="
-
+t_ASS_SHL		=	r"\<\<\="
+t_ASS_SHR		=	r"\>\>\="
+t_ASS_SHRR		=	r"\>\>\>\="
 
 
 

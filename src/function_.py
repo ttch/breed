@@ -7,11 +7,8 @@ class func_arg:
 		self.action = action
 
 class function:
-	def __init__( self ):
-		self.funcname = ""
-		self.arglist = []
-	def set_name( name ):
+	def __init__( self , name ):
 		self.funcname = name
-	def set_arg( arglist):
-		for x in arglist:
-			self.arglist.append(x)
+		self.arglist = []
+	def set_arg(self , arg_type,arg_name,arg_action):
+		self.arglist.append( func_arg( arg_type,arg_name,arg_action ] ) )
