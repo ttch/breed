@@ -11,4 +11,4 @@ class function:
 		self.funcname = name
 		self.arglist = []
 	def set_arg(self , arg_type,arg_name,arg_action):
-		self.arglist.append( func_arg( arg_type,arg_name,arg_action ] ) )
+		self.arglist.append( func_arg( arg_type,arg_name,arg_action ) )
