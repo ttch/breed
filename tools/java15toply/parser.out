@@ -1,0 +1,1288 @@
+shift/reduce conflict in state 13 resolved as shift.
+shift/reduce conflict in state 13 resolved as shift.
+reduce/reduce conflict in state 13 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 13 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 13 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 13 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 13 resolved using rule 20 (s_expr -> .).
+shift/reduce conflict in state 13 resolved as shift.
+shift/reduce conflict in state 13 resolved as shift.
+reduce/reduce conflict in state 13 resolved using rule 20 (s_expr -> .).
+shift/reduce conflict in state 13 resolved as shift.
+shift/reduce conflict in state 19 resolved as shift.
+shift/reduce conflict in state 19 resolved as shift.
+shift/reduce conflict in state 19 resolved as shift.
+reduce/reduce conflict in state 19 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 19 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 19 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 19 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 19 resolved using rule 20 (s_expr -> .).
+shift/reduce conflict in state 19 resolved as shift.
+shift/reduce conflict in state 19 resolved as shift.
+shift/reduce conflict in state 19 resolved as shift.
+shift/reduce conflict in state 19 resolved as shift.
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+reduce/reduce conflict in state 20 resolved using rule 12 (rule -> expr .).
+shift/reduce conflict in state 20 resolved as shift.
+shift/reduce conflict in state 20 resolved as shift.
+shift/reduce conflict in state 20 resolved as shift.
+shift/reduce conflict in state 20 resolved as shift.
+shift/reduce conflict in state 21 resolved as shift.
+shift/reduce conflict in state 21 resolved as shift.
+shift/reduce conflict in state 21 resolved as shift.
+reduce/reduce conflict in state 21 resolved using rule 10 (rules -> rule .).
+reduce/reduce conflict in state 21 resolved using rule 10 (rules -> rule .).
+reduce/reduce conflict in state 21 resolved using rule 10 (rules -> rule .).
+reduce/reduce conflict in state 21 resolved using rule 10 (rules -> rule .).
+shift/reduce conflict in state 21 resolved as shift.
+shift/reduce conflict in state 21 resolved as shift.
+shift/reduce conflict in state 21 resolved as shift.
+reduce/reduce conflict in state 21 resolved using rule 10 (rules -> rule .).
+shift/reduce conflict in state 21 resolved as shift.
+shift/reduce conflict in state 22 resolved as shift.
+shift/reduce conflict in state 22 resolved as shift.
+shift/reduce conflict in state 22 resolved as shift.
+reduce/reduce conflict in state 22 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 22 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 22 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 22 resolved using rule 20 (s_expr -> .).
+shift/reduce conflict in state 22 resolved as shift.
+reduce/reduce conflict in state 22 resolved using rule 20 (s_expr -> .).
+shift/reduce conflict in state 22 resolved as shift.
+shift/reduce conflict in state 22 resolved as shift.
+shift/reduce conflict in state 22 resolved as shift.
+shift/reduce conflict in state 31 resolved as shift.
+shift/reduce conflict in state 31 resolved as shift.
+shift/reduce conflict in state 31 resolved as shift.
+reduce/reduce conflict in state 31 resolved using rule 11 (rules -> rules rule .).
+reduce/reduce conflict in state 31 resolved using rule 11 (rules -> rules rule .).
+reduce/reduce conflict in state 31 resolved using rule 11 (rules -> rules rule .).
+reduce/reduce conflict in state 31 resolved using rule 11 (rules -> rules rule .).
+shift/reduce conflict in state 31 resolved as shift.
+shift/reduce conflict in state 31 resolved as shift.
+shift/reduce conflict in state 31 resolved as shift.
+reduce/reduce conflict in state 31 resolved using rule 11 (rules -> rules rule .).
+shift/reduce conflict in state 31 resolved as shift.
+shift/reduce conflict in state 35 resolved as shift.
+shift/reduce conflict in state 35 resolved as shift.
+reduce/reduce conflict in state 35 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 35 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 35 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 35 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 35 resolved using rule 20 (s_expr -> .).
+reduce/reduce conflict in state 35 resolved using rule 20 (s_expr -> .).
+shift/reduce conflict in state 35 resolved as shift.
+shift/reduce conflict in state 35 resolved as shift.
+shift/reduce conflict in state 35 resolved as shift.
+shift/reduce conflict in state 38 resolved as shift.
+shift/reduce conflict in state 38 resolved as shift.
+shift/reduce conflict in state 38 resolved as shift.
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+reduce/reduce conflict in state 39 resolved using rule 13 (rule -> rule expr .).
+shift/reduce conflict in state 39 resolved as shift.
+shift/reduce conflict in state 39 resolved as shift.
+shift/reduce conflict in state 39 resolved as shift.
+shift/reduce conflict in state 39 resolved as shift.
+shift/reduce conflict in state 41 resolved as shift.
+shift/reduce conflict in state 41 resolved as shift.
+shift/reduce conflict in state 41 resolved as shift.
+shift/reduce conflict in state 41 resolved as shift.
+shift/reduce conflict in state 41 resolved as shift.
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+reduce/reduce conflict in state 43 resolved using rule 14 (rule -> rule VERTICAL expr .).
+shift/reduce conflict in state 43 resolved as shift.
+shift/reduce conflict in state 43 resolved as shift.
+shift/reduce conflict in state 43 resolved as shift.
+shift/reduce conflict in state 43 resolved as shift.
+shift/reduce conflict in state 44 resolved as shift.
+shift/reduce conflict in state 44 resolved as shift.
+shift/reduce conflict in state 44 resolved as shift.
+
+
+Unused terminals:
+
+   EXCLAMATION
+   CARET
+   LCOMMENT
+   SLASH
+   LESS
+   TOKEN_ID
+   CMCOMENT
+   DOT
+   MCOMMENT
+   NEWLINE
+   FLPAREN
+   BLOCK
+   TILDE
+   YACC_START
+   PERCENT
+   DASH
+   AT
+   FRPAREN
+   AND
+   NMBER
+   TEST_TOKEN
+   COMMA
+   MORE
+
+Grammar
+
+Rule 1     program -> grammar_statment options_statment rule_statments
+Rule 2     grammar_statment -> GRAMMAR ID SEMI
+Rule 3     options_statment -> OPTIONS BLPAREN option_statments BRPAREN
+Rule 4     option_statments -> option_statment
+Rule 5     option_statments -> option_statments option_statment
+Rule 6     option_statment -> ID EQUALS ID SEMI
+Rule 7     rule_statments -> rule_statment
+Rule 8     rule_statments -> rule_statments rule_statment
+Rule 9     rule_statment -> ID COLON rules SEMI
+Rule 10    rules -> rule
+Rule 11    rules -> rules rule
+Rule 12    rule -> expr
+Rule 13    rule -> rule expr
+Rule 14    rule -> rule VERTICAL expr
+Rule 15    rule -> empty
+Rule 16    expr -> ptoken
+Rule 17    expr -> s_expr
+Rule 18    sub_expr -> LPAREN rule RPAREN
+Rule 19    sub_expr -> LPAREN rule RPAREN operator
+Rule 20    s_expr -> <empty>
+Rule 21    s_expr -> expr operator
+Rule 22    s_expr -> expr
+Rule 23    s_expr -> LPAREN RPAREN
+Rule 24    s_expr -> expr sub_expr
+Rule 25    s_expr -> sub_expr
+Rule 26    operator -> PLUS
+Rule 27    operator -> MULT
+Rule 28    operator -> QUES
+Rule 29    ptoken -> ID
+Rule 30    ptoken -> SPE_TOKEN
+Rule 31    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 
+AT                   : 
+BLOCK                : 
+BLPAREN              : 3
+BRPAREN              : 3
+CARET                : 
+CMCOMENT             : 
+COLON                : 9
+COMMA                : 
+DASH                 : 
+DOT                  : 
+EQUALS               : 6
+EXCLAMATION          : 
+FLPAREN              : 
+FRPAREN              : 
+GRAMMAR              : 2
+ID                   : 2 6 6 9 29
+LCOMMENT             : 
+LESS                 : 
+LPAREN               : 18 19 23
+MCOMMENT             : 
+MORE                 : 
+MULT                 : 27
+NEWLINE              : 
+NMBER                : 
+OPTIONS              : 3
+PERCENT              : 
+PLUS                 : 26
+QUES                 : 28
+RPAREN               : 18 19 23
+SEMI                 : 2 6 9
+SLASH                : 
+SPE_TOKEN            : 30
+TEST_TOKEN           : 
+TILDE                : 
+TOKEN_ID             : 
+VERTICAL             : 14
+YACC_START           : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+empty                : 15
+expr                 : 12 13 14 21 22 24
+grammar_statment     : 1
+operator             : 19 21
+option_statment      : 4 5
+option_statments     : 3 5
+options_statment     : 1
+program              : 0
+ptoken               : 16
+rule                 : 10 11 13 14 18 19
+rule_statment        : 7 8
+rule_statments       : 1 8
+rules                : 9 11
+s_expr               : 17
+sub_expr             : 24 25
+
+
+Parsing method: LALR
+
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . grammar_statment options_statment rule_statments
+    (2) grammar_statment -> . GRAMMAR ID SEMI
+
+    GRAMMAR         shift and go to state 1
+
+
+    program                        shift and go to state 2
+    grammar_statment               shift and go to state 3
+
+state 1
+
+    (2) grammar_statment -> GRAMMAR . ID SEMI
+
+    ID              shift and go to state 4
+
+
+
+state 2
+
+    (0) S' -> program .
+
+
+
+
+state 3
+
+    (1) program -> grammar_statment . options_statment rule_statments
+    (3) options_statment -> . OPTIONS BLPAREN option_statments BRPAREN
+
+    OPTIONS         shift and go to state 6
+
+
+    options_statment               shift and go to state 5
+
+state 4
+
+    (2) grammar_statment -> GRAMMAR ID . SEMI
+
+    SEMI            shift and go to state 7
+
+
+
+state 5
+
+    (1) program -> grammar_statment options_statment . rule_statments
+    (7) rule_statments -> . rule_statment
+    (8) rule_statments -> . rule_statments rule_statment
+    (9) rule_statment -> . ID COLON rules SEMI
+
+    ID              shift and go to state 10
+
+
+    rule_statments                 shift and go to state 8
+    rule_statment                  shift and go to state 9
+
+state 6
+
+    (3) options_statment -> OPTIONS . BLPAREN option_statments BRPAREN
+
+    BLPAREN         shift and go to state 11
+
+
+
+state 7
+
+    (2) grammar_statment -> GRAMMAR ID SEMI .
+
+    OPTIONS         reduce using rule 2 (grammar_statment -> GRAMMAR ID SEMI .)
+
+
+
+state 8
+
+    (1) program -> grammar_statment options_statment rule_statments .
+    (8) rule_statments -> rule_statments . rule_statment
+    (9) rule_statment -> . ID COLON rules SEMI
+
+    $end            reduce using rule 1 (program -> grammar_statment options_statment rule_statments .)
+    ID              shift and go to state 10
+
+
+    rule_statment                  shift and go to state 12
+
+state 9
+
+    (7) rule_statments -> rule_statment .
+
+    ID              reduce using rule 7 (rule_statments -> rule_statment .)
+    $end            reduce using rule 7 (rule_statments -> rule_statment .)
+
+
+
+state 10
+
+    (9) rule_statment -> ID . COLON rules SEMI
+
+    COLON           shift and go to state 13
+
+
+
+state 11
+
+    (3) options_statment -> OPTIONS BLPAREN . option_statments BRPAREN
+    (4) option_statments -> . option_statment
+    (5) option_statments -> . option_statments option_statment
+    (6) option_statment -> . ID EQUALS ID SEMI
+
+    ID              shift and go to state 15
+
+
+    option_statment                shift and go to state 14
+    option_statments               shift and go to state 16
+
+state 12
+
+    (8) rule_statments -> rule_statments rule_statment .
+
+    ID              reduce using rule 8 (rule_statments -> rule_statments rule_statment .)
+    $end            reduce using rule 8 (rule_statments -> rule_statments rule_statment .)
+
+
+
+state 13
+
+    (9) rule_statment -> ID COLON . rules SEMI
+    (10) rules -> . rule
+    (11) rules -> . rules rule
+    (12) rule -> . expr
+    (13) rule -> . rule expr
+    (14) rule -> . rule VERTICAL expr
+    (15) rule -> . empty
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (31) empty -> .
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for PLUS resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for MULT resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for QUES resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for VERTICAL resolved using rule 20 (s_expr -> .).
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for SEMI resolved using rule 20 (s_expr -> .).
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    PLUS            reduce using rule 20 (s_expr -> .)
+    MULT            reduce using rule 20 (s_expr -> .)
+    QUES            reduce using rule 20 (s_expr -> .)
+    VERTICAL        reduce using rule 20 (s_expr -> .)
+    SEMI            reduce using rule 20 (s_expr -> .)
+    LPAREN          shift and go to state 22
+
+  ! VERTICAL        [ reduce using rule 31 (empty -> .) ]
+  ! ID              [ reduce using rule 31 (empty -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 31 (empty -> .) ]
+  ! PLUS            [ reduce using rule 31 (empty -> .) ]
+  ! MULT            [ reduce using rule 31 (empty -> .) ]
+  ! QUES            [ reduce using rule 31 (empty -> .) ]
+  ! SEMI            [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    rules                          shift and go to state 19
+    expr                           shift and go to state 20
+    rule                           shift and go to state 21
+    empty                          shift and go to state 25
+
+state 14
+
+    (4) option_statments -> option_statment .
+
+    BRPAREN         reduce using rule 4 (option_statments -> option_statment .)
+    ID              reduce using rule 4 (option_statments -> option_statment .)
+
+
+
+state 15
+
+    (6) option_statment -> ID . EQUALS ID SEMI
+
+    EQUALS          shift and go to state 27
+
+
+
+state 16
+
+    (3) options_statment -> OPTIONS BLPAREN option_statments . BRPAREN
+    (5) option_statments -> option_statments . option_statment
+    (6) option_statment -> . ID EQUALS ID SEMI
+
+    BRPAREN         shift and go to state 28
+    ID              shift and go to state 15
+
+
+    option_statment                shift and go to state 29
+
+state 17
+
+    (16) expr -> ptoken .
+
+    PLUS            reduce using rule 16 (expr -> ptoken .)
+    MULT            reduce using rule 16 (expr -> ptoken .)
+    QUES            reduce using rule 16 (expr -> ptoken .)
+    LPAREN          reduce using rule 16 (expr -> ptoken .)
+    VERTICAL        reduce using rule 16 (expr -> ptoken .)
+    ID              reduce using rule 16 (expr -> ptoken .)
+    SPE_TOKEN       reduce using rule 16 (expr -> ptoken .)
+    SEMI            reduce using rule 16 (expr -> ptoken .)
+    RPAREN          reduce using rule 16 (expr -> ptoken .)
+
+
+
+state 18
+
+    (17) expr -> s_expr .
+
+    PLUS            reduce using rule 17 (expr -> s_expr .)
+    MULT            reduce using rule 17 (expr -> s_expr .)
+    QUES            reduce using rule 17 (expr -> s_expr .)
+    LPAREN          reduce using rule 17 (expr -> s_expr .)
+    VERTICAL        reduce using rule 17 (expr -> s_expr .)
+    ID              reduce using rule 17 (expr -> s_expr .)
+    SPE_TOKEN       reduce using rule 17 (expr -> s_expr .)
+    SEMI            reduce using rule 17 (expr -> s_expr .)
+    RPAREN          reduce using rule 17 (expr -> s_expr .)
+
+
+
+state 19
+
+    (9) rule_statment -> ID COLON rules . SEMI
+    (11) rules -> rules . rule
+    (12) rule -> . expr
+    (13) rule -> . rule expr
+    (14) rule -> . rule VERTICAL expr
+    (15) rule -> . empty
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (31) empty -> .
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for SEMI resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for PLUS resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for MULT resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for QUES resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for VERTICAL resolved using rule 20 (s_expr -> .).
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! shift/reduce conflict for SEMI resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    SEMI            shift and go to state 30
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    PLUS            reduce using rule 20 (s_expr -> .)
+    MULT            reduce using rule 20 (s_expr -> .)
+    QUES            reduce using rule 20 (s_expr -> .)
+    VERTICAL        reduce using rule 20 (s_expr -> .)
+    LPAREN          shift and go to state 22
+
+  ! VERTICAL        [ reduce using rule 31 (empty -> .) ]
+  ! ID              [ reduce using rule 31 (empty -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 31 (empty -> .) ]
+  ! PLUS            [ reduce using rule 31 (empty -> .) ]
+  ! MULT            [ reduce using rule 31 (empty -> .) ]
+  ! QUES            [ reduce using rule 31 (empty -> .) ]
+  ! SEMI            [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+  ! SEMI            [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 20
+    rule                           shift and go to state 31
+    empty                          shift and go to state 25
+
+state 20
+
+    (12) rule -> expr .
+    (21) s_expr -> expr . operator
+    (22) s_expr -> expr .
+    (24) s_expr -> expr . sub_expr
+    (26) operator -> . PLUS
+    (27) operator -> . MULT
+    (28) operator -> . QUES
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! reduce/reduce conflict for PLUS resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for MULT resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for QUES resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for RPAREN resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for VERTICAL resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for ID resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for SPE_TOKEN resolved using rule 12 (rule -> expr .).
+  ! reduce/reduce conflict for SEMI resolved using rule 12 (rule -> expr .).
+  ! shift/reduce conflict for PLUS resolved as shift.
+  ! shift/reduce conflict for MULT resolved as shift.
+  ! shift/reduce conflict for QUES resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    VERTICAL        reduce using rule 12 (rule -> expr .)
+    ID              reduce using rule 12 (rule -> expr .)
+    SPE_TOKEN       reduce using rule 12 (rule -> expr .)
+    SEMI            reduce using rule 12 (rule -> expr .)
+    RPAREN          reduce using rule 12 (rule -> expr .)
+    PLUS            shift and go to state 34
+    MULT            shift and go to state 37
+    QUES            shift and go to state 33
+    LPAREN          shift and go to state 35
+
+  ! LPAREN          [ reduce using rule 12 (rule -> expr .) ]
+  ! PLUS            [ reduce using rule 12 (rule -> expr .) ]
+  ! MULT            [ reduce using rule 12 (rule -> expr .) ]
+  ! QUES            [ reduce using rule 12 (rule -> expr .) ]
+  ! PLUS            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! MULT            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! QUES            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! LPAREN          [ reduce using rule 22 (s_expr -> expr .) ]
+  ! RPAREN          [ reduce using rule 22 (s_expr -> expr .) ]
+  ! VERTICAL        [ reduce using rule 22 (s_expr -> expr .) ]
+  ! ID              [ reduce using rule 22 (s_expr -> expr .) ]
+  ! SPE_TOKEN       [ reduce using rule 22 (s_expr -> expr .) ]
+  ! SEMI            [ reduce using rule 22 (s_expr -> expr .) ]
+
+    operator                       shift and go to state 36
+    sub_expr                       shift and go to state 32
+
+state 21
+
+    (10) rules -> rule .
+    (13) rule -> rule . expr
+    (14) rule -> rule . VERTICAL expr
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for VERTICAL resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for PLUS resolved using rule 10 (rules -> rule .).
+  ! reduce/reduce conflict for MULT resolved using rule 10 (rules -> rule .).
+  ! reduce/reduce conflict for QUES resolved using rule 10 (rules -> rule .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 10 (rules -> rule .).
+  ! shift/reduce conflict for VERTICAL resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for SEMI resolved using rule 10 (rules -> rule .).
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    SEMI            reduce using rule 10 (rules -> rule .)
+    PLUS            reduce using rule 10 (rules -> rule .)
+    MULT            reduce using rule 10 (rules -> rule .)
+    QUES            reduce using rule 10 (rules -> rule .)
+    VERTICAL        shift and go to state 38
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    LPAREN          shift and go to state 22
+
+  ! ID              [ reduce using rule 10 (rules -> rule .) ]
+  ! SPE_TOKEN       [ reduce using rule 10 (rules -> rule .) ]
+  ! LPAREN          [ reduce using rule 10 (rules -> rule .) ]
+  ! VERTICAL        [ reduce using rule 10 (rules -> rule .) ]
+  ! PLUS            [ reduce using rule 20 (s_expr -> .) ]
+  ! MULT            [ reduce using rule 20 (s_expr -> .) ]
+  ! QUES            [ reduce using rule 20 (s_expr -> .) ]
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! VERTICAL        [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+  ! SEMI            [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 39
+
+state 22
+
+    (23) s_expr -> LPAREN . RPAREN
+    (18) sub_expr -> LPAREN . rule RPAREN
+    (19) sub_expr -> LPAREN . rule RPAREN operator
+    (12) rule -> . expr
+    (13) rule -> . rule expr
+    (14) rule -> . rule VERTICAL expr
+    (15) rule -> . empty
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (31) empty -> .
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for RPAREN resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for PLUS resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for MULT resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for QUES resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 20 (s_expr -> .).
+  ! shift/reduce conflict for RPAREN resolved as shift.
+  ! reduce/reduce conflict for VERTICAL resolved using rule 20 (s_expr -> .).
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    RPAREN          shift and go to state 40
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    PLUS            reduce using rule 20 (s_expr -> .)
+    MULT            reduce using rule 20 (s_expr -> .)
+    QUES            reduce using rule 20 (s_expr -> .)
+    VERTICAL        reduce using rule 20 (s_expr -> .)
+    LPAREN          shift and go to state 22
+
+  ! RPAREN          [ reduce using rule 31 (empty -> .) ]
+  ! VERTICAL        [ reduce using rule 31 (empty -> .) ]
+  ! ID              [ reduce using rule 31 (empty -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 31 (empty -> .) ]
+  ! PLUS            [ reduce using rule 31 (empty -> .) ]
+  ! MULT            [ reduce using rule 31 (empty -> .) ]
+  ! QUES            [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! RPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 20
+    rule                           shift and go to state 41
+    empty                          shift and go to state 25
+
+state 23
+
+    (25) s_expr -> sub_expr .
+
+    PLUS            reduce using rule 25 (s_expr -> sub_expr .)
+    MULT            reduce using rule 25 (s_expr -> sub_expr .)
+    QUES            reduce using rule 25 (s_expr -> sub_expr .)
+    LPAREN          reduce using rule 25 (s_expr -> sub_expr .)
+    RPAREN          reduce using rule 25 (s_expr -> sub_expr .)
+    VERTICAL        reduce using rule 25 (s_expr -> sub_expr .)
+    ID              reduce using rule 25 (s_expr -> sub_expr .)
+    SPE_TOKEN       reduce using rule 25 (s_expr -> sub_expr .)
+    SEMI            reduce using rule 25 (s_expr -> sub_expr .)
+
+
+
+state 24
+
+    (29) ptoken -> ID .
+
+    PLUS            reduce using rule 29 (ptoken -> ID .)
+    MULT            reduce using rule 29 (ptoken -> ID .)
+    QUES            reduce using rule 29 (ptoken -> ID .)
+    LPAREN          reduce using rule 29 (ptoken -> ID .)
+    VERTICAL        reduce using rule 29 (ptoken -> ID .)
+    ID              reduce using rule 29 (ptoken -> ID .)
+    SPE_TOKEN       reduce using rule 29 (ptoken -> ID .)
+    SEMI            reduce using rule 29 (ptoken -> ID .)
+    RPAREN          reduce using rule 29 (ptoken -> ID .)
+
+
+
+state 25
+
+    (15) rule -> empty .
+
+    VERTICAL        reduce using rule 15 (rule -> empty .)
+    ID              reduce using rule 15 (rule -> empty .)
+    SPE_TOKEN       reduce using rule 15 (rule -> empty .)
+    LPAREN          reduce using rule 15 (rule -> empty .)
+    PLUS            reduce using rule 15 (rule -> empty .)
+    MULT            reduce using rule 15 (rule -> empty .)
+    QUES            reduce using rule 15 (rule -> empty .)
+    SEMI            reduce using rule 15 (rule -> empty .)
+    RPAREN          reduce using rule 15 (rule -> empty .)
+
+
+
+state 26
+
+    (30) ptoken -> SPE_TOKEN .
+
+    PLUS            reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    MULT            reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    QUES            reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    LPAREN          reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    VERTICAL        reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    ID              reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    SPE_TOKEN       reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    SEMI            reduce using rule 30 (ptoken -> SPE_TOKEN .)
+    RPAREN          reduce using rule 30 (ptoken -> SPE_TOKEN .)
+
+
+
+state 27
+
+    (6) option_statment -> ID EQUALS . ID SEMI
+
+    ID              shift and go to state 42
+
+
+
+state 28
+
+    (3) options_statment -> OPTIONS BLPAREN option_statments BRPAREN .
+
+    ID              reduce using rule 3 (options_statment -> OPTIONS BLPAREN option_statments BRPAREN .)
+
+
+
+state 29
+
+    (5) option_statments -> option_statments option_statment .
+
+    BRPAREN         reduce using rule 5 (option_statments -> option_statments option_statment .)
+    ID              reduce using rule 5 (option_statments -> option_statments option_statment .)
+
+
+
+state 30
+
+    (9) rule_statment -> ID COLON rules SEMI .
+
+    ID              reduce using rule 9 (rule_statment -> ID COLON rules SEMI .)
+    $end            reduce using rule 9 (rule_statment -> ID COLON rules SEMI .)
+
+
+
+state 31
+
+    (11) rules -> rules rule .
+    (13) rule -> rule . expr
+    (14) rule -> rule . VERTICAL expr
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for VERTICAL resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for PLUS resolved using rule 11 (rules -> rules rule .).
+  ! reduce/reduce conflict for MULT resolved using rule 11 (rules -> rules rule .).
+  ! reduce/reduce conflict for QUES resolved using rule 11 (rules -> rules rule .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 11 (rules -> rules rule .).
+  ! shift/reduce conflict for VERTICAL resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for SEMI resolved using rule 11 (rules -> rules rule .).
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    SEMI            reduce using rule 11 (rules -> rules rule .)
+    PLUS            reduce using rule 11 (rules -> rules rule .)
+    MULT            reduce using rule 11 (rules -> rules rule .)
+    QUES            reduce using rule 11 (rules -> rules rule .)
+    VERTICAL        shift and go to state 38
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    LPAREN          shift and go to state 22
+
+  ! ID              [ reduce using rule 11 (rules -> rules rule .) ]
+  ! SPE_TOKEN       [ reduce using rule 11 (rules -> rules rule .) ]
+  ! LPAREN          [ reduce using rule 11 (rules -> rules rule .) ]
+  ! VERTICAL        [ reduce using rule 11 (rules -> rules rule .) ]
+  ! PLUS            [ reduce using rule 20 (s_expr -> .) ]
+  ! MULT            [ reduce using rule 20 (s_expr -> .) ]
+  ! QUES            [ reduce using rule 20 (s_expr -> .) ]
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! VERTICAL        [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+  ! SEMI            [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 39
+
+state 32
+
+    (24) s_expr -> expr sub_expr .
+
+    PLUS            reduce using rule 24 (s_expr -> expr sub_expr .)
+    MULT            reduce using rule 24 (s_expr -> expr sub_expr .)
+    QUES            reduce using rule 24 (s_expr -> expr sub_expr .)
+    LPAREN          reduce using rule 24 (s_expr -> expr sub_expr .)
+    RPAREN          reduce using rule 24 (s_expr -> expr sub_expr .)
+    VERTICAL        reduce using rule 24 (s_expr -> expr sub_expr .)
+    ID              reduce using rule 24 (s_expr -> expr sub_expr .)
+    SPE_TOKEN       reduce using rule 24 (s_expr -> expr sub_expr .)
+    SEMI            reduce using rule 24 (s_expr -> expr sub_expr .)
+
+
+
+state 33
+
+    (28) operator -> QUES .
+
+    PLUS            reduce using rule 28 (operator -> QUES .)
+    MULT            reduce using rule 28 (operator -> QUES .)
+    QUES            reduce using rule 28 (operator -> QUES .)
+    LPAREN          reduce using rule 28 (operator -> QUES .)
+    VERTICAL        reduce using rule 28 (operator -> QUES .)
+    ID              reduce using rule 28 (operator -> QUES .)
+    SPE_TOKEN       reduce using rule 28 (operator -> QUES .)
+    SEMI            reduce using rule 28 (operator -> QUES .)
+    RPAREN          reduce using rule 28 (operator -> QUES .)
+
+
+
+state 34
+
+    (26) operator -> PLUS .
+
+    PLUS            reduce using rule 26 (operator -> PLUS .)
+    MULT            reduce using rule 26 (operator -> PLUS .)
+    QUES            reduce using rule 26 (operator -> PLUS .)
+    LPAREN          reduce using rule 26 (operator -> PLUS .)
+    VERTICAL        reduce using rule 26 (operator -> PLUS .)
+    ID              reduce using rule 26 (operator -> PLUS .)
+    SPE_TOKEN       reduce using rule 26 (operator -> PLUS .)
+    SEMI            reduce using rule 26 (operator -> PLUS .)
+    RPAREN          reduce using rule 26 (operator -> PLUS .)
+
+
+
+state 35
+
+    (18) sub_expr -> LPAREN . rule RPAREN
+    (19) sub_expr -> LPAREN . rule RPAREN operator
+    (12) rule -> . expr
+    (13) rule -> . rule expr
+    (14) rule -> . rule VERTICAL expr
+    (15) rule -> . empty
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (31) empty -> .
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! reduce/reduce conflict for PLUS resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for MULT resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for QUES resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for RPAREN resolved using rule 20 (s_expr -> .).
+  ! reduce/reduce conflict for VERTICAL resolved using rule 20 (s_expr -> .).
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    PLUS            reduce using rule 20 (s_expr -> .)
+    MULT            reduce using rule 20 (s_expr -> .)
+    QUES            reduce using rule 20 (s_expr -> .)
+    RPAREN          reduce using rule 20 (s_expr -> .)
+    VERTICAL        reduce using rule 20 (s_expr -> .)
+    LPAREN          shift and go to state 22
+
+  ! RPAREN          [ reduce using rule 31 (empty -> .) ]
+  ! VERTICAL        [ reduce using rule 31 (empty -> .) ]
+  ! ID              [ reduce using rule 31 (empty -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 31 (empty -> .) ]
+  ! PLUS            [ reduce using rule 31 (empty -> .) ]
+  ! MULT            [ reduce using rule 31 (empty -> .) ]
+  ! QUES            [ reduce using rule 31 (empty -> .) ]
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 20
+    rule                           shift and go to state 41
+    empty                          shift and go to state 25
+
+state 36
+
+    (21) s_expr -> expr operator .
+
+    PLUS            reduce using rule 21 (s_expr -> expr operator .)
+    MULT            reduce using rule 21 (s_expr -> expr operator .)
+    QUES            reduce using rule 21 (s_expr -> expr operator .)
+    LPAREN          reduce using rule 21 (s_expr -> expr operator .)
+    RPAREN          reduce using rule 21 (s_expr -> expr operator .)
+    VERTICAL        reduce using rule 21 (s_expr -> expr operator .)
+    ID              reduce using rule 21 (s_expr -> expr operator .)
+    SPE_TOKEN       reduce using rule 21 (s_expr -> expr operator .)
+    SEMI            reduce using rule 21 (s_expr -> expr operator .)
+
+
+
+state 37
+
+    (27) operator -> MULT .
+
+    PLUS            reduce using rule 27 (operator -> MULT .)
+    MULT            reduce using rule 27 (operator -> MULT .)
+    QUES            reduce using rule 27 (operator -> MULT .)
+    LPAREN          reduce using rule 27 (operator -> MULT .)
+    VERTICAL        reduce using rule 27 (operator -> MULT .)
+    ID              reduce using rule 27 (operator -> MULT .)
+    SPE_TOKEN       reduce using rule 27 (operator -> MULT .)
+    SEMI            reduce using rule 27 (operator -> MULT .)
+    RPAREN          reduce using rule 27 (operator -> MULT .)
+
+
+
+state 38
+
+    (14) rule -> rule VERTICAL . expr
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    PLUS            reduce using rule 20 (s_expr -> .)
+    MULT            reduce using rule 20 (s_expr -> .)
+    QUES            reduce using rule 20 (s_expr -> .)
+    VERTICAL        reduce using rule 20 (s_expr -> .)
+    SEMI            reduce using rule 20 (s_expr -> .)
+    RPAREN          reduce using rule 20 (s_expr -> .)
+    LPAREN          shift and go to state 22
+
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 43
+
+state 39
+
+    (13) rule -> rule expr .
+    (21) s_expr -> expr . operator
+    (22) s_expr -> expr .
+    (24) s_expr -> expr . sub_expr
+    (26) operator -> . PLUS
+    (27) operator -> . MULT
+    (28) operator -> . QUES
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! reduce/reduce conflict for PLUS resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for MULT resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for QUES resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for RPAREN resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for VERTICAL resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for ID resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for SPE_TOKEN resolved using rule 13 (rule -> rule expr .).
+  ! reduce/reduce conflict for SEMI resolved using rule 13 (rule -> rule expr .).
+  ! shift/reduce conflict for PLUS resolved as shift.
+  ! shift/reduce conflict for MULT resolved as shift.
+  ! shift/reduce conflict for QUES resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    VERTICAL        reduce using rule 13 (rule -> rule expr .)
+    ID              reduce using rule 13 (rule -> rule expr .)
+    SPE_TOKEN       reduce using rule 13 (rule -> rule expr .)
+    SEMI            reduce using rule 13 (rule -> rule expr .)
+    RPAREN          reduce using rule 13 (rule -> rule expr .)
+    PLUS            shift and go to state 34
+    MULT            shift and go to state 37
+    QUES            shift and go to state 33
+    LPAREN          shift and go to state 35
+
+  ! LPAREN          [ reduce using rule 13 (rule -> rule expr .) ]
+  ! PLUS            [ reduce using rule 13 (rule -> rule expr .) ]
+  ! MULT            [ reduce using rule 13 (rule -> rule expr .) ]
+  ! QUES            [ reduce using rule 13 (rule -> rule expr .) ]
+  ! PLUS            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! MULT            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! QUES            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! LPAREN          [ reduce using rule 22 (s_expr -> expr .) ]
+  ! RPAREN          [ reduce using rule 22 (s_expr -> expr .) ]
+  ! VERTICAL        [ reduce using rule 22 (s_expr -> expr .) ]
+  ! ID              [ reduce using rule 22 (s_expr -> expr .) ]
+  ! SPE_TOKEN       [ reduce using rule 22 (s_expr -> expr .) ]
+  ! SEMI            [ reduce using rule 22 (s_expr -> expr .) ]
+
+    operator                       shift and go to state 36
+    sub_expr                       shift and go to state 32
+
+state 40
+
+    (23) s_expr -> LPAREN RPAREN .
+
+    PLUS            reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    MULT            reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    QUES            reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    LPAREN          reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    RPAREN          reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    VERTICAL        reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    ID              reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    SPE_TOKEN       reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+    SEMI            reduce using rule 23 (s_expr -> LPAREN RPAREN .)
+
+
+
+state 41
+
+    (18) sub_expr -> LPAREN rule . RPAREN
+    (19) sub_expr -> LPAREN rule . RPAREN operator
+    (13) rule -> rule . expr
+    (14) rule -> rule . VERTICAL expr
+    (16) expr -> . ptoken
+    (17) expr -> . s_expr
+    (29) ptoken -> . ID
+    (30) ptoken -> . SPE_TOKEN
+    (20) s_expr -> .
+    (21) s_expr -> . expr operator
+    (22) s_expr -> . expr
+    (23) s_expr -> . LPAREN RPAREN
+    (24) s_expr -> . expr sub_expr
+    (25) s_expr -> . sub_expr
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! shift/reduce conflict for RPAREN resolved as shift.
+  ! shift/reduce conflict for VERTICAL resolved as shift.
+  ! shift/reduce conflict for ID resolved as shift.
+  ! shift/reduce conflict for SPE_TOKEN resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    RPAREN          shift and go to state 44
+    VERTICAL        shift and go to state 38
+    ID              shift and go to state 24
+    SPE_TOKEN       shift and go to state 26
+    PLUS            reduce using rule 20 (s_expr -> .)
+    MULT            reduce using rule 20 (s_expr -> .)
+    QUES            reduce using rule 20 (s_expr -> .)
+    LPAREN          shift and go to state 22
+
+  ! LPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! RPAREN          [ reduce using rule 20 (s_expr -> .) ]
+  ! VERTICAL        [ reduce using rule 20 (s_expr -> .) ]
+  ! ID              [ reduce using rule 20 (s_expr -> .) ]
+  ! SPE_TOKEN       [ reduce using rule 20 (s_expr -> .) ]
+
+    s_expr                         shift and go to state 18
+    sub_expr                       shift and go to state 23
+    ptoken                         shift and go to state 17
+    expr                           shift and go to state 39
+
+state 42
+
+    (6) option_statment -> ID EQUALS ID . SEMI
+
+    SEMI            shift and go to state 45
+
+
+
+state 43
+
+    (14) rule -> rule VERTICAL expr .
+    (21) s_expr -> expr . operator
+    (22) s_expr -> expr .
+    (24) s_expr -> expr . sub_expr
+    (26) operator -> . PLUS
+    (27) operator -> . MULT
+    (28) operator -> . QUES
+    (18) sub_expr -> . LPAREN rule RPAREN
+    (19) sub_expr -> . LPAREN rule RPAREN operator
+
+  ! reduce/reduce conflict for PLUS resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for MULT resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for QUES resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for LPAREN resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for VERTICAL resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for ID resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for SPE_TOKEN resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for SEMI resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! reduce/reduce conflict for RPAREN resolved using rule 14 (rule -> rule VERTICAL expr .).
+  ! shift/reduce conflict for PLUS resolved as shift.
+  ! shift/reduce conflict for MULT resolved as shift.
+  ! shift/reduce conflict for QUES resolved as shift.
+  ! shift/reduce conflict for LPAREN resolved as shift.
+    VERTICAL        reduce using rule 14 (rule -> rule VERTICAL expr .)
+    ID              reduce using rule 14 (rule -> rule VERTICAL expr .)
+    SPE_TOKEN       reduce using rule 14 (rule -> rule VERTICAL expr .)
+    SEMI            reduce using rule 14 (rule -> rule VERTICAL expr .)
+    RPAREN          reduce using rule 14 (rule -> rule VERTICAL expr .)
+    PLUS            shift and go to state 34
+    MULT            shift and go to state 37
+    QUES            shift and go to state 33
+    LPAREN          shift and go to state 35
+
+  ! LPAREN          [ reduce using rule 14 (rule -> rule VERTICAL expr .) ]
+  ! PLUS            [ reduce using rule 14 (rule -> rule VERTICAL expr .) ]
+  ! MULT            [ reduce using rule 14 (rule -> rule VERTICAL expr .) ]
+  ! QUES            [ reduce using rule 14 (rule -> rule VERTICAL expr .) ]
+  ! PLUS            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! MULT            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! QUES            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! LPAREN          [ reduce using rule 22 (s_expr -> expr .) ]
+  ! VERTICAL        [ reduce using rule 22 (s_expr -> expr .) ]
+  ! ID              [ reduce using rule 22 (s_expr -> expr .) ]
+  ! SPE_TOKEN       [ reduce using rule 22 (s_expr -> expr .) ]
+  ! SEMI            [ reduce using rule 22 (s_expr -> expr .) ]
+  ! RPAREN          [ reduce using rule 22 (s_expr -> expr .) ]
+
+    operator                       shift and go to state 36
+    sub_expr                       shift and go to state 32
+
+state 44
+
+    (18) sub_expr -> LPAREN rule RPAREN .
+    (19) sub_expr -> LPAREN rule RPAREN . operator
+    (26) operator -> . PLUS
+    (27) operator -> . MULT
+    (28) operator -> . QUES
+
+  ! shift/reduce conflict for PLUS resolved as shift.
+  ! shift/reduce conflict for MULT resolved as shift.
+  ! shift/reduce conflict for QUES resolved as shift.
+    LPAREN          reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .)
+    VERTICAL        reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .)
+    ID              reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .)
+    SPE_TOKEN       reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .)
+    SEMI            reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .)
+    RPAREN          reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .)
+    PLUS            shift and go to state 34
+    MULT            shift and go to state 37
+    QUES            shift and go to state 33
+
+  ! PLUS            [ reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .) ]
+  ! MULT            [ reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .) ]
+  ! QUES            [ reduce using rule 18 (sub_expr -> LPAREN rule RPAREN .) ]
+
+    operator                       shift and go to state 46
+
+state 45
+
+    (6) option_statment -> ID EQUALS ID SEMI .
+
+    BRPAREN         reduce using rule 6 (option_statment -> ID EQUALS ID SEMI .)
+    ID              reduce using rule 6 (option_statment -> ID EQUALS ID SEMI .)
+
+
+
+state 46
+
+    (19) sub_expr -> LPAREN rule RPAREN operator .
+
+    PLUS            reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    MULT            reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    QUES            reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    LPAREN          reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    VERTICAL        reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    ID              reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    SPE_TOKEN       reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    SEMI            reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+    RPAREN          reduce using rule 19 (sub_expr -> LPAREN rule RPAREN operator .)
+
+
