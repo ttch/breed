@@ -58,22 +58,35 @@ class expr:
 		return self.t
 	def process_sub(self):
 		if self.t[0] == '(':
+
 			flag = False
 			if self.t[-1] == ')':
-				for x in self.t[1:-1]:
-					if x == '|':
-						flag = True
-						break
-			if self.t[-2] == ')' :
-				for x in self.t[1:-2]:
-					if x == '|':
-						flag = True
-						break
+				flag = False
+			elif self.t[-2] == ')' :
+				flag = True
 			if flag == True:
 				new_label = inc_number()
 				new_expr = [ new_label , ':' ] + self.t[1:-2]
 				extends.append( new_expr )
 				self.t = [ new_label ]
+			else:
+				new_label = inc_number()
+				new_expr = [ new_label , ':' ] + self.t[1:-1]
+				extends.append( new_expr )
+				self.t = [ new_label ]
+	def process_no(self):
+		for x in self.t:
+			if x == '?':
+				new_label = inc_number()
+				new_expr =  [ new_label , ':'] + [ self.t[0] ] + [ '|' , 'empty' ]
+				extends.append( new_expr )
+				self.t = [ new_label ]
+				break
+			elif x == '+':
+				pass
+			elif x == '*':
+				pass
+				
 '''
 class rule:
 	def __init__(self,t):
@@ -191,9 +204,12 @@ def p_s_expr( p ):
 	'''
 	if len(p) == 3:
 		if p[1] != None and p[1] != '(':
+
 			if p[0] == None : p[0] = []
 			p[0] = expr(  p[0] + p[1] + p[2] )
-			#p[0].process()
+			if p[2] in [["?"],["+"],["*"]] :
+				p[0].process_no()
+
 	if len(p) == 2:
 		if p[1] != None:
 			if p[0] == None: p[0] = []
@@ -212,11 +228,11 @@ def p_ptoken( p ):
 		ptoken : ID
 				| SPE_TOKEN
 	'''
-	p[0] = [ p[1] ]
+	p[0] = [ get_ID(p[1]) ]
 
 
 #### Empty
-   
+
 def p_empty( p ):
     '''empty : '''
 
@@ -227,6 +243,17 @@ def p_error(p):
 		print "Syntax error at '%s' lineno = %i linepos=%i" %  ( p.value , p.lineno , p.lexpos )
 	else:
 		print "Syntax error at EOF"
+
+
+def get_ID(p):
+	if p == None:return p
+	if p[0] == "'" and p[-1] == "'":
+		if lex.tokenNameList.has_key(p[1:-1]):
+			return lex.tokenNameList[p[1:-1]]
+		if lex.key_list.has_key(p[1:-1]):
+			return lex.key_list[p[1:-1]]
+	return p
+
 
 def split_lower(p):
 	import re
@@ -239,7 +266,7 @@ def split_lower(p):
 def inc_number():
 	global Number
 	Number = Number+1
-	return 'A%d' % (Number)
+	return 'expr_%d' % (Number)
 
 def get_yacc(l):
 	b = yacc.yacc()
@@ -247,7 +274,15 @@ def get_yacc(l):
 	b.error = 0
 	result = b.parse(lexer = l , debug=1)
 	#"""
-	sf = open("source.py","w")
+	sf = open("../javatobreed/yacc.py","w")
+	sf.write("# *.* coding=utf-8 *.*\n")
+	sf.write("""
+import ply.yacc as yacc
+import lex
+from collections import deque
+
+tokens = lex.tokens
+""")
 	for x in  rules:
 		sf.write( 'def p_%s(p):' % x[0] )
 		sf.write( "\n\t'''\n")
@@ -258,29 +293,47 @@ def get_yacc(l):
 			else:
 				body = body + " "+ y
 		sf.write( "\t %s%s%s%s%s" % (x[0]," ",x[1] , " " , body) )
-		sf.write( "\n\t\n'''")
-		sf.write( "\tpass\n")
+		sf.write( "\n\t'''\n")
+		sf.write( "\n\tpass\n")
 		sf.write( "\n")
-	sf.close()
 
-
-	ef = open("extends.py","w")
 
 	for x in extends:
-		ef.write( 'def p_%s(p):\n' % x[0] )
-		ef.write( "\t'''\n" )
+		sf.write( 'def p_%s(p):\n' % x[0] )
+		sf.write( "\t'''\n" )
 		body = ""
 		for y in x[2:]:
 			if y == "|":
 				body = body + " " + ( "\n\t" + y )
 			else:
 				body = body + " "+ y
-		ef.write( "\t %s%s%s%s%s"  % ( x[0]," ",x[1] , " " , body ) )
-		ef.write( "\n\t" )
-		ef.write( "\t'''\n" )
-		ef.write( "\tpass\n" )
-		ef.write( "\n" )
-	ef.close()
+		sf.write( "\t %s%s%s%s%s"  % ( x[0]," ",x[1] , " " , body ) )
+		sf.write( "\n\t" )
+		sf.write( "\t'''\n" )
+		sf.write( "\tpass\n" )
+		sf.write( "\n" )
+	sf.write("""
+	#### Empty
+   
+def p_empty( p ):
+	'''empty : '''
+
+#### Catastrophic error handler
+
+def p_error(p):
+	if p:
+		print "Syntax error at '%s' lineno = %i linepos=%i" %  ( p.value , p.lineno , p.lexpos )
+	else:
+		print "Syntax error at EOF"
+
+def get_yacc(l):
+	b = yacc.yacc()
+
+	b.error = 0
+	result = b.parse(lexer = l , debug=1)
+	if b.error : return None
+	""")
+	sf.close()
 	#"""
 	if b.error : return None
 

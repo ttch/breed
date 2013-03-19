@@ -1,0 +1,290 @@
+Syntax error at '(' lineno = 293 linepos=14226
+Syntax error at '?' lineno = 309 linepos=14517
+Syntax error at 'IDENTIFIER' lineno = 324 linepos=14766
+Syntax error at '(' lineno = 339 linepos=14987
+Syntax error at '?' lineno = 366 linepos=15483
+Syntax error at 'lt' lineno = 374 linepos=15626
+Syntax error at 'typeBound' lineno = 382 linepos=15778
+Syntax error at 'amp' lineno = 387 linepos=15842
+Syntax error at 'typeList' lineno = 395 linepos=15976
+Syntax error at '?' lineno = 403 linepos=16079
+Syntax error at 'enumConstant' lineno = 411 linepos=16206
+Syntax error at '*' lineno = 432 linepos=16788
+Syntax error at '?' lineno = 442 linepos=17001
+Syntax error at 'type' lineno = 449 linepos=17107
+Syntax error at '*' lineno = 455 linepos=17193
+Syntax error at '*' lineno = 461 linepos=17286
+Syntax error at '(' lineno = 466 linepos=17350
+Syntax error at '?' lineno = 482 linepos=17685
+Syntax error at 'variableDeclarator' lineno = 514 linepos=18275
+Syntax error at ''' lineno = 520 linepos=18376
+Syntax error at '?' lineno = 539 linepos=18726
+Syntax error at 'variableDeclarator' lineno = 557 linepos=19230
+Syntax error at ''' lineno = 563 linepos=19328
+Syntax error at '?' lineno = 572 linepos=19474
+Syntax error at 'lt' lineno = 589 linepos=19734
+Syntax error at '(' lineno = 598 linepos=19873
+Syntax error at 'qualifiedName' lineno = 606 linepos=20008
+Syntax error at '?' lineno = 612 linepos=20109
+Syntax error at 'normalParameterDecl' lineno = 618 linepos=20224
+Syntax error at ''' lineno = 627 linepos=20421
+Syntax error at '.' lineno = 632 linepos=20508
+Syntax error at 'IDENTIFIER' lineno = 651 linepos=20931
+Syntax error at '(' lineno = 665 linepos=21149
+Syntax error at 'elementValuePair' lineno = 673 linepos=21320
+Syntax error at '(' lineno = 687 linepos=21599
+Syntax error at '*' lineno = 703 linepos=21904
+Syntax error at 'elementValue' lineno = 720 linepos=22385
+Syntax error at '*' lineno = 727 linepos=22492
+Syntax error at 'variableDeclarator' lineno = 766 linepos=23652
+Syntax error at '(' lineno = 772 linepos=23735
+Syntax error at '*' lineno = 802 linepos=24595
+Syntax error at ''' lineno = 810 linepos=24731
+Syntax error at '*' lineno = 818 linepos=24872
+Syntax error at ''' lineno = 826 linepos=25028
+Syntax error at '?' lineno = 838 linepos=25293
+Syntax error at 'expression' lineno = 853 linepos=25593
+Syntax error at 'expression' lineno = 858 linepos=25693
+Syntax error at '=' lineno = 863 linepos=25765
+Syntax error at 'expression' lineno = 877 linepos=26027
+Syntax error at '|' lineno = 882 linepos=26151
+Syntax error at 'amp' lineno = 887 linepos=26264
+Syntax error at 'exclusiveOrExpression' lineno = 892 linepos=26381
+Syntax error at 'andExpression' lineno = 897 linepos=26479
+Syntax error at 'amp' lineno = 902 linepos=26564
+Syntax error at '(' lineno = 908 linepos=26681
+Syntax error at 'type' lineno = 916 linepos=26849
+Syntax error at 'shiftExpression' lineno = 921 linepos=26940
+Syntax error at 'lt' lineno = 925 linepos=26999
+Syntax error at 'additiveExpression' lineno = 932 linepos=27126
+Syntax error at 'lt' lineno = 936 linepos=27184
+Syntax error at '(' lineno = 943 linepos=27335
+Syntax error at '(' lineno = 953 linepos=27514
+Syntax error at '+' lineno = 967 linepos=27911
+Syntax error at '*' lineno = 977 linepos=28153
+Syntax error at 'IDENTIFIER' lineno = 992 linepos=28480
+Syntax error at '?' lineno = 1015 linepos=28875
+Syntax error at '?' lineno = 1036 linepos=29275
+Syntax error at ''' lineno = 1051 linepos=29626
+Syntax error at '(' lineno = 1070 linepos=29969
+Syntax error at '?' lineno = 1083 linepos=30259
+Syntax error at '?' lineno = 1092 linepos=30411
+Syntax error at 'lt' lineno = 1095 linepos=30457
+Syntax error at '?' lineno = 1100 linepos=30541
+Syntax error at '|' lineno = 1121 linepos=30943
+Syntax error at '|' lineno = 1130 linepos=31147
+Syntax error at '?' lineno = 1133 linepos=31240
+Syntax error at ''' lineno = 1136 linepos=31330
+Syntax error at ''' lineno = 1139 linepos=31424
+def p_declaration( p ):
+	''' 
+	declaration :   name SEMI 
+	'''
+	pass
+
+def p_declaration( p ):
+	''' 
+	declaration :  SEMI 
+	|   IDENTIFIER DOT or_interface_declaration 
+	'''
+	pass
+
+def p_or_interface_declaration( p ):
+	''' 
+	or_interface_declaration :  declaration 
+	| declaration 
+	'''
+	pass
+
+def p_declaration( p ):
+	''' 
+	declaration :  declaration 
+	| class_declaration 
+	'''
+	pass
+
+def p_declaration( p ):
+	''' 
+	declaration :  type_declaration 
+	|   IDENTIFIER parameters IDENTIFIER     IDENTIFIER  BLPAREN constants constant COMMA SEMI body_declaration interface_declaration 
+	'''
+	pass
+
+def p_decl( p ):
+	''' 
+	decl :  declaration 
+	| declaration 
+	| declaration 
+	| declaration 
+	|   IDENTIFIER parameters  COMMA BLPAREN body_declaration BLPAREN body_declaration SEMI 
+	'''
+	pass
+
+def p_body_declaration( p ):
+	''' 
+	body_declaration :  SEMI 
+	| declaration 
+	| declaration 
+	| method_declaration 
+	|  parameters   declarator COMMA IDENTIFIER FLPAREN field_declaration 
+	'''
+	pass
+
+def p_type( p ):
+	''' 
+	type :   
+	|  
+	|  
+	|  
+	|  
+	|  
+	|  
+	|  parameters   declarator COMMA or_interface_type FLPAREN IDENTIFIER arguments  
+	'''
+	pass
+
+def p_value_pair( p ):
+	''' 
+	value_pair :  parameter_decl COMMA modifiers  IDENTIFIER FLPAREN modifiers  IDENTIFIER DOT AT name LPAREN value_pair COMMA IDENTIFIER EQUALS value 
+	| QUES name COMMA LPAREN parameter_decls parameter_decl 
+	|  
+	'''
+	pass
+
+def p_value( p ):
+	''' 
+	value :  value_array_initializer 
+	|  
+	| expression 
+	'''
+	pass
+
+def p_type_declaration( p ):
+	''' 
+	type_declaration :  BLPAREN value  AT  IDENTIFIER type_body 
+	'''
+	pass
+
+def p_type_element_declaration( p ):
+	''' 
+	type_element_declaration :  SEMI 
+	| type_declaration 
+	| declaration 
+	| interface_declaration 
+	| class_declaration 
+	| field_declaration 
+	| BLPAREN type_element_declaration method_declaration 
+	'''
+	pass
+
+def p_statement( p ):
+	''' 
+	statement :   
+	| or_interface_declaration 
+	|   IDENTIFIER LPAREN RPAREN  BLPAREN statement variable_declaration_statement 
+	'''
+	pass
+
+def p_variable_declaration_statement( p ):
+	''' 
+	variable_declaration_statement :  variable_declaration SEMI 
+	'''
+	pass
+
+def p_label( p ):
+	''' 
+	label :   COLON 
+	| label statement   COLON 
+	| modifiers  declarator COMMA  
+	'''
+	pass
+
+def p_clause( p ):
+	''' 
+	clause :     clause clause  LPAREN parameter RPAREN  
+	'''
+	pass
+
+def p_init( p ):
+	''' 
+	init :  list 
+	|  LPAREN init variable_declaration 
+	| modifiers  IDENTIFIER FLPAREN  LPAREN modifiers  IDENTIFIER COLON  RPAREN  
+	'''
+	pass
+
+def p_expression( p ):
+	''' 
+	expression :  LPAREN  RPAREN 
+	'''
+	pass
+
+def p_expression( p ):
+	''' 
+	expression :  LPAREN  RPAREN expression_not_plus_minus 
+	|   LPAREN type RPAREN expression 
+	| expression 
+	| EXCLAMATION expression 
+	| TILDE expression 
+	| DASH expression 
+	| or_expression QUES and_expression or_expression or_expression VERTICAL expression CARET expression of_expression expression  expression op expression op expression expression PLUS expression 
+	|  COMMA expression operator EQUALS 
+	'''
+	pass
+
+def p_( p ):
+	''' 
+	 :  creator 
+	|  or_interface_type creator_rest 
+	| DOT arguments DOT IDENTIFIER   wildcard_type_arguments or_interface_type creator_rest 
+	|  DOT  
+	| expression 
+	'''
+	pass
+
+def p_initializer( p ):
+	''' 
+	initializer :   
+	|  name FLPAREN FRPAREN FLPAREN initializer 
+	'''
+	pass
+
+def p_name( p ):
+	''' 
+	name :  type 
+	| BLPAREN initializer or_interface_type 
+	'''
+	pass
+
+def p_( p ):
+	''' 
+	 :  NULL 
+	| FALSE 
+	| TRUE 
+	| STRINGLITERAL 
+	| CHARLITERAL 
+	| DOUBLELITERAL 
+	| FLOATLITERAL 
+	| LONGLITERAL 
+	| DOT  wildcard_type_arguments  body LPAREN list INTLITERAL 
+	'''
+	pass
+
+def p_header( p ):
+	''' 
+	header :    IDENTIFIER 
+	'''
+	pass
+
+def p_header( p ):
+	''' 
+	header :      IDENTIFIER 
+	'''
+	pass
+
+def p_header( p ):
+	''' 
+	header :   AT  IDENTIFIER 
+	'''
+	pass
+

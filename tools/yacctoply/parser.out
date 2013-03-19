@@ -1,0 +1,797 @@
+
+
+Unused terminals:
+
+   LCOMMENT
+   MCOMMENT
+   NEWLINE
+   NMBER
+
+Grammar
+
+Rule 1     program -> token_statments start_statment rule_statments end_statment
+Rule 2     program -> rule_statments
+Rule 3     token_statments -> token_statment
+Rule 4     token_statments -> token_statments token_statment
+Rule 5     token_statment -> TOKEN_ID token_list
+Rule 6     token_list -> ID
+Rule 7     token_list -> token_list ID
+Rule 8     start_statment -> YACC_START ID BLOCK
+Rule 9     end_statment -> BLOCK
+Rule 10    rule_statments -> rule_statment
+Rule 11    rule_statments -> rule_statments rule_statment
+Rule 12    rule_statment -> ID COLON rules SEMI
+Rule 13    rules -> rule
+Rule 14    rules -> rules VERTICAL rule
+Rule 15    rule -> rule_token
+Rule 16    rule -> rule rule_token
+Rule 17    rule -> rule LPAREN rule_token RPAREN
+Rule 18    rule_token -> ID
+Rule 19    rule_token -> rule_symbol
+Rule 20    rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE
+Rule 21    rule_spe_symbol -> VERTICAL
+Rule 22    rule_spe_symbol -> PLUS
+Rule 23    rule_spe_symbol -> EQUALS
+Rule 24    rule_spe_symbol -> LPAREN
+Rule 25    rule_spe_symbol -> RPAREN
+Rule 26    rule_spe_symbol -> BLPAREN
+Rule 27    rule_spe_symbol -> BRPAREN
+Rule 28    rule_spe_symbol -> DOT
+Rule 29    rule_spe_symbol -> SEMI
+Rule 30    rule_spe_symbol -> FLPAREN
+Rule 31    rule_spe_symbol -> FRPAREN
+Rule 32    rule_spe_symbol -> COLON
+Rule 33    rule_spe_symbol -> COMMA
+Rule 34    rule_spe_symbol -> QUES
+Rule 35    rule_spe_symbol -> TILDE
+Rule 36    rule_spe_symbol -> AT
+Rule 37    rule_spe_symbol -> LESS
+Rule 38    rule_spe_symbol -> MORE
+Rule 39    rule_spe_symbol -> MULT
+Rule 40    rule_spe_symbol -> DASH
+Rule 41    rule_spe_symbol -> EXCLAMATION
+Rule 42    rule_spe_symbol -> SLASH
+Rule 43    rule_spe_symbol -> PERCENT
+Rule 44    rule_spe_symbol -> AND
+Rule 45    rule_spe_symbol -> CARET
+Rule 46    rule_spe_symbol -> ID
+Rule 47    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 44
+APOSTROPHE           : 20 20
+AT                   : 36
+BLOCK                : 8 9
+BLPAREN              : 26
+BRPAREN              : 27
+CARET                : 45
+COLON                : 12 32
+COMMA                : 33
+DASH                 : 40
+DOT                  : 28
+EQUALS               : 23
+EXCLAMATION          : 41
+FLPAREN              : 30
+FRPAREN              : 31
+ID                   : 6 7 8 12 18 46
+LCOMMENT             : 
+LESS                 : 37
+LPAREN               : 17 24
+MCOMMENT             : 
+MORE                 : 38
+MULT                 : 39
+NEWLINE              : 
+NMBER                : 
+PERCENT              : 43
+PLUS                 : 22
+QUES                 : 34
+RPAREN               : 17 25
+SEMI                 : 12 29
+SLASH                : 42
+TILDE                : 35
+TOKEN_ID             : 5
+VERTICAL             : 14 21
+YACC_START           : 8
+error                : 
+
+Nonterminals, with rules where they appear
+
+empty                : 
+end_statment         : 1
+program              : 0
+rule                 : 13 14 16 17
+rule_spe_symbol      : 20
+rule_statment        : 10 11
+rule_statments       : 1 2 11
+rule_symbol          : 19
+rule_token           : 15 16 17
+rules                : 12 14
+start_statment       : 1
+token_list           : 5 7
+token_statment       : 3 4
+token_statments      : 1 4
+
+
+Parsing method: LALR
+
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . token_statments start_statment rule_statments end_statment
+    (2) program -> . rule_statments
+    (3) token_statments -> . token_statment
+    (4) token_statments -> . token_statments token_statment
+    (10) rule_statments -> . rule_statment
+    (11) rule_statments -> . rule_statments rule_statment
+    (5) token_statment -> . TOKEN_ID token_list
+    (12) rule_statment -> . ID COLON rules SEMI
+
+    TOKEN_ID        shift and go to state 6
+    ID              shift and go to state 7
+
+
+    token_statments                shift and go to state 1
+    token_statment                 shift and go to state 2
+    rule_statments                 shift and go to state 3
+    program                        shift and go to state 4
+    rule_statment                  shift and go to state 5
+
+state 1
+
+    (1) program -> token_statments . start_statment rule_statments end_statment
+    (4) token_statments -> token_statments . token_statment
+    (8) start_statment -> . YACC_START ID BLOCK
+    (5) token_statment -> . TOKEN_ID token_list
+
+    YACC_START      shift and go to state 8
+    TOKEN_ID        shift and go to state 6
+
+
+    token_statment                 shift and go to state 9
+    start_statment                 shift and go to state 10
+
+state 2
+
+    (3) token_statments -> token_statment .
+
+    YACC_START      reduce using rule 3 (token_statments -> token_statment .)
+    TOKEN_ID        reduce using rule 3 (token_statments -> token_statment .)
+
+
+
+state 3
+
+    (2) program -> rule_statments .
+    (11) rule_statments -> rule_statments . rule_statment
+    (12) rule_statment -> . ID COLON rules SEMI
+
+    $end            reduce using rule 2 (program -> rule_statments .)
+    ID              shift and go to state 7
+
+
+    rule_statment                  shift and go to state 11
+
+state 4
+
+    (0) S' -> program .
+
+
+
+
+state 5
+
+    (10) rule_statments -> rule_statment .
+
+    ID              reduce using rule 10 (rule_statments -> rule_statment .)
+    $end            reduce using rule 10 (rule_statments -> rule_statment .)
+    BLOCK           reduce using rule 10 (rule_statments -> rule_statment .)
+
+
+
+state 6
+
+    (5) token_statment -> TOKEN_ID . token_list
+    (6) token_list -> . ID
+    (7) token_list -> . token_list ID
+
+    ID              shift and go to state 13
+
+
+    token_list                     shift and go to state 12
+
+state 7
+
+    (12) rule_statment -> ID . COLON rules SEMI
+
+    COLON           shift and go to state 14
+
+
+
+state 8
+
+    (8) start_statment -> YACC_START . ID BLOCK
+
+    ID              shift and go to state 15
+
+
+
+state 9
+
+    (4) token_statments -> token_statments token_statment .
+
+    YACC_START      reduce using rule 4 (token_statments -> token_statments token_statment .)
+    TOKEN_ID        reduce using rule 4 (token_statments -> token_statments token_statment .)
+
+
+
+state 10
+
+    (1) program -> token_statments start_statment . rule_statments end_statment
+    (10) rule_statments -> . rule_statment
+    (11) rule_statments -> . rule_statments rule_statment
+    (12) rule_statment -> . ID COLON rules SEMI
+
+    ID              shift and go to state 7
+
+
+    rule_statments                 shift and go to state 16
+    rule_statment                  shift and go to state 5
+
+state 11
+
+    (11) rule_statments -> rule_statments rule_statment .
+
+    ID              reduce using rule 11 (rule_statments -> rule_statments rule_statment .)
+    $end            reduce using rule 11 (rule_statments -> rule_statments rule_statment .)
+    BLOCK           reduce using rule 11 (rule_statments -> rule_statments rule_statment .)
+
+
+
+state 12
+
+    (5) token_statment -> TOKEN_ID token_list .
+    (7) token_list -> token_list . ID
+
+    YACC_START      reduce using rule 5 (token_statment -> TOKEN_ID token_list .)
+    TOKEN_ID        reduce using rule 5 (token_statment -> TOKEN_ID token_list .)
+    ID              shift and go to state 17
+
+
+
+state 13
+
+    (6) token_list -> ID .
+
+    ID              reduce using rule 6 (token_list -> ID .)
+    YACC_START      reduce using rule 6 (token_list -> ID .)
+    TOKEN_ID        reduce using rule 6 (token_list -> ID .)
+
+
+
+state 14
+
+    (12) rule_statment -> ID COLON . rules SEMI
+    (13) rules -> . rule
+    (14) rules -> . rules VERTICAL rule
+    (15) rule -> . rule_token
+    (16) rule -> . rule rule_token
+    (17) rule -> . rule LPAREN rule_token RPAREN
+    (18) rule_token -> . ID
+    (19) rule_token -> . rule_symbol
+    (20) rule_symbol -> . APOSTROPHE rule_spe_symbol APOSTROPHE
+
+    ID              shift and go to state 23
+    APOSTROPHE      shift and go to state 22
+
+
+    rules                          shift and go to state 18
+    rule_token                     shift and go to state 19
+    rule_symbol                    shift and go to state 21
+    rule                           shift and go to state 20
+
+state 15
+
+    (8) start_statment -> YACC_START ID . BLOCK
+
+    BLOCK           shift and go to state 24
+
+
+
+state 16
+
+    (1) program -> token_statments start_statment rule_statments . end_statment
+    (11) rule_statments -> rule_statments . rule_statment
+    (9) end_statment -> . BLOCK
+    (12) rule_statment -> . ID COLON rules SEMI
+
+    BLOCK           shift and go to state 26
+    ID              shift and go to state 7
+
+
+    end_statment                   shift and go to state 25
+    rule_statment                  shift and go to state 11
+
+state 17
+
+    (7) token_list -> token_list ID .
+
+    ID              reduce using rule 7 (token_list -> token_list ID .)
+    YACC_START      reduce using rule 7 (token_list -> token_list ID .)
+    TOKEN_ID        reduce using rule 7 (token_list -> token_list ID .)
+
+
+
+state 18
+
+    (12) rule_statment -> ID COLON rules . SEMI
+    (14) rules -> rules . VERTICAL rule
+
+    SEMI            shift and go to state 27
+    VERTICAL        shift and go to state 28
+
+
+
+state 19
+
+    (15) rule -> rule_token .
+
+    LPAREN          reduce using rule 15 (rule -> rule_token .)
+    ID              reduce using rule 15 (rule -> rule_token .)
+    APOSTROPHE      reduce using rule 15 (rule -> rule_token .)
+    SEMI            reduce using rule 15 (rule -> rule_token .)
+    VERTICAL        reduce using rule 15 (rule -> rule_token .)
+
+
+
+state 20
+
+    (13) rules -> rule .
+    (16) rule -> rule . rule_token
+    (17) rule -> rule . LPAREN rule_token RPAREN
+    (18) rule_token -> . ID
+    (19) rule_token -> . rule_symbol
+    (20) rule_symbol -> . APOSTROPHE rule_spe_symbol APOSTROPHE
+
+    SEMI            reduce using rule 13 (rules -> rule .)
+    VERTICAL        reduce using rule 13 (rules -> rule .)
+    LPAREN          shift and go to state 29
+    ID              shift and go to state 23
+    APOSTROPHE      shift and go to state 22
+
+
+    rule_token                     shift and go to state 30
+    rule_symbol                    shift and go to state 21
+
+state 21
+
+    (19) rule_token -> rule_symbol .
+
+    RPAREN          reduce using rule 19 (rule_token -> rule_symbol .)
+    LPAREN          reduce using rule 19 (rule_token -> rule_symbol .)
+    ID              reduce using rule 19 (rule_token -> rule_symbol .)
+    APOSTROPHE      reduce using rule 19 (rule_token -> rule_symbol .)
+    SEMI            reduce using rule 19 (rule_token -> rule_symbol .)
+    VERTICAL        reduce using rule 19 (rule_token -> rule_symbol .)
+
+
+
+state 22
+
+    (20) rule_symbol -> APOSTROPHE . rule_spe_symbol APOSTROPHE
+    (21) rule_spe_symbol -> . VERTICAL
+    (22) rule_spe_symbol -> . PLUS
+    (23) rule_spe_symbol -> . EQUALS
+    (24) rule_spe_symbol -> . LPAREN
+    (25) rule_spe_symbol -> . RPAREN
+    (26) rule_spe_symbol -> . BLPAREN
+    (27) rule_spe_symbol -> . BRPAREN
+    (28) rule_spe_symbol -> . DOT
+    (29) rule_spe_symbol -> . SEMI
+    (30) rule_spe_symbol -> . FLPAREN
+    (31) rule_spe_symbol -> . FRPAREN
+    (32) rule_spe_symbol -> . COLON
+    (33) rule_spe_symbol -> . COMMA
+    (34) rule_spe_symbol -> . QUES
+    (35) rule_spe_symbol -> . TILDE
+    (36) rule_spe_symbol -> . AT
+    (37) rule_spe_symbol -> . LESS
+    (38) rule_spe_symbol -> . MORE
+    (39) rule_spe_symbol -> . MULT
+    (40) rule_spe_symbol -> . DASH
+    (41) rule_spe_symbol -> . EXCLAMATION
+    (42) rule_spe_symbol -> . SLASH
+    (43) rule_spe_symbol -> . PERCENT
+    (44) rule_spe_symbol -> . AND
+    (45) rule_spe_symbol -> . CARET
+    (46) rule_spe_symbol -> . ID
+
+    VERTICAL        shift and go to state 46
+    PLUS            shift and go to state 38
+    EQUALS          shift and go to state 48
+    LPAREN          shift and go to state 51
+    RPAREN          shift and go to state 36
+    BLPAREN         shift and go to state 56
+    BRPAREN         shift and go to state 45
+    DOT             shift and go to state 42
+    SEMI            shift and go to state 37
+    FLPAREN         shift and go to state 39
+    FRPAREN         shift and go to state 52
+    COLON           shift and go to state 41
+    COMMA           shift and go to state 44
+    QUES            shift and go to state 55
+    TILDE           shift and go to state 43
+    AT              shift and go to state 50
+    LESS            shift and go to state 34
+    MORE            shift and go to state 57
+    MULT            shift and go to state 35
+    DASH            shift and go to state 49
+    EXCLAMATION     shift and go to state 31
+    SLASH           shift and go to state 33
+    PERCENT         shift and go to state 47
+    AND             shift and go to state 54
+    CARET           shift and go to state 32
+    ID              shift and go to state 53
+
+
+    rule_spe_symbol                shift and go to state 40
+
+state 23
+
+    (18) rule_token -> ID .
+
+    RPAREN          reduce using rule 18 (rule_token -> ID .)
+    LPAREN          reduce using rule 18 (rule_token -> ID .)
+    ID              reduce using rule 18 (rule_token -> ID .)
+    APOSTROPHE      reduce using rule 18 (rule_token -> ID .)
+    SEMI            reduce using rule 18 (rule_token -> ID .)
+    VERTICAL        reduce using rule 18 (rule_token -> ID .)
+
+
+
+state 24
+
+    (8) start_statment -> YACC_START ID BLOCK .
+
+    ID              reduce using rule 8 (start_statment -> YACC_START ID BLOCK .)
+
+
+
+state 25
+
+    (1) program -> token_statments start_statment rule_statments end_statment .
+
+    $end            reduce using rule 1 (program -> token_statments start_statment rule_statments end_statment .)
+
+
+
+state 26
+
+    (9) end_statment -> BLOCK .
+
+    $end            reduce using rule 9 (end_statment -> BLOCK .)
+
+
+
+state 27
+
+    (12) rule_statment -> ID COLON rules SEMI .
+
+    ID              reduce using rule 12 (rule_statment -> ID COLON rules SEMI .)
+    $end            reduce using rule 12 (rule_statment -> ID COLON rules SEMI .)
+    BLOCK           reduce using rule 12 (rule_statment -> ID COLON rules SEMI .)
+
+
+
+state 28
+
+    (14) rules -> rules VERTICAL . rule
+    (15) rule -> . rule_token
+    (16) rule -> . rule rule_token
+    (17) rule -> . rule LPAREN rule_token RPAREN
+    (18) rule_token -> . ID
+    (19) rule_token -> . rule_symbol
+    (20) rule_symbol -> . APOSTROPHE rule_spe_symbol APOSTROPHE
+
+    ID              shift and go to state 23
+    APOSTROPHE      shift and go to state 22
+
+
+    rule_token                     shift and go to state 19
+    rule_symbol                    shift and go to state 21
+    rule                           shift and go to state 58
+
+state 29
+
+    (17) rule -> rule LPAREN . rule_token RPAREN
+    (18) rule_token -> . ID
+    (19) rule_token -> . rule_symbol
+    (20) rule_symbol -> . APOSTROPHE rule_spe_symbol APOSTROPHE
+
+    ID              shift and go to state 23
+    APOSTROPHE      shift and go to state 22
+
+
+    rule_token                     shift and go to state 59
+    rule_symbol                    shift and go to state 21
+
+state 30
+
+    (16) rule -> rule rule_token .
+
+    LPAREN          reduce using rule 16 (rule -> rule rule_token .)
+    ID              reduce using rule 16 (rule -> rule rule_token .)
+    APOSTROPHE      reduce using rule 16 (rule -> rule rule_token .)
+    SEMI            reduce using rule 16 (rule -> rule rule_token .)
+    VERTICAL        reduce using rule 16 (rule -> rule rule_token .)
+
+
+
+state 31
+
+    (41) rule_spe_symbol -> EXCLAMATION .
+
+    APOSTROPHE      reduce using rule 41 (rule_spe_symbol -> EXCLAMATION .)
+
+
+
+state 32
+
+    (45) rule_spe_symbol -> CARET .
+
+    APOSTROPHE      reduce using rule 45 (rule_spe_symbol -> CARET .)
+
+
+
+state 33
+
+    (42) rule_spe_symbol -> SLASH .
+
+    APOSTROPHE      reduce using rule 42 (rule_spe_symbol -> SLASH .)
+
+
+
+state 34
+
+    (37) rule_spe_symbol -> LESS .
+
+    APOSTROPHE      reduce using rule 37 (rule_spe_symbol -> LESS .)
+
+
+
+state 35
+
+    (39) rule_spe_symbol -> MULT .
+
+    APOSTROPHE      reduce using rule 39 (rule_spe_symbol -> MULT .)
+
+
+
+state 36
+
+    (25) rule_spe_symbol -> RPAREN .
+
+    APOSTROPHE      reduce using rule 25 (rule_spe_symbol -> RPAREN .)
+
+
+
+state 37
+
+    (29) rule_spe_symbol -> SEMI .
+
+    APOSTROPHE      reduce using rule 29 (rule_spe_symbol -> SEMI .)
+
+
+
+state 38
+
+    (22) rule_spe_symbol -> PLUS .
+
+    APOSTROPHE      reduce using rule 22 (rule_spe_symbol -> PLUS .)
+
+
+
+state 39
+
+    (30) rule_spe_symbol -> FLPAREN .
+
+    APOSTROPHE      reduce using rule 30 (rule_spe_symbol -> FLPAREN .)
+
+
+
+state 40
+
+    (20) rule_symbol -> APOSTROPHE rule_spe_symbol . APOSTROPHE
+
+    APOSTROPHE      shift and go to state 60
+
+
+
+state 41
+
+    (32) rule_spe_symbol -> COLON .
+
+    APOSTROPHE      reduce using rule 32 (rule_spe_symbol -> COLON .)
+
+
+
+state 42
+
+    (28) rule_spe_symbol -> DOT .
+
+    APOSTROPHE      reduce using rule 28 (rule_spe_symbol -> DOT .)
+
+
+
+state 43
+
+    (35) rule_spe_symbol -> TILDE .
+
+    APOSTROPHE      reduce using rule 35 (rule_spe_symbol -> TILDE .)
+
+
+
+state 44
+
+    (33) rule_spe_symbol -> COMMA .
+
+    APOSTROPHE      reduce using rule 33 (rule_spe_symbol -> COMMA .)
+
+
+
+state 45
+
+    (27) rule_spe_symbol -> BRPAREN .
+
+    APOSTROPHE      reduce using rule 27 (rule_spe_symbol -> BRPAREN .)
+
+
+
+state 46
+
+    (21) rule_spe_symbol -> VERTICAL .
+
+    APOSTROPHE      reduce using rule 21 (rule_spe_symbol -> VERTICAL .)
+
+
+
+state 47
+
+    (43) rule_spe_symbol -> PERCENT .
+
+    APOSTROPHE      reduce using rule 43 (rule_spe_symbol -> PERCENT .)
+
+
+
+state 48
+
+    (23) rule_spe_symbol -> EQUALS .
+
+    APOSTROPHE      reduce using rule 23 (rule_spe_symbol -> EQUALS .)
+
+
+
+state 49
+
+    (40) rule_spe_symbol -> DASH .
+
+    APOSTROPHE      reduce using rule 40 (rule_spe_symbol -> DASH .)
+
+
+
+state 50
+
+    (36) rule_spe_symbol -> AT .
+
+    APOSTROPHE      reduce using rule 36 (rule_spe_symbol -> AT .)
+
+
+
+state 51
+
+    (24) rule_spe_symbol -> LPAREN .
+
+    APOSTROPHE      reduce using rule 24 (rule_spe_symbol -> LPAREN .)
+
+
+
+state 52
+
+    (31) rule_spe_symbol -> FRPAREN .
+
+    APOSTROPHE      reduce using rule 31 (rule_spe_symbol -> FRPAREN .)
+
+
+
+state 53
+
+    (46) rule_spe_symbol -> ID .
+
+    APOSTROPHE      reduce using rule 46 (rule_spe_symbol -> ID .)
+
+
+
+state 54
+
+    (44) rule_spe_symbol -> AND .
+
+    APOSTROPHE      reduce using rule 44 (rule_spe_symbol -> AND .)
+
+
+
+state 55
+
+    (34) rule_spe_symbol -> QUES .
+
+    APOSTROPHE      reduce using rule 34 (rule_spe_symbol -> QUES .)
+
+
+
+state 56
+
+    (26) rule_spe_symbol -> BLPAREN .
+
+    APOSTROPHE      reduce using rule 26 (rule_spe_symbol -> BLPAREN .)
+
+
+
+state 57
+
+    (38) rule_spe_symbol -> MORE .
+
+    APOSTROPHE      reduce using rule 38 (rule_spe_symbol -> MORE .)
+
+
+
+state 58
+
+    (14) rules -> rules VERTICAL rule .
+    (16) rule -> rule . rule_token
+    (17) rule -> rule . LPAREN rule_token RPAREN
+    (18) rule_token -> . ID
+    (19) rule_token -> . rule_symbol
+    (20) rule_symbol -> . APOSTROPHE rule_spe_symbol APOSTROPHE
+
+    SEMI            reduce using rule 14 (rules -> rules VERTICAL rule .)
+    VERTICAL        reduce using rule 14 (rules -> rules VERTICAL rule .)
+    LPAREN          shift and go to state 29
+    ID              shift and go to state 23
+    APOSTROPHE      shift and go to state 22
+
+
+    rule_token                     shift and go to state 30
+    rule_symbol                    shift and go to state 21
+
+state 59
+
+    (17) rule -> rule LPAREN rule_token . RPAREN
+
+    RPAREN          shift and go to state 61
+
+
+
+state 60
+
+    (20) rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .
+
+    LPAREN          reduce using rule 20 (rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .)
+    ID              reduce using rule 20 (rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .)
+    APOSTROPHE      reduce using rule 20 (rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .)
+    SEMI            reduce using rule 20 (rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .)
+    VERTICAL        reduce using rule 20 (rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .)
+    RPAREN          reduce using rule 20 (rule_symbol -> APOSTROPHE rule_spe_symbol APOSTROPHE .)
+
+
+
+state 61
+
+    (17) rule -> rule LPAREN rule_token RPAREN .
+
+    LPAREN          reduce using rule 17 (rule -> rule LPAREN rule_token RPAREN .)
+    ID              reduce using rule 17 (rule -> rule LPAREN rule_token RPAREN .)
+    APOSTROPHE      reduce using rule 17 (rule -> rule LPAREN rule_token RPAREN .)
+    SEMI            reduce using rule 17 (rule -> rule LPAREN rule_token RPAREN .)
+    VERTICAL        reduce using rule 17 (rule -> rule LPAREN rule_token RPAREN .)
+
+

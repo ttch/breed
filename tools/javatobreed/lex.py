@@ -11,6 +11,7 @@ keywords = {
 	'import'				:'IMPORT',
 	'private'				:'PRIVATE',
 	'throws'				:'THROWS',
+	'throw'					:'THROW',
 	'break'					:'BREAK',
 	'else'					:'ELSE',
 	'inner'					:'INNER',
@@ -56,16 +57,28 @@ keywords = {
 	'default'				:'DEFAULT',
 	'if'					:'IF',
 	'outer'					:'OUTER',
-	'this'					:'THIS'
+	'this'					:'THIS',
+	'package'				:'PACKAGE',
+	'abstract'				:'ABSTRACT',
+	'boolean'				:'BOOLEAN',
+	'implements'			:'IMPLEMENTS',
+	'do'					:'DO',
+	'enum'					:'ENUM',
+	'strictfp'				:'STRICTFP',
+	'assert'				:'ASSERT',
+	'true'					:'TRUE',
+	'false'					:'FALSE'
 }
 
 
 tokens = [
 	'MCOMMENT','LCOMMENT',
-	'NUMBER','ID',
+	'IDENTIFIER',
 	'OP_EQ', 'OP_LE', 'OP_GE', 'OP_NE', 
 	'OP_LOR', 'OP_LAND', 'OP_INC', 'OP_DEC',
-	'OP_SHR', 'OP_SHL', 'OP_SHRR', 'ASS_ADD',
+	'OP_SHR', 'OP_SHL', 'OP_SHRR','OP_ARRAY',
+	
+	'ASS_ADD',
 	'ASS_SUB', 'ASS_MUL', 'ASS_DIV', 'ASS_AND',
 	'ASS_OR', 'ASS_XOR', 'ASS_MOD', 'ASS_SHL',
 	'ASS_SHR', 'ASS_SHRR', 'NEWLINE',
@@ -73,7 +86,16 @@ tokens = [
 	'PLUS','EQUALS','LPAREN','RPAREN',
 	'BLPAREN','BRPAREN','DOT','SEMI',
 	'FLPAREN','FRPAREN','COLON','COMMA',
-	'QUES','TILDE','AT','LESS','MORE'
+	'QUES','TILDE','AT','LESS','MORE',
+	'MULT','DASH','AND','SLASH','EXCLAMATION',
+	'VERTICAL','CARET','PERCENT',
+
+	'CHARLITERAL','STRINGLITERAL',
+
+	'NUMBER','HEX_NUMBER',
+	'LONG_NUMBER' , 'LONG_HEX_NUMBER'
+	'NON_INTEGER_1' , 'NON_INTEGER_2' , 'NON_INTEGER_3'
+
 ]+ keywords.values()
 
 
@@ -94,6 +116,15 @@ t_TILDE = r'\~'
 t_AT = r'@'
 t_LESS = r'<'
 t_MORE = r'>'
+t_MULT = r'\*'
+t_DASH = r'\-'
+t_AND = r'\&'
+t_SLASH = r'\/'
+t_EXCLAMATION = r'\!'
+t_VERTICAL = r'\|'
+t_CARET = r'\^'
+t_PERCENT = r'\%'
+
 
 t_ignore = ' \t\r'
 
@@ -108,18 +139,44 @@ def t_LCOMMENT( t ):
 def t_NUMBER(t):
 	r'([0123456789])+'
 	return t
-#def t_HEX_NUMBER(t):
-#	r'[0]([x]|[X])1([0123456789])+'
-#	return t
-
-#def t_literal ( t ):
 
 
-def t_ID(t):
+def t_CHARLITERAL(t):
+	r'(L)?\'([^\\\n]|(\\.))*?\''
+	return t
+
+def t_STRINGLITERAL(t):
+	r'\"([^\\\n]|(\\.))*?\"'
+	return t
+
+def t_HEX_NUMBER(t):
+	r'[0][x|X][0-9a-fA-F]+'
+	return t
+
+def t_LONG_NUMBER(t):
+	r'([0123456789])+[l|L]'
+	return t
+
+def t_LONG_HEX_NUMBER(t):
+	r'[0][x|X][0-9a-fA-F]+[l|L]'
+	return t
+
+def t_IDENTIFIER(t):
 	r'[A-Za-z_][\w_]*'
 	t.type = keywords.get(t.value,'ID')
 	return t
 
+def t_NON_INTEGER_1(t):
+	r'[0-9]+[.][0-9]+[e|E]?[\+|\-]?[0-9]*'
+	return t
+
+def t_NOT_INTEGER_2(t):
+	r'[.]|[0-9]+[e|E]?[\+|\-]?[0-9]*'
+	return t
+
+def t_NOT_INTEGER_3(t):
+	r'[0-9]+'
+	return t
 
 t_OP_EQ		=	r'=='
 t_OP_LE		=	r'<='
@@ -132,6 +189,7 @@ t_OP_DEC	=	r'--'
 t_OP_SHR	=	r'>>'
 t_OP_SHL	=	r'<<'
 t_OP_SHRR	=	r'\>\>\>'
+t_OP_ARRAY  =   r'...'
 
 t_ASS_ADD	=	r'\+='
 t_ASS_SUB	=	r'-='
@@ -144,6 +202,7 @@ t_ASS_MOD		=	r"%="
 t_ASS_SHL		=	r"\<\<\="
 t_ASS_SHR		=	r"\>\>\="
 t_ASS_SHRR		=	r"\>\>\>\="
+
 
 
 

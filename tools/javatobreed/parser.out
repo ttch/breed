@@ -1,0 +1,225 @@
+
+
+Unused terminals:
+
+   LESS
+   GENERIC
+   VOID
+   PROTECTED
+   BYTE
+   ASS_DIV
+   OP_NE
+   RPAREN
+   NEWLINE
+   LONG
+   DEFAULT
+   PLUS
+   ASS_AND
+   IMPORT
+   ASS_ADD
+   GOTO
+   EXTENDS
+   VAR
+   OP_EQ
+   THIS
+   DOUBLE
+   WHILE
+   THROWS
+   QUES
+   FUTURE
+   INTERFACE
+   LCOMMENT
+   RETURN
+   SYNCHRONIZED
+   STATIC
+   FINAL
+   TRANSIENT
+   COLON
+   ASS_XOR
+   FOR
+   EQUALS
+   ELSE
+   TRY
+   ASS_SHRR
+   REST
+   OPERATOR
+   FRPAREN
+   INSTANCEOF
+   INT
+   CONTINUE
+   BLPAREN
+   INNER
+   SHORT
+   OP_LAND
+   CHAR
+   OP_INC
+   ASS_OR
+   OP_DEC
+   NEW
+   DOT
+   NATIVE
+   CASE
+   FLPAREN
+   MCOMMENT
+   OP_LOR
+   CAST
+   SWITCH
+   TILDE
+   CATCH
+   ASS_SHR
+   ASS_MOD
+   ASS_SHL
+   BREAK
+   VOLATILE
+   PUBLIC
+   MORE
+   CONST
+   NUMBER
+   OUTER
+   NULL
+   OP_LE
+   SEMI
+   PRIVATE
+   COMMA
+   CLASS
+   BRPAREN
+   OP_SHRR
+   OP_SHR
+   OP_SHL
+   FINALLY
+   AT
+   LPAREN
+   ASS_SUB
+   ID
+   IF
+   FLOAT
+   OP_GE
+   ASS_MUL
+   SUPER
+
+Grammar
+
+Rule 1     empty -> <empty>
+
+Terminals, with rules where they appear
+
+ASS_ADD              : 
+ASS_AND              : 
+ASS_DIV              : 
+ASS_MOD              : 
+ASS_MUL              : 
+ASS_OR               : 
+ASS_SHL              : 
+ASS_SHR              : 
+ASS_SHRR             : 
+ASS_SUB              : 
+ASS_XOR              : 
+AT                   : 
+BLPAREN              : 
+BREAK                : 
+BRPAREN              : 
+BYTE                 : 
+CASE                 : 
+CAST                 : 
+CATCH                : 
+CHAR                 : 
+CLASS                : 
+COLON                : 
+COMMA                : 
+CONST                : 
+CONTINUE             : 
+DEFAULT              : 
+DOT                  : 
+DOUBLE               : 
+ELSE                 : 
+EQUALS               : 
+EXTENDS              : 
+FINAL                : 
+FINALLY              : 
+FLOAT                : 
+FLPAREN              : 
+FOR                  : 
+FRPAREN              : 
+FUTURE               : 
+GENERIC              : 
+GOTO                 : 
+ID                   : 
+IF                   : 
+IMPORT               : 
+INNER                : 
+INSTANCEOF           : 
+INT                  : 
+INTERFACE            : 
+LCOMMENT             : 
+LESS                 : 
+LONG                 : 
+LPAREN               : 
+MCOMMENT             : 
+MORE                 : 
+NATIVE               : 
+NEW                  : 
+NEWLINE              : 
+NULL                 : 
+NUMBER               : 
+OPERATOR             : 
+OP_DEC               : 
+OP_EQ                : 
+OP_GE                : 
+OP_INC               : 
+OP_LAND              : 
+OP_LE                : 
+OP_LOR               : 
+OP_NE                : 
+OP_SHL               : 
+OP_SHR               : 
+OP_SHRR              : 
+OUTER                : 
+PLUS                 : 
+PRIVATE              : 
+PROTECTED            : 
+PUBLIC               : 
+QUES                 : 
+REST                 : 
+RETURN               : 
+RPAREN               : 
+SEMI                 : 
+SHORT                : 
+STATIC               : 
+SUPER                : 
+SWITCH               : 
+SYNCHRONIZED         : 
+THIS                 : 
+THROWS               : 
+TILDE                : 
+TRANSIENT            : 
+TRY                  : 
+VAR                  : 
+VOID                 : 
+VOLATILE             : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+empty                : 0
+
+
+Parsing method: LALR
+
+
+state 0
+
+    (0) S' -> . empty
+    (1) empty -> .
+
+    $end            reduce using rule 1 (empty -> .)
+
+
+    empty                          shift and go to state 1
+
+state 1
+
+    (0) S' -> empty .
+
+
+
