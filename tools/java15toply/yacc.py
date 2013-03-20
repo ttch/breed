@@ -21,7 +21,7 @@ class expr:
 	def __repr__(self):
 		return "expr:%s" % (str(self.t))
 	def __radd__(self, other):
-		return self.t + other
+		return other + self.t
 	def process_plus(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '+':
 			new_label = inc_number()
@@ -37,6 +37,7 @@ class expr:
 			new_label = inc_number()
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
 						[ '|' , new_label ] + self.t[1:-2] + [ '|' ,'empty' ]
+			print new_expr
 			extends.append( new_expr )
 			self.t = [ new_label ]
 	def process_ques(self):
@@ -45,7 +46,7 @@ class expr:
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
 						[ '|' , 'empty' ]
 			extends.append( new_expr )
-			self.t = [ new_label ]	
+			self.t = [ new_label ]
 	
 	def process(self):
 		for x in self.t:
@@ -65,10 +66,14 @@ class expr:
 			elif self.t[-2] == ')' :
 				flag = True
 			if flag == True:
-				new_label = inc_number()
-				new_expr = [ new_label , ':' ] + self.t[1:-2]
-				extends.append( new_expr )
-				self.t = [ new_label ]
+				flag = False
+				for x in self.t :
+					if x == '|': flag = True
+				if flag == True:
+					new_label = inc_number()
+					new_expr = [ new_label , ':' ] + self.t[1:-2]
+					extends.append( new_expr )
+					self.t = [ new_label ]	
 			else:
 				new_label = inc_number()
 				new_expr = [ new_label , ':' ] + self.t[1:-1]
@@ -112,6 +117,7 @@ def p_grammar_statment( p ):
 def p_options_statment( p ):
 	'''
 		options_statment : OPTIONS BLPAREN option_statments BRPAREN
+						| empty
 	'''
 	pass
 
@@ -152,8 +158,9 @@ def p_rules( p ):
 			| rules rule
 	'''
 	if len(p) == 2:
-		rule.append(p[1])
+		rule.appendleft(p[1])
 	if p[0] == None : p[0] = []
+	
 	p[0] = p[0] + p[1]
 
 def p_rule( p ):
@@ -170,6 +177,7 @@ def p_rule( p ):
 		p[0] =  p[1] + p[2]
 	if len(p) == 4:
 		p[0] = p[1] +  [ p[2] ] + p[3]
+
 def p_expr( p ):
 	'''
 		expr : ptoken
@@ -207,6 +215,8 @@ def p_s_expr( p ):
 
 			if p[0] == None : p[0] = []
 			p[0] = expr(  p[0] + p[1] + p[2] )
+
+			#operator
 			if p[2] in [["?"],["+"],["*"]] :
 				p[0].process_no()
 
@@ -313,6 +323,34 @@ tokens = lex.tokens
 		sf.write( "\tpass\n" )
 		sf.write( "\n" )
 	sf.write("""
+
+def p_INTLITERAL(p):
+	'''
+		INTLITERAL : NUMBER 
+					| HEX_NUMBER
+	'''
+	pass
+def p_LONGLITERAL(p):
+	'''
+		LONGLITERAL : LONG_NUMBER 
+					| LONG_HEX_NUMBER
+	'''
+	pass
+def p_FLOATLITERAL( p ):
+	'''
+		FLOATLITERAL : NON_INTEGER_1
+					| NON_INTEGER_2
+					| NON_INTEGER_3
+	'''
+	pass
+def p_DOUBLELITERAL( p ):
+	'''
+		DOUBLELITERAL : NON_INTEGER_1
+					| NON_INTEGER_2
+					| NON_INTEGER_3
+	'''
+	pass
+
 	#### Empty
    
 def p_empty( p ):

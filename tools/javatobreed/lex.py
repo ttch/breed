@@ -93,7 +93,7 @@ tokens = [
 	'CHARLITERAL','STRINGLITERAL',
 
 	'NUMBER','HEX_NUMBER',
-	'LONG_NUMBER' , 'LONG_HEX_NUMBER'
+	'LONG_NUMBER' , 'LONG_HEX_NUMBER',
 	'NON_INTEGER_1' , 'NON_INTEGER_2' , 'NON_INTEGER_3'
 
 ]+ keywords.values()
@@ -163,18 +163,18 @@ def t_LONG_HEX_NUMBER(t):
 
 def t_IDENTIFIER(t):
 	r'[A-Za-z_][\w_]*'
-	t.type = keywords.get(t.value,'ID')
+	#t.type = keywords.get(t.value,'ID')
 	return t
 
 def t_NON_INTEGER_1(t):
 	r'[0-9]+[.][0-9]+[e|E]?[\+|\-]?[0-9]*'
 	return t
 
-def t_NOT_INTEGER_2(t):
-	r'[.]|[0-9]+[e|E]?[\+|\-]?[0-9]*'
+def t_NON_INTEGER_2(t):
+	r'[.][0-9]+[e|E]?[\+|\-]?[0-9]*'
 	return t
 
-def t_NOT_INTEGER_3(t):
+def t_NON_INTEGER_3(t):
 	r'[0-9]+'
 	return t
 
@@ -189,7 +189,7 @@ t_OP_DEC	=	r'--'
 t_OP_SHR	=	r'>>'
 t_OP_SHL	=	r'<<'
 t_OP_SHRR	=	r'\>\>\>'
-t_OP_ARRAY  =   r'...'
+t_OP_ARRAY  =   r'\.\.\.'
 
 t_ASS_ADD	=	r'\+='
 t_ASS_SUB	=	r'-='

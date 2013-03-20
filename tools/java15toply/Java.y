@@ -327,11 +327,6 @@ importDeclaration
         ';'
     ;
 
-qualifiedImportName 
-    :   IDENTIFIER
-        ('.' IDENTIFIER
-        )*
-    ;
 
 typeDeclaration 
     :   classOrInterfaceDeclaration
@@ -1240,41 +1235,4 @@ literal
     |   FALSE
     |   NULL
     ;
-
-/**
- * These are headers help to make syntatical predicates, not necessary but helps to make grammar faster.
- */
- 
-classHeader 
-    :   modifiers 'class' IDENTIFIER
-    ;
-
-enumHeader 
-    :   modifiers ('enum'|IDENTIFIER) IDENTIFIER
-    ;
-
-interfaceHeader 
-    :   modifiers 'interface' IDENTIFIER
-    ;
-
-annotationHeader 
-    :   modifiers '@' 'interface' IDENTIFIER
-    ;
-
-typeHeader 
-    :   modifiers ('class'|'enum'|('@' ? 'interface')) IDENTIFIER
-    ;
-
-methodHeader 
-    :   modifiers typeParameters? (type|'void')? IDENTIFIER '('
-    ;
-
-fieldHeader 
-    :   modifiers type IDENTIFIER ('['']')* ('='|','|';')
-    ;
-
-localVariableHeader 
-    :   variableModifiers type IDENTIFIER ('['']')* ('='|','|';')
-    ;
-
 
