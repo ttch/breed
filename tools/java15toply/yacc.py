@@ -10,6 +10,7 @@ rules = deque()
 rule = deque()
 
 extends = deque()
+keys = []
 
 Number = -1
 
@@ -22,13 +23,25 @@ class expr:
 		return "expr:%s" % (str(self.t))
 	def __radd__(self, other):
 		return other + self.t
+	def add_extends( self, key ,new_expr ):
+		global Number
+		if key not in keys:
+			extends.append(new_expr)
+			keys.append(key)
+			return True
+		else:
+			Number = Number-1
+			return "expr_%d" % (keys.index(key))
 	def process_plus(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '+':
 			new_label = inc_number()
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
 						[ '|' , new_label ] + self.t[1:-2 ]
-			extends.append( new_expr )
-			self.t = [ new_label ]
+			key = self.add_extends( self.t[1:-2] , new_expr )
+			if key == True:
+				self.t = [ new_label ]
+			else:
+				self.t = [ key ]
 		else:
 			pass
 		return self
@@ -37,16 +50,21 @@ class expr:
 			new_label = inc_number()
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
 						[ '|' , new_label ] + self.t[1:-2] + [ '|' ,'empty' ]
-			print new_expr
-			extends.append( new_expr )
-			self.t = [ new_label ]
+			key = self.add_extends( self.t[1:-2] , new_expr )
+			if key == True:
+				self.t = [ new_label ]
+			else:
+				self.t = [ key ]
 	def process_ques(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '?':
 			new_label = inc_number()
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
 						[ '|' , 'empty' ]
-			extends.append( new_expr )
-			self.t = [ new_label ]
+			key = self.add_extends( self.t[1:-2] , new_expr )
+			if key == True:
+				self.t = [ new_label ]
+			else:
+				self.t = [ key ]
 	
 	def process(self):
 		for x in self.t:
@@ -72,20 +90,32 @@ class expr:
 				if flag == True:
 					new_label = inc_number()
 					new_expr = [ new_label , ':' ] + self.t[1:-2]
-					extends.append( new_expr )
-					self.t = [ new_label ]	
+
+					key = self.add_extends( self.t[1:-2] , new_expr )
+					if key == True:
+						self.t = [ new_label ]
+					else:
+						self.t = [ key ]
 			else:
 				new_label = inc_number()
 				new_expr = [ new_label , ':' ] + self.t[1:-1]
-				extends.append( new_expr )
-				self.t = [ new_label ]
+
+				key = self.add_extends( self.t[1:-1] , new_expr )
+				if key == True:
+					self.t = [ new_label ]
+				else:
+					self.t = [ key ]
 	def process_no(self):
 		for x in self.t:
 			if x == '?':
 				new_label = inc_number()
 				new_expr =  [ new_label , ':'] + [ self.t[0] ] + [ '|' , 'empty' ]
-				extends.append( new_expr )
-				self.t = [ new_label ]
+
+				key = self.add_extends( self.t[0] , new_expr )
+				if key == True:
+					self.t = [ new_label ]
+				else:
+					self.t = [ key ]
 				break
 			elif x == '+':
 				pass
@@ -294,6 +324,7 @@ from collections import deque
 tokens = lex.tokens
 """)
 	for x in  rules:
+		if x[0] == 'integerLiteral': continue
 		sf.write( 'def p_%s(p):' % x[0] )
 		sf.write( "\n\t'''\n")
 		body = ""
@@ -306,7 +337,6 @@ tokens = lex.tokens
 		sf.write( "\n\t'''\n")
 		sf.write( "\n\tpass\n")
 		sf.write( "\n")
-
 
 	for x in extends:
 		sf.write( 'def p_%s(p):\n' % x[0] )
@@ -324,32 +354,23 @@ tokens = lex.tokens
 		sf.write( "\n" )
 	sf.write("""
 
-def p_INTLITERAL(p):
+def p_FloatingPointLiteral( p ):
 	'''
-		INTLITERAL : NUMBER 
-					| HEX_NUMBER
+		FloatingPointLiteral : NON_INTEGER_1
+					| NON_INTEGER_2
+					| NON_INTEGER_3
 	'''
 	pass
-def p_LONGLITERAL(p):
+
+def p_integerLiteral(p):
 	'''
-		LONGLITERAL : LONG_NUMBER 
+		integerLiteral : NUMBER 
+					| HEX_NUMBER
+					| LONG_NUMBER
 					| LONG_HEX_NUMBER
 	'''
 	pass
-def p_FLOATLITERAL( p ):
-	'''
-		FLOATLITERAL : NON_INTEGER_1
-					| NON_INTEGER_2
-					| NON_INTEGER_3
-	'''
-	pass
-def p_DOUBLELITERAL( p ):
-	'''
-		DOUBLELITERAL : NON_INTEGER_1
-					| NON_INTEGER_2
-					| NON_INTEGER_3
-	'''
-	pass
+
 
 	#### Empty
    

@@ -131,9 +131,11 @@ tokenNameList = {
 	"++" : "OP_INC",
 	"--" : "OP_DEC",
 	"&amp;&amp;" : "OP_LAND",
+	"&&" : "OP_LAND",
 	"==" : "OP_EQ",
 	"...": "OP_ARRAY",
 	"!=" : "OP_NE"
+
 }
 
 t_VERTICAL = r'\|'

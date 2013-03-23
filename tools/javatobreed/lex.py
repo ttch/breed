@@ -73,7 +73,7 @@ keywords = {
 
 tokens = [
 	'MCOMMENT','LCOMMENT',
-	'IDENTIFIER',
+	'Identifier',
 	'OP_EQ', 'OP_LE', 'OP_GE', 'OP_NE', 
 	'OP_LOR', 'OP_LAND', 'OP_INC', 'OP_DEC',
 	'OP_SHR', 'OP_SHL', 'OP_SHRR','OP_ARRAY',
@@ -90,7 +90,7 @@ tokens = [
 	'MULT','DASH','AND','SLASH','EXCLAMATION',
 	'VERTICAL','CARET','PERCENT',
 
-	'CHARLITERAL','STRINGLITERAL',
+	'CharacterLiteral','StringLiteral',
 
 	'NUMBER','HEX_NUMBER',
 	'LONG_NUMBER' , 'LONG_HEX_NUMBER',
@@ -130,6 +130,7 @@ t_ignore = ' \t\r'
 
 def t_MCOMMENT( t ):
 	r'/\*(.|\n)*?\*/'
+	t.lexer.lineno += t.value.count("\n")			
 	pass
 
 def t_LCOMMENT( t ):
@@ -141,11 +142,11 @@ def t_NUMBER(t):
 	return t
 
 
-def t_CHARLITERAL(t):
+def t_CharacterLiteral(t):
 	r'(L)?\'([^\\\n]|(\\.))*?\''
 	return t
 
-def t_STRINGLITERAL(t):
+def t_StringLiteral(t):
 	r'\"([^\\\n]|(\\.))*?\"'
 	return t
 
@@ -161,9 +162,9 @@ def t_LONG_HEX_NUMBER(t):
 	r'[0][x|X][0-9a-fA-F]+[l|L]'
 	return t
 
-def t_IDENTIFIER(t):
+def t_Identifier(t):
 	r'[A-Za-z_][\w_]*'
-	#t.type = keywords.get(t.value,'ID')
+	t.type = keywords.get(t.value,'Identifier')
 	return t
 
 def t_NON_INTEGER_1(t):
@@ -209,8 +210,7 @@ t_ASS_SHRR		=	r"\>\>\>\="
 
 def t_NEWLINE(t):
 	r'\n+'
-	t.lexer.lineno += 1
-	return t
+	t.lexer.lineno += t.value.count("\n")
 
 
 def t_error(t):

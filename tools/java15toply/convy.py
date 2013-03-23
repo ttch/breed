@@ -23,4 +23,4 @@ def main(filename):
 	#for x in file_.getTokenList(lexer):
 	#	print x
 if __name__ == "__main__":
-	main('./Java.y')
+	main('./java15.y')
