@@ -1,24 +1,24 @@
-shift/reduce conflict in state 54 resolved as shift.
-
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-   EXTEND
-   NUMBER
-   MLINECOMMENT
-   COMMENT
-   NEWLINE
-   COLON
-   TILDE
-   PLUS
-   STRING
-   EQUALS
-   STRUCT
-   QUES
-   TYPE
+    EXTEND
+    NUMBER
+    MLINECOMMENT
+    COMMENT
+    NEWLINE
+    COLON
+    TILDE
+    PLUS
+    STRING
+    EQUALS
+    STRUCT
+    QUES
+    TYPE
 
 Grammar
 
+Rule 0     S' -> statment
 Rule 1     statment -> component_statment import_statements at_statments
 Rule 2     component_statment -> COMPONENT ID
 Rule 3     import_statements -> import_statement
@@ -127,9 +127,7 @@ qualified_name       : 5 37 40
 statment             : 0
 type_specifier       : 23 31
 
-
 Parsing method: LALR
-
 
 state 0
 
@@ -138,7 +136,6 @@ state 0
     (2) component_statment -> . COMPONENT ID
 
     COMPONENT       shift and go to state 2
-
 
     component_statment             shift and go to state 1
     statment                       shift and go to state 3
@@ -152,7 +149,6 @@ state 1
 
     IMPORT          shift and go to state 5
 
-
     import_statements              shift and go to state 6
     import_statement               shift and go to state 4
 
@@ -163,11 +159,9 @@ state 2
     ID              shift and go to state 7
 
 
-
 state 3
 
     (0) S' -> statment .
-
 
 
 
@@ -179,7 +173,6 @@ state 4
     AT              reduce using rule 3 (import_statements -> import_statement .)
 
 
-
 state 5
 
     (5) import_statement -> IMPORT . qualified_name SEMI
@@ -187,7 +180,6 @@ state 5
     (40) qualified_name -> . qualified_name DOT ID
 
     ID              shift and go to state 9
-
 
     qualified_name                 shift and go to state 8
 
@@ -203,7 +195,6 @@ state 6
     IMPORT          shift and go to state 5
     AT              shift and go to state 13
 
-
     at_statment                    shift and go to state 10
     import_statement               shift and go to state 11
     at_statments                   shift and go to state 12
@@ -215,7 +206,6 @@ state 7
     IMPORT          reduce using rule 2 (component_statment -> COMPONENT ID .)
 
 
-
 state 8
 
     (5) import_statement -> IMPORT qualified_name . SEMI
@@ -223,7 +213,6 @@ state 8
 
     SEMI            shift and go to state 15
     DOT             shift and go to state 14
-
 
 
 state 9
@@ -235,14 +224,12 @@ state 9
     ID              reduce using rule 39 (qualified_name -> ID .)
 
 
-
 state 10
 
     (6) at_statments -> at_statment .
 
     AT              reduce using rule 6 (at_statments -> at_statment .)
     $end            reduce using rule 6 (at_statments -> at_statment .)
-
 
 
 state 11
@@ -253,7 +240,6 @@ state 11
     AT              reduce using rule 4 (import_statements -> import_statements import_statement .)
 
 
-
 state 12
 
     (1) statment -> component_statment import_statements at_statments .
@@ -262,7 +248,6 @@ state 12
 
     $end            reduce using rule 1 (statment -> component_statment import_statements at_statments .)
     AT              shift and go to state 13
-
 
     at_statment                    shift and go to state 16
 
@@ -277,7 +262,6 @@ state 13
     FUNCTION        shift and go to state 17
     DEFINE          shift and go to state 19
 
-
     at_operater_statment           shift and go to state 18
 
 state 14
@@ -285,7 +269,6 @@ state 14
     (40) qualified_name -> qualified_name DOT . ID
 
     ID              shift and go to state 20
-
 
 
 state 15
@@ -296,14 +279,12 @@ state 15
     AT              reduce using rule 5 (import_statement -> IMPORT qualified_name SEMI .)
 
 
-
 state 16
 
     (7) at_statments -> at_statments at_statment .
 
     AT              reduce using rule 7 (at_statments -> at_statments at_statment .)
     $end            reduce using rule 7 (at_statments -> at_statments at_statment .)
-
 
 
 state 17
@@ -317,7 +298,6 @@ state 17
     AT              reduce using rule 10 (at_operater_statment -> FUNCTION .)
     FUNC            shift and go to state 21
 
-
     function_statment              shift and go to state 22
     function_statments             shift and go to state 23
 
@@ -327,7 +307,6 @@ state 18
     (13) at_end_statment -> . AT END
 
     AT              shift and go to state 24
-
 
     at_end_statment                shift and go to state 25
 
@@ -344,7 +323,6 @@ state 19
     AT              reduce using rule 12 (at_operater_statment -> DEFINE .)
     INTERFACE       shift and go to state 29
 
-
     interface_statment             shift and go to state 26
     define_statments               shift and go to state 27
     interface_statments            shift and go to state 28
@@ -358,14 +336,12 @@ state 20
     ID              reduce using rule 40 (qualified_name -> qualified_name DOT ID .)
 
 
-
 state 21
 
     (27) function_statment -> FUNC . function_declarator BLPAREN BRPAREN
     (28) function_declarator -> . ID LPAREN function_paras RPAREN
 
     ID              shift and go to state 31
-
 
     function_declarator            shift and go to state 30
 
@@ -377,7 +353,6 @@ state 22
     AT              reduce using rule 25 (function_statments -> function_statment .)
 
 
-
 state 23
 
     (9) at_operater_statment -> FUNCTION function_statments .
@@ -386,7 +361,6 @@ state 23
 
     AT              reduce using rule 9 (at_operater_statment -> FUNCTION function_statments .)
     FUNC            shift and go to state 21
-
 
     function_statment              shift and go to state 32
 
@@ -397,14 +371,12 @@ state 24
     END             shift and go to state 33
 
 
-
 state 25
 
     (8) at_statment -> AT at_operater_statment at_end_statment .
 
     AT              reduce using rule 8 (at_statment -> AT at_operater_statment at_end_statment .)
     $end            reduce using rule 8 (at_statment -> AT at_operater_statment at_end_statment .)
-
 
 
 state 26
@@ -415,13 +387,11 @@ state 26
     AT              reduce using rule 15 (interface_statments -> interface_statment .)
 
 
-
 state 27
 
     (11) at_operater_statment -> DEFINE define_statments .
 
     AT              reduce using rule 11 (at_operater_statment -> DEFINE define_statments .)
-
 
 
 state 28
@@ -434,7 +404,6 @@ state 28
     AT              reduce using rule 14 (define_statments -> interface_statments .)
     INTERFACE       shift and go to state 29
 
-
     interface_statment             shift and go to state 34
 
 state 29
@@ -445,7 +414,6 @@ state 29
     ID              shift and go to state 35
 
 
-
 state 30
 
     (27) function_statment -> FUNC function_declarator . BLPAREN BRPAREN
@@ -453,13 +421,11 @@ state 30
     BLPAREN         shift and go to state 36
 
 
-
 state 31
 
     (28) function_declarator -> ID . LPAREN function_paras RPAREN
 
     LPAREN          shift and go to state 37
-
 
 
 state 32
@@ -470,14 +436,12 @@ state 32
     AT              reduce using rule 26 (function_statments -> function_statments function_statment .)
 
 
-
 state 33
 
     (13) at_end_statment -> AT END .
 
     AT              reduce using rule 13 (at_end_statment -> AT END .)
     $end            reduce using rule 13 (at_end_statment -> AT END .)
-
 
 
 state 34
@@ -488,7 +452,6 @@ state 34
     AT              reduce using rule 16 (interface_statments -> interface_statments interface_statment .)
 
 
-
 state 35
 
     (17) interface_statment -> INTERFACE ID . LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN
@@ -497,13 +460,11 @@ state 35
     LPAREN          shift and go to state 38
 
 
-
 state 36
 
     (27) function_statment -> FUNC function_declarator BLPAREN . BRPAREN
 
     BRPAREN         shift and go to state 39
-
 
 
 state 37
@@ -516,7 +477,6 @@ state 37
 
     FLPAREN         shift and go to state 41
 
-
     function_para                  shift and go to state 42
     function_paras                 shift and go to state 40
 
@@ -528,14 +488,12 @@ state 38
     RPAREN          shift and go to state 43
 
 
-
 state 39
 
     (27) function_statment -> FUNC function_declarator BLPAREN BRPAREN .
 
     FUNC            reduce using rule 27 (function_statment -> FUNC function_declarator BLPAREN BRPAREN .)
     AT              reduce using rule 27 (function_statment -> FUNC function_declarator BLPAREN BRPAREN .)
-
 
 
 state 40
@@ -547,7 +505,6 @@ state 40
 
     RPAREN          shift and go to state 44
     FLPAREN         shift and go to state 41
-
 
     function_para                  shift and go to state 45
 
@@ -564,7 +521,6 @@ state 41
     RETURN          shift and go to state 46
     IN_OUT          shift and go to state 48
 
-
     function_para_action           shift and go to state 49
 
 state 42
@@ -577,7 +533,6 @@ state 42
     COMMA           shift and go to state 51
 
 
-
 state 43
 
     (17) interface_statment -> INTERFACE ID LPAREN RPAREN . BLPAREN interface_declare_statments BRPAREN
@@ -586,13 +541,11 @@ state 43
     BLPAREN         shift and go to state 52
 
 
-
 state 44
 
     (28) function_declarator -> ID LPAREN function_paras RPAREN .
 
     BLPAREN         reduce using rule 28 (function_declarator -> ID LPAREN function_paras RPAREN .)
-
 
 
 state 45
@@ -605,13 +558,11 @@ state 45
     COMMA           shift and go to state 51
 
 
-
 state 46
 
     (35) function_para_action -> RETURN .
 
     FRPAREN         reduce using rule 35 (function_para_action -> RETURN .)
-
 
 
 state 47
@@ -621,13 +572,11 @@ state 47
     FRPAREN         reduce using rule 33 (function_para_action -> IN .)
 
 
-
 state 48
 
     (36) function_para_action -> IN_OUT .
 
     FRPAREN         reduce using rule 36 (function_para_action -> IN_OUT .)
-
 
 
 state 49
@@ -637,13 +586,11 @@ state 49
     FRPAREN         shift and go to state 53
 
 
-
 state 50
 
     (34) function_para_action -> OUT .
 
     FRPAREN         reduce using rule 34 (function_para_action -> OUT .)
-
 
 
 state 51
@@ -653,7 +600,6 @@ state 51
     (32) function_para -> . function_para COMMA function_para
 
     FLPAREN         shift and go to state 41
-
 
     function_para                  shift and go to state 54
 
@@ -675,7 +621,6 @@ state 52
     FUNC            shift and go to state 55
     ID              shift and go to state 9
 
-
     type_specifier                 shift and go to state 56
     qualified_name                 shift and go to state 59
     field_declare                  shift and go to state 58
@@ -691,7 +636,6 @@ state 53
 
     ID              shift and go to state 9
 
-
     type_specifier                 shift and go to state 62
     qualified_name                 shift and go to state 59
 
@@ -700,7 +644,7 @@ state 54
     (32) function_para -> function_para COMMA function_para .
     (32) function_para -> function_para . COMMA function_para
 
-  ! shift/reduce conflict for COMMA resolved as shift.
+  ! shift/reduce conflict for COMMA resolved as shift
     RPAREN          reduce using rule 32 (function_para -> function_para COMMA function_para .)
     FLPAREN         reduce using rule 32 (function_para -> function_para COMMA function_para .)
     COMMA           shift and go to state 51
@@ -715,14 +659,12 @@ state 55
     ID              shift and go to state 63
 
 
-
 state 56
 
     (23) field_declare -> type_specifier . declarator_name SEMI
     (38) declarator_name -> . ID
 
     ID              shift and go to state 65
-
 
     declarator_name                shift and go to state 64
 
@@ -741,7 +683,6 @@ state 57
     FUNC            shift and go to state 55
     ID              shift and go to state 9
 
-
     type_specifier                 shift and go to state 56
     qualified_name                 shift and go to state 59
     field_declare                  shift and go to state 66
@@ -756,7 +697,6 @@ state 58
     ID              reduce using rule 19 (interface_declare_statments -> field_declare .)
 
 
-
 state 59
 
     (37) type_specifier -> qualified_name .
@@ -764,7 +704,6 @@ state 59
 
     ID              reduce using rule 37 (type_specifier -> qualified_name .)
     DOT             shift and go to state 14
-
 
 
 state 60
@@ -776,7 +715,6 @@ state 60
     ID              reduce using rule 21 (interface_declare_statments -> function_declare .)
 
 
-
 state 61
 
     (18) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN .
@@ -785,14 +723,12 @@ state 61
     AT              reduce using rule 18 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN BRPAREN .)
 
 
-
 state 62
 
     (31) function_para -> FLPAREN function_para_action FRPAREN type_specifier . declarator_name
     (38) declarator_name -> . ID
 
     ID              shift and go to state 65
-
 
     declarator_name                shift and go to state 69
 
@@ -803,13 +739,11 @@ state 63
     ID              shift and go to state 70
 
 
-
 state 64
 
     (23) field_declare -> type_specifier declarator_name . SEMI
 
     SEMI            shift and go to state 71
-
 
 
 state 65
@@ -822,7 +756,6 @@ state 65
     FLPAREN         reduce using rule 38 (declarator_name -> ID .)
 
 
-
 state 66
 
     (20) interface_declare_statments -> interface_declare_statments field_declare .
@@ -830,7 +763,6 @@ state 66
     BRPAREN         reduce using rule 20 (interface_declare_statments -> interface_declare_statments field_declare .)
     FUNC            reduce using rule 20 (interface_declare_statments -> interface_declare_statments field_declare .)
     ID              reduce using rule 20 (interface_declare_statments -> interface_declare_statments field_declare .)
-
 
 
 state 67
@@ -842,14 +774,12 @@ state 67
     ID              reduce using rule 22 (interface_declare_statments -> interface_declare_statments function_declare .)
 
 
-
 state 68
 
     (17) interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN .
 
     INTERFACE       reduce using rule 17 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN .)
     AT              reduce using rule 17 (interface_statment -> INTERFACE ID LPAREN RPAREN BLPAREN interface_declare_statments BRPAREN .)
-
 
 
 state 69
@@ -861,13 +791,11 @@ state 69
     FLPAREN         reduce using rule 31 (function_para -> FLPAREN function_para_action FRPAREN type_specifier declarator_name .)
 
 
-
 state 70
 
     (24) function_declare -> FUNC ID ID . SEMI
 
     SEMI            shift and go to state 72
-
 
 
 state 71
@@ -879,7 +807,6 @@ state 71
     ID              reduce using rule 23 (field_declare -> type_specifier declarator_name SEMI .)
 
 
-
 state 72
 
     (24) function_declare -> FUNC ID ID SEMI .
@@ -888,4 +815,7 @@ state 72
     FUNC            reduce using rule 24 (function_declare -> FUNC ID ID SEMI .)
     ID              reduce using rule 24 (function_declare -> FUNC ID ID SEMI .)
 
-
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for COMMA in state 54 resolved as shift

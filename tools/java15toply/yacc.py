@@ -12,7 +12,10 @@ rule = deque()
 extends = deque()
 keys = []
 
+expt_extends = deque()
+expt_keys = []
 Number = -1
+expt_number = -1
 
 class expr:
 	def __init__(self,t):
@@ -32,6 +35,16 @@ class expr:
 		else:
 			Number = Number-1
 			return "expr_%d" % (keys.index(key))
+	def add_expt( self, key ,new_expr ):
+		global expt_number
+		if key not in expt_keys:
+			expt_extends.append(new_expr)
+			expt_keys.append(key)
+			return True
+		else:
+			print expt_number
+			expt_number = expt_number-1
+			return "expt_%d" % (expt_keys.index(key))
 	def process_plus(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '+':
 			new_label = inc_number()
@@ -47,20 +60,25 @@ class expr:
 		return self
 	def process_mult(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '*':
-			new_label = inc_number()
+			new_label = inc_expt()
+
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
-						[ '|' , new_label ] + self.t[1:-2] + [ '|' ,'empty' ]
-			key = self.add_extends( self.t[1:-2] , new_expr )
+						[ '|' , new_label ] + self.t[1:-2]
+
+			key = self.add_expt( self.t[1:-2] , new_expr )
 			if key == True:
 				self.t = [ new_label ]
 			else:
 				self.t = [ key ]
 	def process_ques(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '?':
-			new_label = inc_number()
+			new_label = inc_expt()
+
 			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
-						[ '|' , 'empty' ]
-			key = self.add_extends( self.t[1:-2] , new_expr )
+						[ '|','empty' ]
+
+			key = self.add_expt( self.t[1:-2] , new_expr )
+
 			if key == True:
 				self.t = [ new_label ]
 			else:
@@ -101,6 +119,7 @@ class expr:
 				new_expr = [ new_label , ':' ] + self.t[1:-1]
 
 				key = self.add_extends( self.t[1:-1] , new_expr )
+
 				if key == True:
 					self.t = [ new_label ]
 				else:
@@ -108,10 +127,11 @@ class expr:
 	def process_no(self):
 		for x in self.t:
 			if x == '?':
-				new_label = inc_number()
+				new_label = inc_expt()
+				#print self.t
 				new_expr =  [ new_label , ':'] + [ self.t[0] ] + [ '|' , 'empty' ]
 
-				key = self.add_extends( self.t[0] , new_expr )
+				key = self.add_expt( self.t[0] , new_expr )
 				if key == True:
 					self.t = [ new_label ]
 				else:
@@ -120,7 +140,7 @@ class expr:
 			elif x == '+':
 				pass
 			elif x == '*':
-				pass
+				print "hello"
 				
 '''
 class rule:
@@ -247,6 +267,7 @@ def p_s_expr( p ):
 			p[0] = expr(  p[0] + p[1] + p[2] )
 
 			#operator
+			print p[2]
 			if p[2] in [["?"],["+"],["*"]] :
 				p[0].process_no()
 
@@ -308,6 +329,75 @@ def inc_number():
 	Number = Number+1
 	return 'expr_%d' % (Number)
 
+def inc_expt():
+	global expt_number
+	expt_number = expt_number+1
+	return 'expt_%d' % (expt_number)
+
+def print_p(sf,name,body,mate=None):
+		sf.write( '# %s ' % mate)
+		sf.write( '\ndef p_%s(p):' % name )
+		sf.write( "\n\t'''\n")
+		sf.write( "\t %s : %s" % (name , body) )
+		sf.write( "\n\t'''\n")
+		sf.write( "\n\tpass\n")
+		sf.write( "\n")
+
+class Node:
+	def __init__(self,Item):
+		self.rItem = Item
+		self.parent = None
+		if Item[0:4] != 'expt':
+			self.item = Item
+		else:
+			self.item = (Item,'empty')
+#	def __str__(self):
+#		return str(self.rItem)
+#	def __repr__(self):
+#		return str(self.rItem)
+	def __radd__(self, other):
+		return other + self.rItem
+	def __len__(self):
+		if self.is_str() :
+			return 1
+		else:
+			return len(self.item)
+	def is_str(self):
+		if ( isinstance(self.item , (str, unicode)) or isinstance(self.item,(str))):
+			return True
+		else:
+			return False
+
+		
+
+def process_tree(l):
+	#print l
+	s = "<?>".join(l)
+	x = s.split("|")
+	result = []
+	for o in x:
+		l = deque( [ Node(z) for z in o.split("<?>") if z !=''] )
+		h = len(l)
+		d = deque()
+		for z in l:
+			if len(z) == 1:
+				if len(d) == 0: d.append( deque([]) )
+				for y in d:
+					y.append(z.item)
+			else:
+				if len(d) == 0: d.append( deque([]) )
+				f = deque()
+				for y in d:
+					o1 = deque(y)
+					o1.append(z.item[0])
+					o2 = deque(y)
+					o2.append(z.item[1])
+					f.append(deque(o1))
+					f.append(deque(o2))
+				d = f
+		result.append(d)
+	return result
+
 def get_yacc(l):
 	b = yacc.yacc()
 
@@ -325,33 +415,44 @@ tokens = lex.tokens
 """)
 	for x in  rules:
 		if x[0] == 'integerLiteral': continue
-		sf.write( 'def p_%s(p):' % x[0] )
-		sf.write( "\n\t'''\n")
 		body = ""
+		flag = False
 		for y in x[2]:
-			if y == "|":
-				body = body + " " +  ( "\n\t" + y )
-			else:
-				body = body + " "+ y
-		sf.write( "\t %s%s%s%s%s" % (x[0]," ",x[1] , " " , body) )
-		sf.write( "\n\t'''\n")
-		sf.write( "\n\tpass\n")
-		sf.write( "\n")
-
+			if y[0:4] == 'expt':
+				flag = True
+				break
+		if flag == True:
+			d = process_tree(x[2])
+			#print d
+			for z in d:
+				if body == "":
+					body = "\n\t\t| ".join( [" ".join(o) for o in z ] )
+				else:
+					body = "\n\t\t| ".join( [" ".join(o) for o in z ] )+"\n\t\t| "+body
+		else:
+			for y in x[2]:
+				if y == "|":
+					body = body + " " +  ( "\n\t" + y )
+				else:
+					body = body + " "+ y
+		print_p(sf, x[0], body,x)
 	for x in extends:
-		sf.write( 'def p_%s(p):\n' % x[0] )
-		sf.write( "\t'''\n" )
 		body = ""
 		for y in x[2:]:
 			if y == "|":
 				body = body + " " + ( "\n\t" + y )
 			else:
 				body = body + " "+ y
-		sf.write( "\t %s%s%s%s%s"  % ( x[0]," ",x[1] , " " , body ) )
-		sf.write( "\n\t" )
-		sf.write( "\t'''\n" )
-		sf.write( "\tpass\n" )
-		sf.write( "\n" )
+		print_p(sf, x[0], body)
+
+	for x in expt_extends:
+		body = ""
+		for y in x[2:]:
+			if y == "|":
+				body = body + " " + ( "\n\t" + y )
+			else:
+				body = body + " "+ y
+		print_p(sf, x[0], body)
 	sf.write("""
 
 def p_FloatingPointLiteral( p ):
@@ -389,7 +490,7 @@ def get_yacc(l):
 	b = yacc.yacc()
 
 	b.error = 0
-	result = b.parse(lexer = l , debug=1)
+	result = b.parse(lexer = l , debug=2)
 	if b.error : return None
 	""")
 	sf.close()

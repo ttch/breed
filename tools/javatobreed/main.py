@@ -21,4 +21,4 @@ def main(filename):
 	#for x in file_.getTokenList(lexer):
 	#	print x
 if __name__ == "__main__":
-	main('/Users/zhaonf/program/insurance/src/main/java/com/itec/stis/dao/as/CertNoChangeDao.java')
+	main('/Users/zhaonf/program/insurance/src/main/java/com/itec/stis/dao/nb/NbPlcBaseDao.java')

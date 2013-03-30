@@ -33,9 +33,9 @@ def p_packageDeclaration(p):
 def p_importDeclaration(p):
 	'''
 	 importDeclaration : IMPORT expt_3 qualifiedName expt_4 SEMI
-		| IMPORT expt_3 qualifiedName SEMI
-		| IMPORT qualifiedName expt_4 SEMI
-		| IMPORT qualifiedName SEMI
+		| IMPORT expt_3 qualifiedName empty SEMI
+		| IMPORT empty qualifiedName expt_4 SEMI
+		| IMPORT empty qualifiedName empty SEMI
 	'''
 
 	pass
@@ -103,10 +103,10 @@ def p_classDeclaration(p):
 # deque(['normalClassDeclaration', ':', ['CLASS', 'Identifier', 'expt_7', 'expt_8', 'expt_9', 'classBody']]) 
 def p_normalClassDeclaration(p):
 	'''
-	 normalClassDeclaration : CLASS Identifier typeParameters expt_8 expt_9 classBody
-		| CLASS Identifier typeParameters expt_8 empty classBody
-		| CLASS Identifier typeParameters empty expt_9 classBody
-		| CLASS Identifier typeParameters empty empty classBody
+	 normalClassDeclaration : CLASS Identifier expt_7 expt_8 expt_9 classBody
+		| CLASS Identifier expt_7 expt_8 empty classBody
+		| CLASS Identifier expt_7 empty expt_9 classBody
+		| CLASS Identifier expt_7 empty empty classBody
 		| CLASS Identifier empty expt_8 expt_9 classBody
 		| CLASS Identifier empty expt_8 empty classBody
 		| CLASS Identifier empty empty expt_9 classBody
@@ -178,14 +178,14 @@ def p_enumConstants(p):
 # deque(['enumConstant', ':', ['expt_17', 'Identifier', 'expt_18', 'expt_19']]) 
 def p_enumConstant(p):
 	'''
-	 enumConstant : expt_17 Identifier expt_18 classBody
-		| expt_17 Identifier expt_18 
-		| expt_17 Identifier  classBody
-		| expt_17 Identifier  
-		| Identifier expt_18 classBody
-		| Identifier expt_18 
-		| Identifier  classBody
-		| Identifier 
+	 enumConstant : expt_17 Identifier expt_18 expt_19
+		| expt_17 Identifier expt_18 empty
+		| expt_17 Identifier empty expt_19
+		| expt_17 Identifier empty empty
+		| empty Identifier expt_18 expt_19
+		| empty Identifier expt_18 empty
+		| empty Identifier empty expt_19
+		| empty Identifier empty empty
 	'''
 
 	pass
@@ -193,8 +193,8 @@ def p_enumConstant(p):
 # deque(['enumBodyDeclarations', ':', ['SEMI', 'expt_20']]) 
 def p_enumBodyDeclarations(p):
 	'''
-	 enumBodyDeclarations : SEMI classBodyDeclarations
-		| SEMI
+	 enumBodyDeclarations : SEMI expt_20
+		| SEMI empty
 	'''
 
 	pass
@@ -211,8 +211,8 @@ def p_interfaceDeclaration(p):
 # deque(['normalInterfaceDeclaration', ':', ['INTERFACE', 'Identifier', 'expt_7', 'expt_21', 'interfaceBody']]) 
 def p_normalInterfaceDeclaration(p):
 	'''
-	 normalInterfaceDeclaration : INTERFACE Identifier typeParameters expt_21 interfaceBody
-		| INTERFACE Identifier typeParameters empty interfaceBody
+	 normalInterfaceDeclaration : INTERFACE Identifier expt_7 expt_21 interfaceBody
+		| INTERFACE Identifier expt_7 empty interfaceBody
 		| INTERFACE Identifier empty expt_21 interfaceBody
 		| INTERFACE Identifier empty empty interfaceBody
 	'''
@@ -231,8 +231,8 @@ def p_typeList(p):
 # deque(['classBody', ':', ['BLPAREN', 'expt_20', 'BRPAREN']]) 
 def p_classBody(p):
 	'''
-	 classBody : BLPAREN classBodyDeclarations BRPAREN
-		| BLPAREN  BRPAREN
+	 classBody : BLPAREN expt_20 BRPAREN
+		| BLPAREN empty BRPAREN
 	'''
 
 	pass
@@ -496,11 +496,26 @@ def p_modifier(p):
 
 	pass
 
+# deque(['packageOrTypeName', ':', ['qualifiedName']]) 
+def p_packageOrTypeName(p):
+	'''
+	 packageOrTypeName :  qualifiedName
+	'''
+
+	pass
 
 # deque(['enumConstantName', ':', ['Identifier']]) 
 def p_enumConstantName(p):
 	'''
 	 enumConstantName :  Identifier
+	'''
+
+	pass
+
+# deque(['typeName', ':', ['qualifiedName']]) 
+def p_typeName(p):
+	'''
+	 typeName :  qualifiedName
 	'''
 
 	pass
@@ -555,7 +570,7 @@ def p_variableModifier(p):
 def p_typeArguments(p):
 	'''
 	 typeArguments : LESS typeArgument expt_34 MORE
-		| LESS typeArgument MORE
+		| LESS typeArgument empty MORE
 	'''
 
 	pass
@@ -592,7 +607,6 @@ def p_formalParameters(p):
 def p_formalParameterDecls(p):
 	'''
 	 formalParameterDecls :  variableModifiers type formalParameterDeclsRest
-	 					| type formalParameterDeclsRest
 	'''
 
 	pass
@@ -671,8 +685,7 @@ def p_booleanLiteral(p):
 # deque(['annotations', ':', ['expr_7']]) 
 def p_annotations(p):
 	'''
-	 annotations :  annotation
-	 			| annotations annotation
+	 annotations :  expr_7
 	'''
 
 	pass
@@ -680,10 +693,8 @@ def p_annotations(p):
 # deque(['annotation', ':', ['AT', 'annotationName', 'expt_43']]) 
 def p_annotation(p):
 	'''
-	 annotation : AT annotationName LPAREN elementValuePairs RPAREN
-	 	|  AT annotationName LPAREN elementValue RPAREN
-	 	| AT annotationName LPAREN RPAREN
-		| AT annotationName 
+	 annotation : AT annotationName expt_43
+		| AT annotationName empty
 	'''
 
 	pass
@@ -833,7 +844,6 @@ def p_blockStatement(p):
 def p_localVariableDeclarationStatement(p):
 	'''
 	 localVariableDeclarationStatement :  localVariableDeclaration SEMI
-	 |	SEMI
 	'''
 
 	pass
@@ -861,23 +871,23 @@ def p_statement(p):
 	 statement : Identifier COLON statement
 		| statementExpression SEMI
 		| SEMI
-		| CONTINUE Identifier SEMI
-		| CONTINUE SEMI
-		| BREAK Identifier SEMI
-		| BREAK  SEMI
+		| CONTINUE expt_54 SEMI
+		| CONTINUE empty SEMI
+		| BREAK expt_54 SEMI
+		| BREAK empty SEMI
 		| THROW expression SEMI
 		| RETURN expt_53 SEMI
-		| RETURN SEMI
+		| RETURN empty SEMI
 		| SYNCHRONIZED parExpression block
 		| SWITCH parExpression BLPAREN switchBlockStatementGroups BRPAREN
 		| TRY block expr_9
 		| DO statement WHILE parExpression SEMI
 		| WHILE parExpression statement
 		| FOR LPAREN forControl RPAREN statement
-		| IF parExpression statement ELSE statement
-		| IF parExpression statement 
+		| IF parExpression statement expt_52
+		| IF parExpression statement empty
 		| ASSERT expression expt_51 SEMI
-		| ASSERT expression SEMI
+		| ASSERT expression empty SEMI
 		| block
 	'''
 
@@ -989,7 +999,7 @@ def p_parExpression(p):
 def p_expressionList(p):
 	'''
 	 expressionList : expression expt_60
-		| expression 
+		| expression empty
 	'''
 
 	pass
@@ -1013,8 +1023,8 @@ def p_constantExpression(p):
 # deque(['expression', ':', ['conditionalExpression', 'expt_61']]) 
 def p_expression(p):
 	'''
-	 expression : conditionalExpression assignmentOperator expression
-				| conditionalExpression 
+	 expression : conditionalExpression expt_61
+		| conditionalExpression empty
 	'''
 
 	pass
@@ -1022,7 +1032,7 @@ def p_expression(p):
 # deque(['assignmentOperator', ':', ['EQUALS', '|', 'ASS_ADD', '|', 'ASS_SUB', '|', 'ASS_MUL', '|', 'ASS_DIV', '|', 'ASS_AND', '|', 'ASS_OR', '|', 'ASS_XOR', '|', 'ASS_MOD', '|', 'LESS', 'LESS', 'EQUALS', '|', 'MORE', 'MORE', 'MORE', 'EQUALS', '|', 'MORE', 'MORE', 'EQUALS']]) 
 def p_assignmentOperator(p):
 	'''
-	 assignmentOperator : EQUALS 
+	 assignmentOperator :  EQUALS 
 	| ASS_ADD 
 	| ASS_SUB 
 	| ASS_MUL 
@@ -1031,9 +1041,9 @@ def p_assignmentOperator(p):
 	| ASS_OR 
 	| ASS_XOR 
 	| ASS_MOD 
-	| ASS_SHL 
-	| ASS_SHRR
-	| ASS_SHR
+	| LESS LESS EQUALS 
+	| MORE MORE MORE EQUALS 
+	| MORE MORE EQUALS
 	'''
 
 	pass
@@ -1041,8 +1051,8 @@ def p_assignmentOperator(p):
 # deque(['conditionalExpression', ':', ['conditionalOrExpression', 'expt_62']]) 
 def p_conditionalExpression(p):
 	'''
-	 conditionalExpression : conditionalOrExpression QUES expression COLON expression 
-		| conditionalOrExpression 
+	 conditionalExpression : conditionalOrExpression expt_62
+		| conditionalOrExpression empty
 	'''
 
 	pass
@@ -1051,7 +1061,7 @@ def p_conditionalExpression(p):
 def p_conditionalOrExpression(p):
 	'''
 	 conditionalOrExpression : conditionalAndExpression expt_63
-		| conditionalAndExpression  
+		| conditionalAndExpression empty
 	'''
 
 	pass
@@ -1060,7 +1070,7 @@ def p_conditionalOrExpression(p):
 def p_conditionalAndExpression(p):
 	'''
 	 conditionalAndExpression : inclusiveOrExpression expt_64
-		| inclusiveOrExpression 
+		| inclusiveOrExpression empty
 	'''
 
 	pass
@@ -1069,7 +1079,7 @@ def p_conditionalAndExpression(p):
 def p_inclusiveOrExpression(p):
 	'''
 	 inclusiveOrExpression : exclusiveOrExpression expt_65
-		| exclusiveOrExpression 
+		| exclusiveOrExpression empty
 	'''
 
 	pass
@@ -1078,7 +1088,7 @@ def p_inclusiveOrExpression(p):
 def p_exclusiveOrExpression(p):
 	'''
 	 exclusiveOrExpression : andExpression expt_66
-		| andExpression 
+		| andExpression empty
 	'''
 
 	pass
@@ -1087,7 +1097,7 @@ def p_exclusiveOrExpression(p):
 def p_andExpression(p):
 	'''
 	 andExpression : equalityExpression expt_67
-		| equalityExpression 
+		| equalityExpression empty
 	'''
 
 	pass
@@ -1096,7 +1106,7 @@ def p_andExpression(p):
 def p_equalityExpression(p):
 	'''
 	 equalityExpression : instanceOfExpression expt_68
-		| instanceOfExpression 
+		| instanceOfExpression empty
 	'''
 
 	pass
@@ -1104,8 +1114,8 @@ def p_equalityExpression(p):
 # deque(['instanceOfExpression', ':', ['relationalExpression', 'expt_69']]) 
 def p_instanceOfExpression(p):
 	'''
-	 instanceOfExpression : relationalExpression INSTANCEOF type
-		| relationalExpression
+	 instanceOfExpression : relationalExpression expt_69
+		| relationalExpression empty
 	'''
 
 	pass
@@ -1114,7 +1124,7 @@ def p_instanceOfExpression(p):
 def p_relationalExpression(p):
 	'''
 	 relationalExpression : shiftExpression expt_70
-		| shiftExpression 
+		| shiftExpression empty
 	'''
 
 	pass
@@ -1122,8 +1132,8 @@ def p_relationalExpression(p):
 # deque(['relationalOp', ':', ['LESS', 'EQUALS', '|', 'MORE', 'EQUALS', '|', 'LESS', '|', 'MORE']]) 
 def p_relationalOp(p):
 	'''
-	 relationalOp : OP_LE
-	| OP_GE 
+	 relationalOp :  LESS EQUALS 
+	| MORE EQUALS 
 	| LESS 
 	| MORE
 	'''
@@ -1134,7 +1144,7 @@ def p_relationalOp(p):
 def p_shiftExpression(p):
 	'''
 	 shiftExpression : additiveExpression expt_71
-		| additiveExpression 
+		| additiveExpression empty
 	'''
 
 	pass
@@ -1142,9 +1152,9 @@ def p_shiftExpression(p):
 # deque(['shiftOp', ':', ['LESS', 'LESS', '|', 'MORE', 'MORE', 'MORE', '|', 'MORE', 'MORE']]) 
 def p_shiftOp(p):
 	'''
-	 shiftOp :  OP_SHR 
-	| OP_SHL
-	| OP_SHRR
+	 shiftOp :  LESS LESS 
+	| MORE MORE MORE 
+	| MORE MORE
 	'''
 
 	pass
@@ -1153,7 +1163,7 @@ def p_shiftOp(p):
 def p_additiveExpression(p):
 	'''
 	 additiveExpression : multiplicativeExpression expt_72
-		| multiplicativeExpression 
+		| multiplicativeExpression empty
 	'''
 
 	pass
@@ -1162,7 +1172,7 @@ def p_additiveExpression(p):
 def p_multiplicativeExpression(p):
 	'''
 	 multiplicativeExpression : unaryExpression expt_73
-		| unaryExpression 
+		| unaryExpression empty
 	'''
 
 	pass
@@ -1183,9 +1193,7 @@ def p_unaryExpression(p):
 def p_unaryExpressionNotPlusMinus(p):
 	'''
 	 unaryExpressionNotPlusMinus : primary expt_74 expr_14
-		| primary expr_14
-		| primary expt_74
-		| primary
+		| primary empty expr_14
 		| castExpression
 		| EXCLAMATION unaryExpression
 		| TILDE unaryExpression
@@ -1207,18 +1215,18 @@ def p_primary(p):
 	'''
 	 primary : VOID DOT CLASS
 		| primitiveType expt_24 DOT CLASS
-		| primitiveType DOT CLASS
-		| Identifier expt_42 identifierSuffix
-		| Identifier expt_42
-		| Identifier identifierSuffix
-		| Identifier
+		| primitiveType empty DOT CLASS
+		| Identifier expt_42 expt_75
+		| Identifier expt_42 empty
+		| Identifier empty expt_75
+		| Identifier empty empty
 		| NEW creator
 		| literal
 		| SUPER superSuffix
-		| THIS expt_42 identifierSuffix
-		| THIS expt_42 
-		| THIS identifierSuffix
-		| THIS 
+		| THIS expt_42 expt_75
+		| THIS expt_42 empty
+		| THIS empty expt_75
+		| THIS empty empty
 		| parExpression
 	'''
 
@@ -1227,8 +1235,8 @@ def p_primary(p):
 # deque(['identifierSuffix', ':', ['expr_16', 'DOT', 'CLASS', '|', 'expr_17', '|', 'arguments', '|', 'DOT', 'CLASS', '|', 'DOT', 'explicitGenericInvocation', '|', 'DOT', 'THIS', '|', 'DOT', 'SUPER', 'arguments', '|', 'DOT', 'NEW', 'innerCreator']]) 
 def p_identifierSuffix(p):
 	'''
-	 identifierSuffix :  suffixStatements DOT CLASS 
-	| suffixExprStatements 
+	 identifierSuffix :  expr_16 DOT CLASS 
+	| expr_17 
 	| arguments 
 	| DOT CLASS 
 	| DOT explicitGenericInvocation 
@@ -1243,8 +1251,7 @@ def p_identifierSuffix(p):
 def p_creator(p):
 	'''
 	 creator :  nonWildcardTypeArguments createdName classCreatorRest 
-	| createdName classCreatorRest
-	| createdName arrayCreatorRest
+	| createdName expr_18
 	'''
 
 	pass
@@ -1278,8 +1285,8 @@ def p_arrayCreatorRest(p):
 # deque(['classCreatorRest', ':', ['arguments', 'expt_19']]) 
 def p_classCreatorRest(p):
 	'''
-	 classCreatorRest : arguments 
-		| arguments classBody
+	 classCreatorRest : arguments expt_19
+		| arguments empty
 	'''
 
 	pass
@@ -1326,8 +1333,8 @@ def p_superSuffix(p):
 # deque(['arguments', ':', ['LPAREN', 'expt_77', 'RPAREN']]) 
 def p_arguments(p):
 	'''
-	 arguments : LPAREN expressionList RPAREN
-		| LPAREN  RPAREN
+	 arguments : LPAREN expt_77 RPAREN
+		| LPAREN empty RPAREN
 	'''
 
 	pass
@@ -1395,7 +1402,23 @@ def p_expr_6(p):
 
 	pass
 
+# None 
+def p_expr_7(p):
+	'''
+	 expr_7 :  annotation 
+	| expr_7 annotation
+	'''
 
+	pass
+
+# None 
+def p_expr_8(p):
+	'''
+	 expr_8 :  elementValuePairs 
+	| elementValue
+	'''
+
+	pass
 
 # None 
 def p_expr_9(p):
@@ -1403,7 +1426,6 @@ def p_expr_9(p):
 	 expr_9 :  catches FINALLY block 
 	| catches 
 	| FINALLY block
-
 	'''
 
 	pass
@@ -1464,23 +1486,31 @@ def p_expr_15(p):
 	pass
 
 # None 
-def p_suffixStatements(p):
+def p_expr_16(p):
 	'''
-	 suffixStatements :  FLPAREN FRPAREN 
-	| suffixStatements FLPAREN FRPAREN
+	 expr_16 :  FLPAREN FRPAREN 
+	| expr_16 FLPAREN FRPAREN
 	'''
 
 	pass
 
 # None 
-def p_suffixExprStatements(p):
+def p_expr_17(p):
 	'''
-	 suffixExprStatements :  FLPAREN expression FRPAREN 
-	| suffixExprStatements FLPAREN expression FRPAREN
+	 expr_17 :  FLPAREN expression FRPAREN 
+	| expr_17 FLPAREN expression FRPAREN
 	'''
 
 	pass
 
+# None 
+def p_expr_18(p):
+	'''
+	 expr_18 :  arrayCreatorRest 
+	| classCreatorRest
+	'''
+
+	pass
 
 # None 
 def p_expr_19(p):
@@ -1566,7 +1596,8 @@ def p_expt_7(p):
 # None 
 def p_expt_8(p):
 	'''
-	 expt_8 :  EXTENDS type
+	 expt_8 :  EXTENDS type 
+	| empty
 	'''
 
 	pass
@@ -1661,12 +1692,20 @@ def p_expt_18(p):
 
 	pass
 
+# None 
+def p_expt_19(p):
+	'''
+	 expt_19 :  classBody 
+	| empty
+	'''
+
+	pass
 
 # None 
-def p_classBodyDeclarations(p):
+def p_expt_20(p):
 	'''
-	 classBodyDeclarations :  classBodyDeclaration 
-	| classBodyDeclarations classBodyDeclaration
+	 expt_20 :  classBodyDeclaration 
+	| expt_20 classBodyDeclaration
 	'''
 
 	pass
@@ -1863,12 +1902,20 @@ def p_expt_41(p):
 # None 
 def p_expt_42(p):
 	'''
-	 expt_42 :  DOT Identifier
+	 expt_42 :  DOT Identifier 
 	| expt_42 DOT Identifier
 	'''
 
 	pass
 
+# None 
+def p_expt_43(p):
+	'''
+	 expt_43 :  LPAREN expr_8 RPAREN 
+	| empty
+	'''
+
+	pass
 
 # None 
 def p_expt_44(p):
@@ -1884,7 +1931,6 @@ def p_expt_45(p):
 	'''
 	 expt_45 :  COMMA elementValue 
 	| expt_45 COMMA elementValue
-	| empty
 	'''
 
 	pass
@@ -1892,7 +1938,8 @@ def p_expt_45(p):
 # None 
 def p_expt_46(p):
 	'''
-	 expt_46 :  elementValue expt_45
+	 expt_46 :  elementValue expt_45 
+	| empty
 	'''
 
 	pass
@@ -1942,11 +1989,28 @@ def p_expt_51(p):
 
 	pass
 
+# None 
+def p_expt_52(p):
+	'''
+	 expt_52 :  ELSE statement 
+	| empty
+	'''
+
+	pass
 
 # None 
 def p_expt_53(p):
 	'''
 	 expt_53 :  expression 
+	| empty
+	'''
+
+	pass
+
+# None 
+def p_expt_54(p):
+	'''
+	 expt_54 :  Identifier 
 	| empty
 	'''
 
@@ -2006,7 +2070,23 @@ def p_expt_60(p):
 
 	pass
 
+# None 
+def p_expt_61(p):
+	'''
+	 expt_61 :  assignmentOperator expression 
+	| empty
+	'''
 
+	pass
+
+# None 
+def p_expt_62(p):
+	'''
+	 expt_62 :  QUES expression COLON expression 
+	| empty
+	'''
+
+	pass
 
 # None 
 def p_expt_63(p):
@@ -2062,7 +2142,14 @@ def p_expt_68(p):
 
 	pass
 
+# None 
+def p_expt_69(p):
+	'''
+	 expt_69 :  INSTANCEOF type 
+	| empty
+	'''
 
+	pass
 
 # None 
 def p_expt_70(p):
@@ -2091,15 +2178,11 @@ def p_expt_72(p):
 
 	pass
 
-def p_sub_expt_73(p):
-	'''
-	sub_expt_73 : expr_13 unaryExpression
-	'''
 # None 
 def p_expt_73(p):
 	'''
-	 expt_73 : sub_expt_73
-	| expt_73 sub_expt_73
+	 expt_73 :  expr_13 unaryExpression 
+	| expt_73 expr_13 unaryExpression
 	'''
 
 	pass
@@ -2113,6 +2196,14 @@ def p_expt_74(p):
 
 	pass
 
+# None 
+def p_expt_75(p):
+	'''
+	 expt_75 :  identifierSuffix 
+	| empty
+	'''
+
+	pass
 
 # None 
 def p_expt_76(p):
@@ -2122,6 +2213,16 @@ def p_expt_76(p):
 	'''
 
 	pass
+
+# None 
+def p_expt_77(p):
+	'''
+	 expt_77 :  expressionList 
+	| empty
+	'''
+
+	pass
+
 
 
 def p_FloatingPointLiteral( p ):
