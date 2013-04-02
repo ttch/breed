@@ -9,13 +9,116 @@ tokens = lex.tokens
 rules = deque()
 rule = deque()
 
-extends = deque()
-keys = []
 
-expt_extends = deque()
-expt_keys = []
-Number = -1
-expt_number = -1
+class quesList:
+	def __init__(self):
+		self.l = {}
+		self.v = {}
+		self.k = 0
+	def isin(self,value):
+		for x in self.v:
+			if self.v[x] == value:
+				return True
+		return False
+	
+	def get_key(self,value):
+		for x in self.v:
+			if self.v[x] == value:
+				return x
+		return 'key_error'
+	def get_value(self,key):
+		return self.l[key]
+
+	def add(self,value):
+		if not self.isin(value):
+			self.k = self.k + 1
+			key =  "ques_%d" % self.k
+			self.l[key] = value
+			self.v[key] = value
+			return key
+
+		else:
+			return self.get_key(value)
+class mutlList:
+	def __init__(self):
+		self.l = {}
+		self.v = {}
+		self.k = 0
+	def isin(self,value):
+		for x in self.v:
+			if self.v[x] == value:
+				return True
+		return False
+	
+	def get_key(self,value):
+		for x in self.v:
+			if self.v[x] == value:
+				return x
+		return 'key_error'		
+
+	def get_value(self,key):
+		return self.l[key]
+
+	def add(self,value):
+		if not self.isin(value):
+			self.k = self.k + 1
+			key =  "expt_%d" % self.k
+			new_expr = [ key , ':'] + value + [ '|' , key ] + value
+			self.l[key] = new_expr
+			self.v[key] = value
+			return key
+
+		else:
+			return self.get_key(value)
+	def echo( self , sf ):
+		for x in self.l:
+			body = ""
+			for y in self.l[x][2:]:
+				if y == "|":
+					body = body + " " + ( "\n\t" + y )
+				else:
+					body = body + " "+ y
+			print_p(sf, x, body)
+
+class exprList:
+	def __init__(self):
+		self.l = {}
+		self.v = []
+		self.k = 0
+	
+	def get_value(self,key):
+		return self.l[key]
+
+	def add(self,value):
+		if value not in self.v:
+			self.k = self.k + 1
+			key =  "expr_%d" % self.k
+			
+			l = len(value)
+			for i in range(l):
+				if value[i] == 'new_label':
+					value[i] = key
+
+			self.l[key] = value
+			self.v.append(value)
+			return key
+
+		else:
+			return "expr_%d" % self.k
+	def echo( self , sf ):
+		for x in self.l:
+			body = ""
+			for y in self.l[x][2:]:
+				if y == "|":
+					body = body + " " + ( "\n\t" + y )
+				else:
+					body = body + " "+ y
+			print_p(sf, x, body)
+
+exprlist = exprList()
+queslist = quesList()
+multlist = mutlList()
+
 
 class expr:
 	def __init__(self,t):
@@ -26,63 +129,23 @@ class expr:
 		return "expr:%s" % (str(self.t))
 	def __radd__(self, other):
 		return other + self.t
-	def add_extends( self, key ,new_expr ):
-		global Number
-		if key not in keys:
-			extends.append(new_expr)
-			keys.append(key)
-			return True
-		else:
-			Number = Number-1
-			return "expr_%d" % (keys.index(key))
-	def add_expt( self, key ,new_expr ):
-		global expt_number
-		if key not in expt_keys:
-			expt_extends.append(new_expr)
-			expt_keys.append(key)
-			return True
-		else:
-			print expt_number
-			expt_number = expt_number-1
-			return "expt_%d" % (expt_keys.index(key))
+
 	def process_plus(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '+':
-			new_label = inc_number()
-			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
-						[ '|' , new_label ] + self.t[1:-2 ]
-			key = self.add_extends( self.t[1:-2] , new_expr )
-			if key == True:
-				self.t = [ new_label ]
-			else:
-				self.t = [ key ]
+
+			value =  [ 'new_label' , ':'] + self.t[1:-2 ] + \
+						[ '|' , 'new_label' ] + self.t[1:-2 ]
+			self.t = [ exprlist.add( value ) ]
 		else:
 			pass
 		return self
 	def process_mult(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '*':
-			new_label = inc_expt()
-
-			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
-						[ '|' , new_label ] + self.t[1:-2]
-
-			key = self.add_expt( self.t[1:-2] , new_expr )
-			if key == True:
-				self.t = [ new_label ]
-			else:
-				self.t = [ key ]
+			self.t = [ multlist.add( self.t[1:-2] ) ]
+	
 	def process_ques(self):
 		if self.t[0] == '(' and self.t[-2] == ')' and self.t[-1] == '?':
-			new_label = inc_expt()
-
-			new_expr =  [ new_label , ':'] + self.t[1:-2 ] + \
-						[ '|','empty' ]
-
-			key = self.add_expt( self.t[1:-2] , new_expr )
-
-			if key == True:
-				self.t = [ new_label ]
-			else:
-				self.t = [ key ]
+			self.t = [ queslist.add( self.t[1:-2] ) ]
 	
 	def process(self):
 		for x in self.t:
@@ -106,42 +169,21 @@ class expr:
 				for x in self.t :
 					if x == '|': flag = True
 				if flag == True:
-					new_label = inc_number()
-					new_expr = [ new_label , ':' ] + self.t[1:-2]
-
-					key = self.add_extends( self.t[1:-2] , new_expr )
-					if key == True:
-						self.t = [ new_label ]
-					else:
-						self.t = [ key ]
+					value = [ 'new_label' , ':' ] + self.t[1:-2]
+					self.t = [ exprlist.add( value ) ]
 			else:
-				new_label = inc_number()
-				new_expr = [ new_label , ':' ] + self.t[1:-1]
+				value = [ 'new_label' , ':' ] + self.t[1:-1]
 
-				key = self.add_extends( self.t[1:-1] , new_expr )
-
-				if key == True:
-					self.t = [ new_label ]
-				else:
-					self.t = [ key ]
+				self.t = [ exprlist.add( value ) ]
 	def process_no(self):
 		for x in self.t:
 			if x == '?':
-				new_label = inc_expt()
-				#print self.t
-				new_expr =  [ new_label , ':'] + [ self.t[0] ] + [ '|' , 'empty' ]
-
-				key = self.add_expt( self.t[0] , new_expr )
-				if key == True:
-					self.t = [ new_label ]
-				else:
-					self.t = [ key ]
+				self.t = [ queslist.add( self.t[0:-1] ) ]
 				break
 			elif x == '+':
 				pass
 			elif x == '*':
-				print "hello"
-				
+				pass	
 '''
 class rule:
 	def __init__(self,t):
@@ -267,7 +309,6 @@ def p_s_expr( p ):
 			p[0] = expr(  p[0] + p[1] + p[2] )
 
 			#operator
-			print p[2]
 			if p[2] in [["?"],["+"],["*"]] :
 				p[0].process_no()
 
@@ -324,30 +365,20 @@ def split_lower(p):
 	else:
 		return ( "_".join(re.findall('[A-Z][a-z]+',p)) ).lower()
 
-def inc_number():
-	global Number
-	Number = Number+1
-	return 'expr_%d' % (Number)
-
-def inc_expt():
-	global expt_number
-	expt_number = expt_number+1
-	return 'expt_%d' % (expt_number)
 
 def print_p(sf,name,body,mate=None):
-		sf.write( '# %s ' % mate)
-		sf.write( '\ndef p_%s(p):' % name )
-		sf.write( "\n\t'''\n")
-		sf.write( "\t %s : %s" % (name , body) )
-		sf.write( "\n\t'''\n")
-		sf.write( "\n\tpass\n")
-		sf.write( "\n")
+	sf.write( '\ndef p_%s(p):' % name )
+	sf.write( "\n\t'''\n")
+	sf.write( "\t %s : %s" % (name , body) )
+	sf.write( "\n\t'''\n")
+	sf.write( "\n\tpass\n")
+	sf.write( "\n")
 
 class Node:
 	def __init__(self,Item):
 		self.rItem = Item
 		self.parent = None
-		if Item[0:4] != 'expt':
+		if Item[0:4] != 'expt' and Item[0:5] != "ques_":
 			self.item = Item
 		else:
 			self.item = (Item,'empty')
@@ -371,7 +402,6 @@ class Node:
 		
 
 def process_tree(l):
-	#print l
 	s = "<?>".join(l)
 	x = s.split("|")
 	result = []
@@ -402,7 +432,7 @@ def get_yacc(l):
 	b = yacc.yacc()
 
 	b.error = 0
-	result = b.parse(lexer = l , debug=1)
+	result = b.parse(lexer = l , debug=0)
 	#"""
 	sf = open("../javatobreed/yacc.py","w")
 	sf.write("# *.* coding=utf-8 *.*\n")
@@ -418,41 +448,71 @@ tokens = lex.tokens
 		body = ""
 		flag = False
 		for y in x[2]:
-			if y[0:4] == 'expt':
+			if y[0:4] == 'expt' or y[0:5] == 'ques_':
 				flag = True
 				break
 		if flag == True:
 			d = process_tree(x[2])
-			#print d
+
+
+			#process replace ques ........
+			def insert(s ,i , d ):
+				t = list(s)
+				del t[i]
+				for x in d :
+					t.insert( i , x)
+					i = i + 1
+				s = deque(t)
+				return s
+
+			def find_ques(d):
+				l = len(d)
+				for i in range(l):
+					if d[i][0:5] == "ques_":
+						yield (i , d[i])
+
+			def process_expr( expr ):
+				l = [ (i , f ) for i,f in find_ques(expr) ]
+				ilen = len(expr)
+				for i,f in l:	
+					i = (len(expr) - ilen ) + i
+					d = queslist.get_value( expr[i] )
+					expr = insert (expr , i ,d)
+				return expr
+
+			def process_item( exprs ):
+				for i in range(len(exprs)):
+					exprs[i] = process_expr( exprs[i] )
+
+			for i in range(len(d)):
+				process_item( d[i] )
+				
+
+#			for z in d:
+#				for e in z:
+#					l =  len(e)
+#					for i in range(l):
+#						if e[i][0:5] == "ques_":
+#							e[i] = " ".join( queslist.get_value( e[i] ) )
 			for z in d:
 				if body == "":
-					body = "\n\t\t| ".join( [" ".join(o) for o in z ] )
+					body = "\n\t\t| ".join( [" ".join(o) for o in z if "".join(o) != '' ] )
 				else:
-					body = "\n\t\t| ".join( [" ".join(o) for o in z ] )+"\n\t\t| "+body
+					body = "\n\t\t| ".join( [" ".join(o) for o in z if "".join(o) != '' ] )+"\n\t\t| "+body
 		else:
+			l = len(x[2])
+			for i in xrange( l ):
+				if x[2][i][0:5] == "ques_":
+					x[2][i] = " ".join( queslist.get_value( x[2][i] ) )
 			for y in x[2]:
 				if y == "|":
 					body = body + " " +  ( "\n\t" + y )
 				else:
 					body = body + " "+ y
 		print_p(sf, x[0], body,x)
-	for x in extends:
-		body = ""
-		for y in x[2:]:
-			if y == "|":
-				body = body + " " + ( "\n\t" + y )
-			else:
-				body = body + " "+ y
-		print_p(sf, x[0], body)
 
-	for x in expt_extends:
-		body = ""
-		for y in x[2:]:
-			if y == "|":
-				body = body + " " + ( "\n\t" + y )
-			else:
-				body = body + " "+ y
-		print_p(sf, x[0], body)
+	multlist.echo(sf)
+	exprlist.echo(sf)
 	sf.write("""
 
 def p_FloatingPointLiteral( p ):

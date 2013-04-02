@@ -5,23 +5,23 @@ import lex
 from collections import deque
 
 tokens = lex.tokens
-# deque(['compilationUnit', ':', ['annotations', 'expr_0', '|', 'expt_2', 'expt_0', 'expt_1']]) 
+
 def p_compilationUnit(p):
 	'''
-	 compilationUnit : expt_2 expt_0 expt_1
-		| expt_2 expt_0 empty
-		| expt_2 empty expt_1
-		| expt_2 empty empty
-		| empty expt_0 expt_1
-		| empty expt_0 empty
-		| empty empty expt_1
+	 compilationUnit : packageDeclaration expt_1 expt_2
+		| packageDeclaration expt_1 empty
+		| packageDeclaration empty expt_2
+		| packageDeclaration empty empty
+		| empty expt_1 expt_2
+		| empty expt_1 empty
+		| empty empty expt_2
 		| empty empty empty
-		| annotations expr_0
+		| annotations expr_1
 	'''
 
 	pass
 
-# deque(['packageDeclaration', ':', ['PACKAGE', 'qualifiedName', 'SEMI']]) 
+
 def p_packageDeclaration(p):
 	'''
 	 packageDeclaration :  PACKAGE qualifiedName SEMI
@@ -29,18 +29,18 @@ def p_packageDeclaration(p):
 
 	pass
 
-# deque(['importDeclaration', ':', ['IMPORT', 'expt_3', 'qualifiedName', 'expt_4', 'SEMI']]) 
+
 def p_importDeclaration(p):
 	'''
-	 importDeclaration : IMPORT expt_3 qualifiedName expt_4 SEMI
-		| IMPORT expt_3 qualifiedName SEMI
-		| IMPORT qualifiedName expt_4 SEMI
-		| IMPORT qualifiedName SEMI
+	 importDeclaration : IMPORT STATIC qualifiedName DOT MULT SEMI
+		| IMPORT STATIC qualifiedName empty SEMI
+		| IMPORT empty qualifiedName DOT MULT SEMI
+		| IMPORT empty qualifiedName empty SEMI
 	'''
 
 	pass
 
-# deque(['typeDeclaration', ':', ['classOrInterfaceDeclaration', '|', 'SEMI']]) 
+
 def p_typeDeclaration(p):
 	'''
 	 typeDeclaration :  classOrInterfaceDeclaration 
@@ -49,25 +49,24 @@ def p_typeDeclaration(p):
 
 	pass
 
-# deque(['classOrInterfaceDeclaration', ':', ['classOrInterfaceModifiers', 'expr_1']]) 
+
 def p_classOrInterfaceDeclaration(p):
 	'''
-	 classOrInterfaceDeclaration :  classOrInterfaceModifiers expr_1
-	 							| expr_1
+	 classOrInterfaceDeclaration :  classOrInterfaceModifiers expr_2
 	'''
 
 	pass
 
-# deque(['classOrInterfaceModifiers', ':', ['expt_5']]) 
+
 def p_classOrInterfaceModifiers(p):
 	'''
-	 classOrInterfaceModifiers : expt_5
+	 classOrInterfaceModifiers : expt_3
 		| empty
 	'''
 
 	pass
 
-# deque(['classOrInterfaceModifier', ':', ['annotation', '|', 'PUBLIC', '|', 'PROTECTED', '|', 'PRIVATE', '|', 'ABSTRACT', '|', 'STATIC', '|', 'FINAL', '|', 'STRICTFP']]) 
+
 def p_classOrInterfaceModifier(p):
 	'''
 	 classOrInterfaceModifier :  annotation 
@@ -82,16 +81,16 @@ def p_classOrInterfaceModifier(p):
 
 	pass
 
-# deque(['modifiers', ':', ['expt_6']]) 
+
 def p_modifiers(p):
 	'''
-	 modifiers : expt_6
+	 modifiers : expt_4
 		| empty
 	'''
 
 	pass
 
-# deque(['classDeclaration', ':', ['normalClassDeclaration', '|', 'enumDeclaration']]) 
+
 def p_classDeclaration(p):
 	'''
 	 classDeclaration :  normalClassDeclaration 
@@ -100,106 +99,106 @@ def p_classDeclaration(p):
 
 	pass
 
-# deque(['normalClassDeclaration', ':', ['CLASS', 'Identifier', 'expt_7', 'expt_8', 'expt_9', 'classBody']]) 
+
 def p_normalClassDeclaration(p):
 	'''
-	 normalClassDeclaration : CLASS Identifier typeParameters expt_8 expt_9 classBody
-		| CLASS Identifier typeParameters expt_8 empty classBody
-		| CLASS Identifier typeParameters empty expt_9 classBody
+	 normalClassDeclaration : CLASS Identifier typeParameters EXTENDS type IMPLEMENTS typeList classBody
+		| CLASS Identifier typeParameters EXTENDS type empty classBody
+		| CLASS Identifier typeParameters empty IMPLEMENTS typeList classBody
 		| CLASS Identifier typeParameters empty empty classBody
-		| CLASS Identifier empty expt_8 expt_9 classBody
-		| CLASS Identifier empty expt_8 empty classBody
-		| CLASS Identifier empty empty expt_9 classBody
+		| CLASS Identifier empty EXTENDS type IMPLEMENTS typeList classBody
+		| CLASS Identifier empty EXTENDS type empty classBody
+		| CLASS Identifier empty empty IMPLEMENTS typeList classBody
 		| CLASS Identifier empty empty empty classBody
 	'''
 
 	pass
 
-# deque(['typeParameters', ':', ['LESS', 'typeParameter', 'expt_10', 'MORE']]) 
+
 def p_typeParameters(p):
 	'''
-	 typeParameters : LESS typeParameter expt_10 MORE
+	 typeParameters : LESS typeParameter expt_5 MORE
 		| LESS typeParameter empty MORE
 	'''
 
 	pass
 
-# deque(['typeParameter', ':', ['Identifier', 'expt_11']]) 
+
 def p_typeParameter(p):
 	'''
-	 typeParameter : Identifier expt_11
+	 typeParameter : Identifier EXTENDS typeBound
 		| Identifier empty
 	'''
 
 	pass
 
-# deque(['typeBound', ':', ['type', 'expt_12']]) 
+
 def p_typeBound(p):
 	'''
-	 typeBound : type expt_12
+	 typeBound : type expt_6
 		| type empty
 	'''
 
 	pass
 
-# deque(['enumDeclaration', ':', ['ENUM', 'Identifier', 'expt_9', 'enumBody']]) 
+
 def p_enumDeclaration(p):
 	'''
-	 enumDeclaration : ENUM Identifier expt_9 enumBody
+	 enumDeclaration : ENUM Identifier IMPLEMENTS typeList enumBody
 		| ENUM Identifier empty enumBody
 	'''
 
 	pass
 
-# deque(['enumBody', ':', ['BLPAREN', 'expt_13', 'expt_14', 'expt_15', 'BRPAREN']]) 
+
 def p_enumBody(p):
 	'''
-	 enumBody : BLPAREN expt_13 expt_14 expt_15 BRPAREN
-		| BLPAREN expt_13 expt_14 empty BRPAREN
-		| BLPAREN expt_13 empty expt_15 BRPAREN
-		| BLPAREN expt_13 empty empty BRPAREN
-		| BLPAREN empty expt_14 expt_15 BRPAREN
-		| BLPAREN empty expt_14 empty BRPAREN
-		| BLPAREN empty empty expt_15 BRPAREN
+	 enumBody : BLPAREN enumConstants COMMA enumBodyDeclarations BRPAREN
+		| BLPAREN enumConstants COMMA empty BRPAREN
+		| BLPAREN enumConstants empty enumBodyDeclarations BRPAREN
+		| BLPAREN enumConstants empty empty BRPAREN
+		| BLPAREN empty COMMA enumBodyDeclarations BRPAREN
+		| BLPAREN empty COMMA empty BRPAREN
+		| BLPAREN empty empty enumBodyDeclarations BRPAREN
 		| BLPAREN empty empty empty BRPAREN
 	'''
 
 	pass
 
-# deque(['enumConstants', ':', ['enumConstant', 'expt_16']]) 
+
 def p_enumConstants(p):
 	'''
-	 enumConstants : enumConstant expt_16
+	 enumConstants : enumConstant expt_7
 		| enumConstant empty
 	'''
 
 	pass
 
-# deque(['enumConstant', ':', ['expt_17', 'Identifier', 'expt_18', 'expt_19']]) 
+
 def p_enumConstant(p):
 	'''
-	 enumConstant : expt_17 Identifier expt_18 classBody
-		| expt_17 Identifier expt_18 
-		| expt_17 Identifier  classBody
-		| expt_17 Identifier  
-		| Identifier expt_18 classBody
-		| Identifier expt_18 
-		| Identifier  classBody
-		| Identifier 
+	 enumConstant : annotations Identifier arguments classBody
+		| annotations Identifier arguments empty
+		| annotations Identifier empty classBody
+		| annotations Identifier empty empty
+		| empty Identifier arguments classBody
+		| empty Identifier arguments empty
+		| empty Identifier empty classBody
+		| empty Identifier empty empty
 	'''
 
 	pass
 
-# deque(['enumBodyDeclarations', ':', ['SEMI', 'expt_20']]) 
+
 def p_enumBodyDeclarations(p):
 	'''
-	 enumBodyDeclarations : SEMI classBodyDeclarations
-		| SEMI
+	 enumBodyDeclarations : SEMI expt_8
+		| SEMI empty
 	'''
 
 	pass
 
-# deque(['interfaceDeclaration', ':', ['normalInterfaceDeclaration', '|', 'annotationTypeDeclaration']]) 
+
 def p_interfaceDeclaration(p):
 	'''
 	 interfaceDeclaration :  normalInterfaceDeclaration 
@@ -208,56 +207,56 @@ def p_interfaceDeclaration(p):
 
 	pass
 
-# deque(['normalInterfaceDeclaration', ':', ['INTERFACE', 'Identifier', 'expt_7', 'expt_21', 'interfaceBody']]) 
+
 def p_normalInterfaceDeclaration(p):
 	'''
-	 normalInterfaceDeclaration : INTERFACE Identifier typeParameters expt_21 interfaceBody
+	 normalInterfaceDeclaration : INTERFACE Identifier typeParameters EXTENDS typeList interfaceBody
 		| INTERFACE Identifier typeParameters empty interfaceBody
-		| INTERFACE Identifier empty expt_21 interfaceBody
+		| INTERFACE Identifier empty EXTENDS typeList interfaceBody
 		| INTERFACE Identifier empty empty interfaceBody
 	'''
 
 	pass
 
-# deque(['typeList', ':', ['type', 'expt_22']]) 
+
 def p_typeList(p):
 	'''
-	 typeList : type expt_22
+	 typeList : type expt_9
 		| type empty
 	'''
 
 	pass
 
-# deque(['classBody', ':', ['BLPAREN', 'expt_20', 'BRPAREN']]) 
+
 def p_classBody(p):
 	'''
-	 classBody : BLPAREN classBodyDeclarations BRPAREN
-		| BLPAREN  BRPAREN
-	'''
-
-	pass
-
-# deque(['interfaceBody', ':', ['BLPAREN', 'expt_23', 'BRPAREN']]) 
-def p_interfaceBody(p):
-	'''
-	 interfaceBody : BLPAREN expt_23 BRPAREN
+	 classBody : BLPAREN expt_8 BRPAREN
 		| BLPAREN empty BRPAREN
 	'''
 
 	pass
 
-# deque(['classBodyDeclaration', ':', ['SEMI', '|', 'expt_3', 'block', '|', 'modifiers', 'memberDecl']]) 
+
+def p_interfaceBody(p):
+	'''
+	 interfaceBody : BLPAREN expt_10 BRPAREN
+		| BLPAREN empty BRPAREN
+	'''
+
+	pass
+
+
 def p_classBodyDeclaration(p):
 	'''
 	 classBodyDeclaration : modifiers memberDecl
-		| expt_3 block
+		| STATIC block
 		| empty block
 		| SEMI
 	'''
 
 	pass
 
-# deque(['memberDecl', ':', ['genericMethodOrConstructorDecl', '|', 'memberDeclaration', '|', 'VOID', 'Identifier', 'voidMethodDeclaratorRest', '|', 'Identifier', 'constructorDeclaratorRest', '|', 'interfaceDeclaration', '|', 'classDeclaration']]) 
+
 def p_memberDecl(p):
 	'''
 	 memberDecl :  genericMethodOrConstructorDecl 
@@ -270,15 +269,15 @@ def p_memberDecl(p):
 
 	pass
 
-# deque(['memberDeclaration', ':', ['type', 'expr_2']]) 
+
 def p_memberDeclaration(p):
 	'''
-	 memberDeclaration :  type expr_2
+	 memberDeclaration :  type expr_3
 	'''
 
 	pass
 
-# deque(['genericMethodOrConstructorDecl', ':', ['typeParameters', 'genericMethodOrConstructorRest']]) 
+
 def p_genericMethodOrConstructorDecl(p):
 	'''
 	 genericMethodOrConstructorDecl :  typeParameters genericMethodOrConstructorRest
@@ -286,16 +285,16 @@ def p_genericMethodOrConstructorDecl(p):
 
 	pass
 
-# deque(['genericMethodOrConstructorRest', ':', ['expr_3', 'Identifier', 'methodDeclaratorRest', '|', 'Identifier', 'constructorDeclaratorRest']]) 
+
 def p_genericMethodOrConstructorRest(p):
 	'''
-	 genericMethodOrConstructorRest :  expr_3 Identifier methodDeclaratorRest 
+	 genericMethodOrConstructorRest :  expr_4 Identifier methodDeclaratorRest 
 	| Identifier constructorDeclaratorRest
 	'''
 
 	pass
 
-# deque(['methodDeclaration', ':', ['Identifier', 'methodDeclaratorRest']]) 
+
 def p_methodDeclaration(p):
 	'''
 	 methodDeclaration :  Identifier methodDeclaratorRest
@@ -303,7 +302,7 @@ def p_methodDeclaration(p):
 
 	pass
 
-# deque(['fieldDeclaration', ':', ['variableDeclarators', 'SEMI']]) 
+
 def p_fieldDeclaration(p):
 	'''
 	 fieldDeclaration :  variableDeclarators SEMI
@@ -311,7 +310,7 @@ def p_fieldDeclaration(p):
 
 	pass
 
-# deque(['interfaceBodyDeclaration', ':', ['modifiers', 'interfaceMemberDecl', '|', 'SEMI']]) 
+
 def p_interfaceBodyDeclaration(p):
 	'''
 	 interfaceBodyDeclaration :  modifiers interfaceMemberDecl 
@@ -320,7 +319,7 @@ def p_interfaceBodyDeclaration(p):
 
 	pass
 
-# deque(['interfaceMemberDecl', ':', ['interfaceMethodOrFieldDecl', '|', 'interfaceGenericMethodDecl', '|', 'VOID', 'Identifier', 'voidInterfaceMethodDeclaratorRest', '|', 'interfaceDeclaration', '|', 'classDeclaration']]) 
+
 def p_interfaceMemberDecl(p):
 	'''
 	 interfaceMemberDecl :  interfaceMethodOrFieldDecl 
@@ -332,7 +331,7 @@ def p_interfaceMemberDecl(p):
 
 	pass
 
-# deque(['interfaceMethodOrFieldDecl', ':', ['type', 'Identifier', 'interfaceMethodOrFieldRest']]) 
+
 def p_interfaceMethodOrFieldDecl(p):
 	'''
 	 interfaceMethodOrFieldDecl :  type Identifier interfaceMethodOrFieldRest
@@ -340,7 +339,7 @@ def p_interfaceMethodOrFieldDecl(p):
 
 	pass
 
-# deque(['interfaceMethodOrFieldRest', ':', ['constantDeclaratorsRest', 'SEMI', '|', 'interfaceMethodDeclaratorRest']]) 
+
 def p_interfaceMethodOrFieldRest(p):
 	'''
 	 interfaceMethodOrFieldRest :  constantDeclaratorsRest SEMI 
@@ -349,64 +348,64 @@ def p_interfaceMethodOrFieldRest(p):
 
 	pass
 
-# deque(['methodDeclaratorRest', ':', ['formalParameters', 'expt_24', 'expt_25', 'expr_4']]) 
+
 def p_methodDeclaratorRest(p):
 	'''
-	 methodDeclaratorRest : formalParameters expt_24 expt_25 expr_4
-		| formalParameters expt_24 empty expr_4
-		| formalParameters empty expt_25 expr_4
-		| formalParameters empty empty expr_4
+	 methodDeclaratorRest : formalParameters expt_11 THROWS qualifiedNameList expr_5
+		| formalParameters expt_11 empty expr_5
+		| formalParameters empty THROWS qualifiedNameList expr_5
+		| formalParameters empty empty expr_5
 	'''
 
 	pass
 
-# deque(['voidMethodDeclaratorRest', ':', ['formalParameters', 'expt_25', 'expr_4']]) 
+
 def p_voidMethodDeclaratorRest(p):
 	'''
-	 voidMethodDeclaratorRest : formalParameters expt_25 expr_4
-		| formalParameters empty expr_4
+	 voidMethodDeclaratorRest : formalParameters THROWS qualifiedNameList expr_6
+		| formalParameters empty expr_6
 	'''
 
 	pass
 
-# deque(['interfaceMethodDeclaratorRest', ':', ['formalParameters', 'expt_24', 'expt_25', 'SEMI']]) 
+
 def p_interfaceMethodDeclaratorRest(p):
 	'''
-	 interfaceMethodDeclaratorRest : formalParameters expt_24 expt_25 SEMI
-		| formalParameters expt_24 empty SEMI
-		| formalParameters empty expt_25 SEMI
+	 interfaceMethodDeclaratorRest : formalParameters expt_11 THROWS qualifiedNameList SEMI
+		| formalParameters expt_11 empty SEMI
+		| formalParameters empty THROWS qualifiedNameList SEMI
 		| formalParameters empty empty SEMI
 	'''
 
 	pass
 
-# deque(['interfaceGenericMethodDecl', ':', ['typeParameters', 'expr_3', 'Identifier', 'interfaceMethodDeclaratorRest']]) 
+
 def p_interfaceGenericMethodDecl(p):
 	'''
-	 interfaceGenericMethodDecl :  typeParameters expr_3 Identifier interfaceMethodDeclaratorRest
+	 interfaceGenericMethodDecl :  typeParameters expr_7 Identifier interfaceMethodDeclaratorRest
 	'''
 
 	pass
 
-# deque(['voidInterfaceMethodDeclaratorRest', ':', ['formalParameters', 'expt_25', 'SEMI']]) 
+
 def p_voidInterfaceMethodDeclaratorRest(p):
 	'''
-	 voidInterfaceMethodDeclaratorRest : formalParameters expt_25 SEMI
+	 voidInterfaceMethodDeclaratorRest : formalParameters THROWS qualifiedNameList SEMI
 		| formalParameters empty SEMI
 	'''
 
 	pass
 
-# deque(['constructorDeclaratorRest', ':', ['formalParameters', 'expt_25', 'constructorBody']]) 
+
 def p_constructorDeclaratorRest(p):
 	'''
-	 constructorDeclaratorRest : formalParameters expt_25 constructorBody
+	 constructorDeclaratorRest : formalParameters THROWS qualifiedNameList constructorBody
 		| formalParameters empty constructorBody
 	'''
 
 	pass
 
-# deque(['constantDeclarator', ':', ['Identifier', 'constantDeclaratorRest']]) 
+
 def p_constantDeclarator(p):
 	'''
 	 constantDeclarator :  Identifier constantDeclaratorRest
@@ -414,52 +413,52 @@ def p_constantDeclarator(p):
 
 	pass
 
-# deque(['variableDeclarators', ':', ['variableDeclarator', 'expt_26']]) 
+
 def p_variableDeclarators(p):
 	'''
-	 variableDeclarators : variableDeclarator expt_26
+	 variableDeclarators : variableDeclarator expt_12
 		| variableDeclarator empty
 	'''
 
 	pass
 
-# deque(['variableDeclarator', ':', ['variableDeclaratorId', 'expt_27']]) 
+
 def p_variableDeclarator(p):
 	'''
-	 variableDeclarator : variableDeclaratorId expt_27
+	 variableDeclarator : variableDeclaratorId EQUALS variableInitializer
 		| variableDeclaratorId empty
 	'''
 
 	pass
 
-# deque(['constantDeclaratorsRest', ':', ['constantDeclaratorRest', 'expt_28']]) 
+
 def p_constantDeclaratorsRest(p):
 	'''
-	 constantDeclaratorsRest : constantDeclaratorRest expt_28
+	 constantDeclaratorsRest : constantDeclaratorRest expt_13
 		| constantDeclaratorRest empty
 	'''
 
 	pass
 
-# deque(['constantDeclaratorRest', ':', ['expt_24', 'EQUALS', 'variableInitializer']]) 
+
 def p_constantDeclaratorRest(p):
 	'''
-	 constantDeclaratorRest : expt_24 EQUALS variableInitializer
+	 constantDeclaratorRest : expt_11 EQUALS variableInitializer
 		| empty EQUALS variableInitializer
 	'''
 
 	pass
 
-# deque(['variableDeclaratorId', ':', ['Identifier', 'expt_24']]) 
+
 def p_variableDeclaratorId(p):
 	'''
-	 variableDeclaratorId : Identifier expt_24
+	 variableDeclaratorId : Identifier expt_11
 		| Identifier empty
 	'''
 
 	pass
 
-# deque(['variableInitializer', ':', ['arrayInitializer', '|', 'expression']]) 
+
 def p_variableInitializer(p):
 	'''
 	 variableInitializer :  arrayInitializer 
@@ -468,16 +467,16 @@ def p_variableInitializer(p):
 
 	pass
 
-# deque(['arrayInitializer', ':', ['BLPAREN', 'expt_31', 'BRPAREN']]) 
+
 def p_arrayInitializer(p):
 	'''
-	 arrayInitializer : BLPAREN expt_31 BRPAREN
+	 arrayInitializer : BLPAREN variableInitializer expt_14 ques_9 BRPAREN
 		| BLPAREN empty BRPAREN
 	'''
 
 	pass
 
-# deque(['modifier', ':', ['annotation', '|', 'PUBLIC', '|', 'PROTECTED', '|', 'PRIVATE', '|', 'STATIC', '|', 'ABSTRACT', '|', 'FINAL', '|', 'NATIVE', '|', 'SYNCHRONIZED', '|', 'TRANSIENT', '|', 'VOLATILE', '|', 'STRICTFP']]) 
+
 def p_modifier(p):
 	'''
 	 modifier :  annotation 
@@ -497,7 +496,14 @@ def p_modifier(p):
 	pass
 
 
-# deque(['enumConstantName', ':', ['Identifier']]) 
+def p_packageOrTypeName(p):
+	'''
+	 packageOrTypeName :  qualifiedName
+	'''
+
+	pass
+
+
 def p_enumConstantName(p):
 	'''
 	 enumConstantName :  Identifier
@@ -505,29 +511,37 @@ def p_enumConstantName(p):
 
 	pass
 
-# deque(['type', ':', ['classOrInterfaceType', 'expt_24', '|', 'primitiveType', 'expt_24']]) 
+
+def p_typeName(p):
+	'''
+	 typeName :  qualifiedName
+	'''
+
+	pass
+
+
 def p_type(p):
 	'''
-	 type : primitiveType expt_24
+	 type : primitiveType expt_11
 		| primitiveType empty
-		| classOrInterfaceType expt_24
+		| classOrInterfaceType expt_11
 		| classOrInterfaceType empty
 	'''
 
 	pass
 
-# deque(['classOrInterfaceType', ':', ['Identifier', 'expt_32', 'expt_33']]) 
+
 def p_classOrInterfaceType(p):
 	'''
-	 classOrInterfaceType : Identifier expt_32 expt_33
-		| Identifier expt_32 empty
-		| Identifier empty expt_33
+	 classOrInterfaceType : Identifier typeArguments expt_15
+		| Identifier typeArguments empty
+		| Identifier empty expt_15
 		| Identifier empty empty
 	'''
 
 	pass
 
-# deque(['primitiveType', ':', ['BOOLEAN', '|', 'CHAR', '|', 'BYTE', '|', 'SHORT', '|', 'INT', '|', 'LONG', '|', 'FLOAT', '|', 'DOUBLE']]) 
+
 def p_primitiveType(p):
 	'''
 	 primitiveType :  BOOLEAN 
@@ -542,7 +556,7 @@ def p_primitiveType(p):
 
 	pass
 
-# deque(['variableModifier', ':', ['FINAL', '|', 'annotation']]) 
+
 def p_variableModifier(p):
 	'''
 	 variableModifier :  FINAL 
@@ -551,63 +565,62 @@ def p_variableModifier(p):
 
 	pass
 
-# deque(['typeArguments', ':', ['LESS', 'typeArgument', 'expt_34', 'MORE']]) 
+
 def p_typeArguments(p):
 	'''
-	 typeArguments : LESS typeArgument expt_34 MORE
-		| LESS typeArgument MORE
+	 typeArguments : LESS typeArgument expt_16 MORE
+		| LESS typeArgument empty MORE
 	'''
 
 	pass
 
-# deque(['typeArgument', ':', ['type', '|', 'QUES', 'expt_35']]) 
+
 def p_typeArgument(p):
 	'''
-	 typeArgument : QUES expt_35
+	 typeArgument : QUES expr_8 type
 		| QUES empty
 		| type
 	'''
 
 	pass
 
-# deque(['qualifiedNameList', ':', ['qualifiedName', 'expt_36']]) 
+
 def p_qualifiedNameList(p):
 	'''
-	 qualifiedNameList : qualifiedName expt_36
+	 qualifiedNameList : qualifiedName expt_17
 		| qualifiedName empty
 	'''
 
 	pass
 
-# deque(['formalParameters', ':', ['LPAREN', 'expt_37', 'RPAREN']]) 
+
 def p_formalParameters(p):
 	'''
-	 formalParameters : LPAREN expt_37 RPAREN
+	 formalParameters : LPAREN formalParameterDecls RPAREN
 		| LPAREN empty RPAREN
 	'''
 
 	pass
 
-# deque(['formalParameterDecls', ':', ['variableModifiers', 'type', 'formalParameterDeclsRest']]) 
+
 def p_formalParameterDecls(p):
 	'''
 	 formalParameterDecls :  variableModifiers type formalParameterDeclsRest
-	 					| type formalParameterDeclsRest
 	'''
 
 	pass
 
-# deque(['formalParameterDeclsRest', ':', ['variableDeclaratorId', 'expt_38', '|', 'OP_ARRAY', 'variableDeclaratorId']]) 
+
 def p_formalParameterDeclsRest(p):
 	'''
 	 formalParameterDeclsRest : OP_ARRAY variableDeclaratorId
-		| variableDeclaratorId expt_38
+		| variableDeclaratorId COMMA formalParameterDecls
 		| variableDeclaratorId empty
 	'''
 
 	pass
 
-# deque(['methodBody', ':', ['block']]) 
+
 def p_methodBody(p):
 	'''
 	 methodBody :  block
@@ -615,38 +628,38 @@ def p_methodBody(p):
 
 	pass
 
-# deque(['constructorBody', ':', ['BLPAREN', 'expt_39', 'expt_40', 'BRPAREN']]) 
+
 def p_constructorBody(p):
 	'''
-	 constructorBody : BLPAREN expt_39 expt_40 BRPAREN
-		| BLPAREN expt_39 empty BRPAREN
-		| BLPAREN empty expt_40 BRPAREN
+	 constructorBody : BLPAREN explicitConstructorInvocation expt_18 BRPAREN
+		| BLPAREN explicitConstructorInvocation empty BRPAREN
+		| BLPAREN empty expt_18 BRPAREN
 		| BLPAREN empty empty BRPAREN
 	'''
 
 	pass
 
-# deque(['explicitConstructorInvocation', ':', ['expt_41', 'expr_6', 'arguments', 'SEMI', '|', 'primary', 'DOT', 'expt_41', 'SUPER', 'arguments', 'SEMI']]) 
+
 def p_explicitConstructorInvocation(p):
 	'''
-	 explicitConstructorInvocation : primary DOT expt_41 SUPER arguments SEMI
+	 explicitConstructorInvocation : primary DOT nonWildcardTypeArguments SUPER arguments SEMI
 		| primary DOT empty SUPER arguments SEMI
-		| expt_41 expr_6 arguments SEMI
-		| empty expr_6 arguments SEMI
+		| nonWildcardTypeArguments expr_9 arguments SEMI
+		| empty expr_9 arguments SEMI
 	'''
 
 	pass
 
-# deque(['qualifiedName', ':', ['Identifier', 'expt_42']]) 
+
 def p_qualifiedName(p):
 	'''
-	 qualifiedName : Identifier expt_42
+	 qualifiedName : Identifier expt_19
 		| Identifier empty
 	'''
 
 	pass
 
-# deque(['literal', ':', ['integerLiteral', '|', 'FloatingPointLiteral', '|', 'CharacterLiteral', '|', 'StringLiteral', '|', 'booleanLiteral', '|', 'NULL']]) 
+
 def p_literal(p):
 	'''
 	 literal :  integerLiteral 
@@ -659,7 +672,7 @@ def p_literal(p):
 
 	pass
 
-# deque(['booleanLiteral', ':', ['TRUE', '|', 'FALSE']]) 
+
 def p_booleanLiteral(p):
 	'''
 	 booleanLiteral :  TRUE 
@@ -668,45 +681,42 @@ def p_booleanLiteral(p):
 
 	pass
 
-# deque(['annotations', ':', ['expr_7']]) 
+
 def p_annotations(p):
 	'''
-	 annotations :  annotation
-	 			| annotations annotation
+	 annotations :  expr_10
 	'''
 
 	pass
 
-# deque(['annotation', ':', ['AT', 'annotationName', 'expt_43']]) 
+
 def p_annotation(p):
 	'''
-	 annotation : AT annotationName LPAREN elementValuePairs RPAREN
-	 	|  AT annotationName LPAREN elementValue RPAREN
-	 	| AT annotationName LPAREN RPAREN
-		| AT annotationName 
+	 annotation : AT annotationName LPAREN expr_11 RPAREN
+		| AT annotationName empty
 	'''
 
 	pass
 
-# deque(['annotationName', ':', ['Identifier', 'expt_42']]) 
+
 def p_annotationName(p):
 	'''
-	 annotationName : Identifier expt_42
+	 annotationName : Identifier expt_19
 		| Identifier empty
 	'''
 
 	pass
 
-# deque(['elementValuePairs', ':', ['elementValuePair', 'expt_44']]) 
+
 def p_elementValuePairs(p):
 	'''
-	 elementValuePairs : elementValuePair expt_44
+	 elementValuePairs : elementValuePair expt_20
 		| elementValuePair empty
 	'''
 
 	pass
 
-# deque(['elementValuePair', ':', ['Identifier', 'EQUALS', 'elementValue']]) 
+
 def p_elementValuePair(p):
 	'''
 	 elementValuePair :  Identifier EQUALS elementValue
@@ -714,7 +724,7 @@ def p_elementValuePair(p):
 
 	pass
 
-# deque(['elementValue', ':', ['conditionalExpression', '|', 'annotation', '|', 'elementValueArrayInitializer']]) 
+
 def p_elementValue(p):
 	'''
 	 elementValue :  conditionalExpression 
@@ -724,18 +734,18 @@ def p_elementValue(p):
 
 	pass
 
-# deque(['elementValueArrayInitializer', ':', ['BLPAREN', 'expt_46', 'expt_30', 'BRPAREN']]) 
+
 def p_elementValueArrayInitializer(p):
 	'''
-	 elementValueArrayInitializer : BLPAREN expt_46 expt_30 BRPAREN
-		| BLPAREN expt_46 empty BRPAREN
-		| BLPAREN empty expt_30 BRPAREN
+	 elementValueArrayInitializer : BLPAREN elementValue expt_21 COMMA BRPAREN
+		| BLPAREN elementValue expt_21 empty BRPAREN
+		| BLPAREN empty COMMA BRPAREN
 		| BLPAREN empty empty BRPAREN
 	'''
 
 	pass
 
-# deque(['annotationTypeDeclaration', ':', ['AT', 'INTERFACE', 'Identifier', 'annotationTypeBody']]) 
+
 def p_annotationTypeDeclaration(p):
 	'''
 	 annotationTypeDeclaration :  AT INTERFACE Identifier annotationTypeBody
@@ -743,16 +753,16 @@ def p_annotationTypeDeclaration(p):
 
 	pass
 
-# deque(['annotationTypeBody', ':', ['BLPAREN', 'expt_47', 'BRPAREN']]) 
+
 def p_annotationTypeBody(p):
 	'''
-	 annotationTypeBody : BLPAREN expt_47 BRPAREN
+	 annotationTypeBody : BLPAREN expt_22 BRPAREN
 		| BLPAREN empty BRPAREN
 	'''
 
 	pass
 
-# deque(['annotationTypeElementDeclaration', ':', ['modifiers', 'annotationTypeElementRest']]) 
+
 def p_annotationTypeElementDeclaration(p):
 	'''
 	 annotationTypeElementDeclaration :  modifiers annotationTypeElementRest
@@ -760,23 +770,23 @@ def p_annotationTypeElementDeclaration(p):
 
 	pass
 
-# deque(['annotationTypeElementRest', ':', ['type', 'annotationMethodOrConstantRest', 'SEMI', '|', 'normalClassDeclaration', 'expt_48', '|', 'normalInterfaceDeclaration', 'expt_48', '|', 'enumDeclaration', 'expt_48', '|', 'annotationTypeDeclaration', 'expt_48']]) 
+
 def p_annotationTypeElementRest(p):
 	'''
-	 annotationTypeElementRest : annotationTypeDeclaration expt_48
+	 annotationTypeElementRest : annotationTypeDeclaration SEMI
 		| annotationTypeDeclaration empty
-		| enumDeclaration expt_48
+		| enumDeclaration SEMI
 		| enumDeclaration empty
-		| normalInterfaceDeclaration expt_48
+		| normalInterfaceDeclaration SEMI
 		| normalInterfaceDeclaration empty
-		| normalClassDeclaration expt_48
+		| normalClassDeclaration SEMI
 		| normalClassDeclaration empty
 		| type annotationMethodOrConstantRest SEMI
 	'''
 
 	pass
 
-# deque(['annotationMethodOrConstantRest', ':', ['annotationMethodRest', '|', 'annotationConstantRest']]) 
+
 def p_annotationMethodOrConstantRest(p):
 	'''
 	 annotationMethodOrConstantRest :  annotationMethodRest 
@@ -785,16 +795,16 @@ def p_annotationMethodOrConstantRest(p):
 
 	pass
 
-# deque(['annotationMethodRest', ':', ['Identifier', 'LPAREN', 'RPAREN', 'expt_49']]) 
+
 def p_annotationMethodRest(p):
 	'''
-	 annotationMethodRest : Identifier LPAREN RPAREN expt_49
+	 annotationMethodRest : Identifier LPAREN RPAREN defaultValue
 		| Identifier LPAREN RPAREN empty
 	'''
 
 	pass
 
-# deque(['annotationConstantRest', ':', ['variableDeclarators']]) 
+
 def p_annotationConstantRest(p):
 	'''
 	 annotationConstantRest :  variableDeclarators
@@ -802,7 +812,7 @@ def p_annotationConstantRest(p):
 
 	pass
 
-# deque(['defaultValue', ':', ['DEFAULT', 'elementValue']]) 
+
 def p_defaultValue(p):
 	'''
 	 defaultValue :  DEFAULT elementValue
@@ -810,16 +820,16 @@ def p_defaultValue(p):
 
 	pass
 
-# deque(['block', ':', ['BLPAREN', 'expt_40', 'BRPAREN']]) 
+
 def p_block(p):
 	'''
-	 block : BLPAREN expt_40 BRPAREN
+	 block : BLPAREN expt_18 BRPAREN
 		| BLPAREN empty BRPAREN
 	'''
 
 	pass
 
-# deque(['blockStatement', ':', ['localVariableDeclarationStatement', '|', 'classOrInterfaceDeclaration', '|', 'statement']]) 
+
 def p_blockStatement(p):
 	'''
 	 blockStatement :  localVariableDeclarationStatement 
@@ -829,70 +839,69 @@ def p_blockStatement(p):
 
 	pass
 
-# deque(['localVariableDeclarationStatement', ':', ['localVariableDeclaration', 'SEMI']]) 
+
 def p_localVariableDeclarationStatement(p):
 	'''
 	 localVariableDeclarationStatement :  localVariableDeclaration SEMI
-	 |	SEMI
 	'''
 
 	pass
 
-# deque(['localVariableDeclaration', ':', ['variableModifiers', 'type', 'variableDeclarators']]) 
+
 def p_localVariableDeclaration(p):
 	'''
 	 localVariableDeclaration :  variableModifiers type variableDeclarators
-	 						| type variableDeclarators
 	'''
 
 	pass
 
-# deque(['variableModifiers', ':', ['expt_50']]) 
+
 def p_variableModifiers(p):
 	'''
-	 variableModifiers : expt_50
+	 variableModifiers : expt_23
+		| empty
 	'''
 
 	pass
 
-# deque(['statement', ':', ['block', '|', 'ASSERT', 'expression', 'expt_51', 'SEMI', '|', 'IF', 'parExpression', 'statement', 'expt_52', '|', 'FOR', 'LPAREN', 'forControl', 'RPAREN', 'statement', '|', 'WHILE', 'parExpression', 'statement', '|', 'DO', 'statement', 'WHILE', 'parExpression', 'SEMI', '|', 'TRY', 'block', 'expr_9', '|', 'SWITCH', 'parExpression', 'BLPAREN', 'switchBlockStatementGroups', 'BRPAREN', '|', 'SYNCHRONIZED', 'parExpression', 'block', '|', 'RETURN', 'expt_53', 'SEMI', '|', 'THROW', 'expression', 'SEMI', '|', 'BREAK', 'expt_54', 'SEMI', '|', 'CONTINUE', 'expt_54', 'SEMI', '|', 'SEMI', '|', 'statementExpression', 'SEMI', '|', 'Identifier', 'COLON', 'statement']]) 
+
 def p_statement(p):
 	'''
 	 statement : Identifier COLON statement
 		| statementExpression SEMI
 		| SEMI
 		| CONTINUE Identifier SEMI
-		| CONTINUE SEMI
+		| CONTINUE empty SEMI
 		| BREAK Identifier SEMI
-		| BREAK  SEMI
+		| BREAK empty SEMI
 		| THROW expression SEMI
-		| RETURN expt_53 SEMI
-		| RETURN SEMI
+		| RETURN expression SEMI
+		| RETURN empty SEMI
 		| SYNCHRONIZED parExpression block
 		| SWITCH parExpression BLPAREN switchBlockStatementGroups BRPAREN
-		| TRY block expr_9
+		| TRY block expr_12
 		| DO statement WHILE parExpression SEMI
 		| WHILE parExpression statement
 		| FOR LPAREN forControl RPAREN statement
 		| IF parExpression statement ELSE statement
-		| IF parExpression statement 
-		| ASSERT expression expt_51 SEMI
-		| ASSERT expression SEMI
+		| IF parExpression statement empty
+		| ASSERT expression COLON expression SEMI
+		| ASSERT expression empty SEMI
 		| block
 	'''
 
 	pass
 
-# deque(['catches', ':', ['catchClause', 'expt_55']]) 
+
 def p_catches(p):
 	'''
-	 catches : catchClause expt_55
+	 catches : catchClause expt_24
 		| catchClause empty
 	'''
 
 	pass
 
-# deque(['catchClause', ':', ['CATCH', 'LPAREN', 'formalParameter', 'RPAREN', 'block']]) 
+
 def p_catchClause(p):
 	'''
 	 catchClause :  CATCH LPAREN formalParameter RPAREN block
@@ -900,7 +909,7 @@ def p_catchClause(p):
 
 	pass
 
-# deque(['formalParameter', ':', ['variableModifiers', 'type', 'variableDeclaratorId']]) 
+
 def p_formalParameter(p):
 	'''
 	 formalParameter :  variableModifiers type variableDeclaratorId
@@ -908,25 +917,25 @@ def p_formalParameter(p):
 
 	pass
 
-# deque(['switchBlockStatementGroups', ':', ['expt_56']]) 
+
 def p_switchBlockStatementGroups(p):
 	'''
-	 switchBlockStatementGroups : expt_56
+	 switchBlockStatementGroups : expt_25
 		| empty
 	'''
 
 	pass
 
-# deque(['switchBlockStatementGroup', ':', ['expr_10', 'expt_40']]) 
+
 def p_switchBlockStatementGroup(p):
 	'''
-	 switchBlockStatementGroup : expr_10 expt_40
-		| expr_10 empty
+	 switchBlockStatementGroup : expr_13 expt_18
+		| expr_13 empty
 	'''
 
 	pass
 
-# deque(['switchLabel', ':', ['CASE', 'constantExpression', 'COLON', '|', 'CASE', 'enumConstantName', 'COLON', '|', 'DEFAULT', 'COLON']]) 
+
 def p_switchLabel(p):
 	'''
 	 switchLabel :  CASE constantExpression COLON 
@@ -936,23 +945,23 @@ def p_switchLabel(p):
 
 	pass
 
-# deque(['forControl', ':', ['enhancedForControl', '|', 'expt_57', 'SEMI', 'expt_58', 'SEMI', 'expt_59']]) 
+
 def p_forControl(p):
 	'''
-	 forControl : expt_57 SEMI expt_58 SEMI expt_59
-		| expt_57 SEMI expt_58 SEMI empty
-		| expt_57 SEMI empty SEMI expt_59
-		| expt_57 SEMI empty SEMI empty
-		| empty SEMI expt_58 SEMI expt_59
-		| empty SEMI expt_58 SEMI empty
-		| empty SEMI empty SEMI expt_59
+	 forControl : forInit SEMI expression SEMI forUpdate
+		| forInit SEMI expression SEMI empty
+		| forInit SEMI empty SEMI forUpdate
+		| forInit SEMI empty SEMI empty
+		| empty SEMI expression SEMI forUpdate
+		| empty SEMI expression SEMI empty
+		| empty SEMI empty SEMI forUpdate
 		| empty SEMI empty SEMI empty
 		| enhancedForControl
 	'''
 
 	pass
 
-# deque(['forInit', ':', ['localVariableDeclaration', '|', 'expressionList']]) 
+
 def p_forInit(p):
 	'''
 	 forInit :  localVariableDeclaration 
@@ -961,7 +970,7 @@ def p_forInit(p):
 
 	pass
 
-# deque(['enhancedForControl', ':', ['variableModifiers', 'type', 'Identifier', 'COLON', 'expression']]) 
+
 def p_enhancedForControl(p):
 	'''
 	 enhancedForControl :  variableModifiers type Identifier COLON expression
@@ -969,7 +978,7 @@ def p_enhancedForControl(p):
 
 	pass
 
-# deque(['forUpdate', ':', ['expressionList']]) 
+
 def p_forUpdate(p):
 	'''
 	 forUpdate :  expressionList
@@ -977,7 +986,7 @@ def p_forUpdate(p):
 
 	pass
 
-# deque(['parExpression', ':', ['LPAREN', 'expression', 'RPAREN']]) 
+
 def p_parExpression(p):
 	'''
 	 parExpression :  LPAREN expression RPAREN
@@ -985,16 +994,16 @@ def p_parExpression(p):
 
 	pass
 
-# deque(['expressionList', ':', ['expression', 'expt_60']]) 
+
 def p_expressionList(p):
 	'''
-	 expressionList : expression expt_60
-		| expression 
+	 expressionList : expression expt_26
+		| expression empty
 	'''
 
 	pass
 
-# deque(['statementExpression', ':', ['expression']]) 
+
 def p_statementExpression(p):
 	'''
 	 statementExpression :  expression
@@ -1002,7 +1011,7 @@ def p_statementExpression(p):
 
 	pass
 
-# deque(['constantExpression', ':', ['expression']]) 
+
 def p_constantExpression(p):
 	'''
 	 constantExpression :  expression
@@ -1010,19 +1019,19 @@ def p_constantExpression(p):
 
 	pass
 
-# deque(['expression', ':', ['conditionalExpression', 'expt_61']]) 
+
 def p_expression(p):
 	'''
 	 expression : conditionalExpression assignmentOperator expression
-				| conditionalExpression 
+		| conditionalExpression empty
 	'''
 
 	pass
 
-# deque(['assignmentOperator', ':', ['EQUALS', '|', 'ASS_ADD', '|', 'ASS_SUB', '|', 'ASS_MUL', '|', 'ASS_DIV', '|', 'ASS_AND', '|', 'ASS_OR', '|', 'ASS_XOR', '|', 'ASS_MOD', '|', 'LESS', 'LESS', 'EQUALS', '|', 'MORE', 'MORE', 'MORE', 'EQUALS', '|', 'MORE', 'MORE', 'EQUALS']]) 
+
 def p_assignmentOperator(p):
 	'''
-	 assignmentOperator : EQUALS 
+	 assignmentOperator :  EQUALS 
 	| ASS_ADD 
 	| ASS_SUB 
 	| ASS_MUL 
@@ -1031,143 +1040,143 @@ def p_assignmentOperator(p):
 	| ASS_OR 
 	| ASS_XOR 
 	| ASS_MOD 
-	| ASS_SHL 
-	| ASS_SHRR
-	| ASS_SHR
+	| LESS LESS EQUALS 
+	| MORE MORE MORE EQUALS 
+	| MORE MORE EQUALS
 	'''
 
 	pass
 
-# deque(['conditionalExpression', ':', ['conditionalOrExpression', 'expt_62']]) 
+
 def p_conditionalExpression(p):
 	'''
-	 conditionalExpression : conditionalOrExpression QUES expression COLON expression 
-		| conditionalOrExpression 
+	 conditionalExpression : conditionalOrExpression QUES expression COLON expression
+		| conditionalOrExpression empty
 	'''
 
 	pass
 
-# deque(['conditionalOrExpression', ':', ['conditionalAndExpression', 'expt_63']]) 
+
 def p_conditionalOrExpression(p):
 	'''
-	 conditionalOrExpression : conditionalAndExpression expt_63
-		| conditionalAndExpression  
+	 conditionalOrExpression : conditionalAndExpression expt_27
+		| conditionalAndExpression empty
 	'''
 
 	pass
 
-# deque(['conditionalAndExpression', ':', ['inclusiveOrExpression', 'expt_64']]) 
+
 def p_conditionalAndExpression(p):
 	'''
-	 conditionalAndExpression : inclusiveOrExpression expt_64
-		| inclusiveOrExpression 
+	 conditionalAndExpression : inclusiveOrExpression expt_28
+		| inclusiveOrExpression empty
 	'''
 
 	pass
 
-# deque(['inclusiveOrExpression', ':', ['exclusiveOrExpression', 'expt_65']]) 
+
 def p_inclusiveOrExpression(p):
 	'''
-	 inclusiveOrExpression : exclusiveOrExpression expt_65
-		| exclusiveOrExpression 
+	 inclusiveOrExpression : exclusiveOrExpression expt_29
+		| exclusiveOrExpression empty
 	'''
 
 	pass
 
-# deque(['exclusiveOrExpression', ':', ['andExpression', 'expt_66']]) 
+
 def p_exclusiveOrExpression(p):
 	'''
-	 exclusiveOrExpression : andExpression expt_66
-		| andExpression 
+	 exclusiveOrExpression : andExpression expt_30
+		| andExpression empty
 	'''
 
 	pass
 
-# deque(['andExpression', ':', ['equalityExpression', 'expt_67']]) 
+
 def p_andExpression(p):
 	'''
-	 andExpression : equalityExpression expt_67
-		| equalityExpression 
+	 andExpression : equalityExpression expt_31
+		| equalityExpression empty
 	'''
 
 	pass
 
-# deque(['equalityExpression', ':', ['instanceOfExpression', 'expt_68']]) 
+
 def p_equalityExpression(p):
 	'''
-	 equalityExpression : instanceOfExpression expt_68
-		| instanceOfExpression 
+	 equalityExpression : instanceOfExpression expt_32
+		| instanceOfExpression empty
 	'''
 
 	pass
 
-# deque(['instanceOfExpression', ':', ['relationalExpression', 'expt_69']]) 
+
 def p_instanceOfExpression(p):
 	'''
 	 instanceOfExpression : relationalExpression INSTANCEOF type
-		| relationalExpression
+		| relationalExpression empty
 	'''
 
 	pass
 
-# deque(['relationalExpression', ':', ['shiftExpression', 'expt_70']]) 
+
 def p_relationalExpression(p):
 	'''
-	 relationalExpression : shiftExpression expt_70
-		| shiftExpression 
+	 relationalExpression : shiftExpression expt_33
+		| shiftExpression empty
 	'''
 
 	pass
 
-# deque(['relationalOp', ':', ['LESS', 'EQUALS', '|', 'MORE', 'EQUALS', '|', 'LESS', '|', 'MORE']]) 
+
 def p_relationalOp(p):
 	'''
-	 relationalOp : OP_LE
-	| OP_GE 
+	 relationalOp :  LESS EQUALS 
+	| MORE EQUALS 
 	| LESS 
 	| MORE
 	'''
 
 	pass
 
-# deque(['shiftExpression', ':', ['additiveExpression', 'expt_71']]) 
+
 def p_shiftExpression(p):
 	'''
-	 shiftExpression : additiveExpression expt_71
-		| additiveExpression 
+	 shiftExpression : additiveExpression expt_34
+		| additiveExpression empty
 	'''
 
 	pass
 
-# deque(['shiftOp', ':', ['LESS', 'LESS', '|', 'MORE', 'MORE', 'MORE', '|', 'MORE', 'MORE']]) 
+
 def p_shiftOp(p):
 	'''
-	 shiftOp :  OP_SHR 
-	| OP_SHL
-	| OP_SHRR
+	 shiftOp :  LESS LESS 
+	| MORE MORE MORE 
+	| MORE MORE
 	'''
 
 	pass
 
-# deque(['additiveExpression', ':', ['multiplicativeExpression', 'expt_72']]) 
+
 def p_additiveExpression(p):
 	'''
-	 additiveExpression : multiplicativeExpression expt_72
-		| multiplicativeExpression 
+	 additiveExpression : multiplicativeExpression expt_35
+		| multiplicativeExpression empty
 	'''
 
 	pass
 
-# deque(['multiplicativeExpression', ':', ['unaryExpression', 'expt_73']]) 
+
 def p_multiplicativeExpression(p):
 	'''
-	 multiplicativeExpression : unaryExpression expt_73
-		| unaryExpression 
+	 multiplicativeExpression : unaryExpression expt_36
+		| unaryExpression empty
 	'''
 
 	pass
 
-# deque(['unaryExpression', ':', ['PLUS', 'unaryExpression', '|', 'DASH', 'unaryExpression', '|', 'OP_INC', 'unaryExpression', '|', 'OP_DEC', 'unaryExpression', '|', 'unaryExpressionNotPlusMinus']]) 
+
 def p_unaryExpression(p):
 	'''
 	 unaryExpression :  PLUS unaryExpression 
@@ -1179,13 +1188,11 @@ def p_unaryExpression(p):
 
 	pass
 
-# deque(['unaryExpressionNotPlusMinus', ':', ['TILDE', 'unaryExpression', '|', 'EXCLAMATION', 'unaryExpression', '|', 'castExpression', '|', 'primary', 'expt_74', 'expr_14']]) 
+
 def p_unaryExpressionNotPlusMinus(p):
 	'''
-	 unaryExpressionNotPlusMinus : primary expt_74 expr_14
-		| primary expr_14
-		| primary expt_74
-		| primary
+	 unaryExpressionNotPlusMinus : primary expt_37 expr_17
+		| primary empty expr_17
 		| castExpression
 		| EXCLAMATION unaryExpression
 		| TILDE unaryExpression
@@ -1193,42 +1200,42 @@ def p_unaryExpressionNotPlusMinus(p):
 
 	pass
 
-# deque(['castExpression', ':', ['LPAREN', 'primitiveType', 'RPAREN', 'unaryExpression', '|', 'LPAREN', 'expr_15', 'RPAREN', 'unaryExpressionNotPlusMinus']]) 
+
 def p_castExpression(p):
 	'''
 	 castExpression :  LPAREN primitiveType RPAREN unaryExpression 
-	| LPAREN expr_15 RPAREN unaryExpressionNotPlusMinus
+	| LPAREN expr_18 RPAREN unaryExpressionNotPlusMinus
 	'''
 
 	pass
 
-# deque(['primary', ':', ['parExpression', '|', 'THIS', 'expt_42', 'expt_75', '|', 'SUPER', 'superSuffix', '|', 'literal', '|', 'NEW', 'creator', '|', 'Identifier', 'expt_42', 'expt_75', '|', 'primitiveType', 'expt_24', 'DOT', 'CLASS', '|', 'VOID', 'DOT', 'CLASS']]) 
+
 def p_primary(p):
 	'''
 	 primary : VOID DOT CLASS
-		| primitiveType expt_24 DOT CLASS
-		| primitiveType DOT CLASS
-		| Identifier expt_42 identifierSuffix
-		| Identifier expt_42
-		| Identifier identifierSuffix
-		| Identifier
+		| primitiveType expt_11 DOT CLASS
+		| primitiveType empty DOT CLASS
+		| Identifier expt_19 identifierSuffix
+		| Identifier expt_19 empty
+		| Identifier empty identifierSuffix
+		| Identifier empty empty
 		| NEW creator
 		| literal
 		| SUPER superSuffix
-		| THIS expt_42 identifierSuffix
-		| THIS expt_42 
-		| THIS identifierSuffix
-		| THIS 
+		| THIS expt_19 identifierSuffix
+		| THIS expt_19 empty
+		| THIS empty identifierSuffix
+		| THIS empty empty
 		| parExpression
 	'''
 
 	pass
 
-# deque(['identifierSuffix', ':', ['expr_16', 'DOT', 'CLASS', '|', 'expr_17', '|', 'arguments', '|', 'DOT', 'CLASS', '|', 'DOT', 'explicitGenericInvocation', '|', 'DOT', 'THIS', '|', 'DOT', 'SUPER', 'arguments', '|', 'DOT', 'NEW', 'innerCreator']]) 
+
 def p_identifierSuffix(p):
 	'''
-	 identifierSuffix :  suffixStatements DOT CLASS 
-	| suffixExprStatements 
+	 identifierSuffix :  expr_19 DOT CLASS 
+	| expr_20 
 	| arguments 
 	| DOT CLASS 
 	| DOT explicitGenericInvocation 
@@ -1239,17 +1246,16 @@ def p_identifierSuffix(p):
 
 	pass
 
-# deque(['creator', ':', ['nonWildcardTypeArguments', 'createdName', 'classCreatorRest', '|', 'createdName', 'expr_18']]) 
+
 def p_creator(p):
 	'''
 	 creator :  nonWildcardTypeArguments createdName classCreatorRest 
-	| createdName classCreatorRest
-	| createdName arrayCreatorRest
+	| createdName expr_21
 	'''
 
 	pass
 
-# deque(['createdName', ':', ['classOrInterfaceType', '|', 'primitiveType']]) 
+
 def p_createdName(p):
 	'''
 	 createdName :  classOrInterfaceType 
@@ -1258,33 +1264,33 @@ def p_createdName(p):
 
 	pass
 
-# deque(['innerCreator', ':', ['expt_41', 'Identifier', 'classCreatorRest']]) 
+
 def p_innerCreator(p):
 	'''
-	 innerCreator : expt_41 Identifier classCreatorRest
+	 innerCreator : nonWildcardTypeArguments Identifier classCreatorRest
 		| empty Identifier classCreatorRest
 	'''
 
 	pass
 
-# deque(['arrayCreatorRest', ':', ['FLPAREN', 'expr_19']]) 
+
 def p_arrayCreatorRest(p):
 	'''
-	 arrayCreatorRest :  FLPAREN expr_19
+	 arrayCreatorRest :  FLPAREN expr_22
 	'''
 
 	pass
 
-# deque(['classCreatorRest', ':', ['arguments', 'expt_19']]) 
+
 def p_classCreatorRest(p):
 	'''
-	 classCreatorRest : arguments 
-		| arguments classBody
+	 classCreatorRest : arguments classBody
+		| arguments empty
 	'''
 
 	pass
 
-# deque(['explicitGenericInvocation', ':', ['nonWildcardTypeArguments', 'Identifier', 'arguments']]) 
+
 def p_explicitGenericInvocation(p):
 	'''
 	 explicitGenericInvocation :  nonWildcardTypeArguments Identifier arguments
@@ -1292,7 +1298,7 @@ def p_explicitGenericInvocation(p):
 
 	pass
 
-# deque(['nonWildcardTypeArguments', ':', ['LESS', 'typeList', 'MORE']]) 
+
 def p_nonWildcardTypeArguments(p):
 	'''
 	 nonWildcardTypeArguments :  LESS typeList MORE
@@ -1300,828 +1306,580 @@ def p_nonWildcardTypeArguments(p):
 
 	pass
 
-# deque(['selector', ':', ['DOT', 'Identifier', 'expt_18', '|', 'DOT', 'THIS', '|', 'DOT', 'SUPER', 'superSuffix', '|', 'DOT', 'NEW', 'innerCreator', '|', 'FLPAREN', 'expression', 'FRPAREN']]) 
+
 def p_selector(p):
 	'''
 	 selector : FLPAREN expression FRPAREN
 		| DOT NEW innerCreator
 		| DOT SUPER superSuffix
 		| DOT THIS
-		| DOT Identifier expt_18
+		| DOT Identifier arguments
 		| DOT Identifier empty
 	'''
 
 	pass
 
-# deque(['superSuffix', ':', ['arguments', '|', 'DOT', 'Identifier', 'expt_18']]) 
+
 def p_superSuffix(p):
 	'''
-	 superSuffix : DOT Identifier expt_18
+	 superSuffix : DOT Identifier arguments
 		| DOT Identifier empty
 		| arguments
 	'''
 
 	pass
 
-# deque(['arguments', ':', ['LPAREN', 'expt_77', 'RPAREN']]) 
+
 def p_arguments(p):
 	'''
 	 arguments : LPAREN expressionList RPAREN
-		| LPAREN  RPAREN
+		| LPAREN empty RPAREN
 	'''
 
 	pass
 
-# None 
-def p_expr_0(p):
+
+def p_expt_38(p):
 	'''
-	 expr_0 :  packageDeclaration expt_0 expt_1 
-	| classOrInterfaceDeclaration expt_1
+	 expt_38 :  FLPAREN expression FRPAREN 
+	| expt_38 FLPAREN expression FRPAREN
 	'''
 
 	pass
 
-# None 
-def p_expr_1(p):
+
+def p_expt_34(p):
 	'''
-	 expr_1 :  classDeclaration 
-	| interfaceDeclaration
+	 expt_34 :  shiftOp additiveExpression 
+	| expt_34 shiftOp additiveExpression
 	'''
 
 	pass
 
-# None 
-def p_expr_2(p):
+
+def p_expt_35(p):
 	'''
-	 expr_2 :  methodDeclaration 
-	| fieldDeclaration
+	 expt_35 :  expr_15 multiplicativeExpression 
+	| expt_35 expr_15 multiplicativeExpression
 	'''
 
 	pass
 
-# None 
-def p_expr_3(p):
+
+def p_expt_36(p):
 	'''
-	 expr_3 :  type 
-	| VOID
+	 expt_36 :  expr_16 unaryExpression 
+	| expt_36 expr_16 unaryExpression
 	'''
 
 	pass
 
-# None 
-def p_expr_4(p):
+
+def p_expt_37(p):
 	'''
-	 expr_4 :  methodBody 
+	 expt_37 :  selector 
+	| expt_37 selector
+	'''
+
+	pass
+
+
+def p_expt_30(p):
+	'''
+	 expt_30 :  CARET andExpression 
+	| expt_30 CARET andExpression
+	'''
+
+	pass
+
+
+def p_expt_31(p):
+	'''
+	 expt_31 :  AND equalityExpression 
+	| expt_31 AND equalityExpression
+	'''
+
+	pass
+
+
+def p_expt_32(p):
+	'''
+	 expt_32 :  expr_14 instanceOfExpression 
+	| expt_32 expr_14 instanceOfExpression
+	'''
+
+	pass
+
+
+def p_expt_33(p):
+	'''
+	 expt_33 :  relationalOp shiftExpression 
+	| expt_33 relationalOp shiftExpression
+	'''
+
+	pass
+
+
+def p_expt_8(p):
+	'''
+	 expt_8 :  classBodyDeclaration 
+	| expt_8 classBodyDeclaration
+	'''
+
+	pass
+
+
+def p_expt_9(p):
+	'''
+	 expt_9 :  COMMA type 
+	| expt_9 COMMA type
+	'''
+
+	pass
+
+
+def p_expt_4(p):
+	'''
+	 expt_4 :  modifier 
+	| expt_4 modifier
+	'''
+
+	pass
+
+
+def p_expt_5(p):
+	'''
+	 expt_5 :  COMMA typeParameter 
+	| expt_5 COMMA typeParameter
+	'''
+
+	pass
+
+
+def p_expt_6(p):
+	'''
+	 expt_6 :  AND type 
+	| expt_6 AND type
+	'''
+
+	pass
+
+
+def p_expt_7(p):
+	'''
+	 expt_7 :  COMMA enumConstant 
+	| expt_7 COMMA enumConstant
+	'''
+
+	pass
+
+
+def p_expt_1(p):
+	'''
+	 expt_1 :  importDeclaration 
+	| expt_1 importDeclaration
+	'''
+
+	pass
+
+
+def p_expt_2(p):
+	'''
+	 expt_2 :  typeDeclaration 
+	| expt_2 typeDeclaration
+	'''
+
+	pass
+
+
+def p_expt_3(p):
+	'''
+	 expt_3 :  classOrInterfaceModifier 
+	| expt_3 classOrInterfaceModifier
+	'''
+
+	pass
+
+
+def p_expt_29(p):
+	'''
+	 expt_29 :  VERTICAL exclusiveOrExpression 
+	| expt_29 VERTICAL exclusiveOrExpression
+	'''
+
+	pass
+
+
+def p_expt_28(p):
+	'''
+	 expt_28 :  OP_LAND inclusiveOrExpression 
+	| expt_28 OP_LAND inclusiveOrExpression
+	'''
+
+	pass
+
+
+def p_expt_27(p):
+	'''
+	 expt_27 :  OP_LOR conditionalAndExpression 
+	| expt_27 OP_LOR conditionalAndExpression
+	'''
+
+	pass
+
+
+def p_expt_26(p):
+	'''
+	 expt_26 :  COMMA expression 
+	| expt_26 COMMA expression
+	'''
+
+	pass
+
+
+def p_expt_25(p):
+	'''
+	 expt_25 :  switchBlockStatementGroup 
+	| expt_25 switchBlockStatementGroup
+	'''
+
+	pass
+
+
+def p_expt_24(p):
+	'''
+	 expt_24 :  catchClause 
+	| expt_24 catchClause
+	'''
+
+	pass
+
+
+def p_expt_23(p):
+	'''
+	 expt_23 :  variableModifier 
+	| expt_23 variableModifier
+	'''
+
+	pass
+
+
+def p_expt_22(p):
+	'''
+	 expt_22 :  annotationTypeElementDeclaration 
+	| expt_22 annotationTypeElementDeclaration
+	'''
+
+	pass
+
+
+def p_expt_21(p):
+	'''
+	 expt_21 :  COMMA elementValue 
+	| expt_21 COMMA elementValue
+	'''
+
+	pass
+
+
+def p_expt_20(p):
+	'''
+	 expt_20 :  COMMA elementValuePair 
+	| expt_20 COMMA elementValuePair
+	'''
+
+	pass
+
+
+def p_expt_16(p):
+	'''
+	 expt_16 :  COMMA typeArgument 
+	| expt_16 COMMA typeArgument
+	'''
+
+	pass
+
+
+def p_expt_17(p):
+	'''
+	 expt_17 :  COMMA qualifiedName 
+	| expt_17 COMMA qualifiedName
+	'''
+
+	pass
+
+
+def p_expt_14(p):
+	'''
+	 expt_14 :  COMMA variableInitializer 
+	| expt_14 COMMA variableInitializer
+	'''
+
+	pass
+
+
+def p_expt_15(p):
+	'''
+	 expt_15 :  DOT Identifier ques_18 
+	| expt_15 DOT Identifier ques_18
+	'''
+
+	pass
+
+
+def p_expt_12(p):
+	'''
+	 expt_12 :  COMMA variableDeclarator 
+	| expt_12 COMMA variableDeclarator
+	'''
+
+	pass
+
+
+def p_expt_13(p):
+	'''
+	 expt_13 :  COMMA constantDeclarator 
+	| expt_13 COMMA constantDeclarator
+	'''
+
+	pass
+
+
+def p_expt_10(p):
+	'''
+	 expt_10 :  interfaceBodyDeclaration 
+	| expt_10 interfaceBodyDeclaration
+	'''
+
+	pass
+
+
+def p_expt_11(p):
+	'''
+	 expt_11 :  FLPAREN FRPAREN 
+	| expt_11 FLPAREN FRPAREN
+	'''
+
+	pass
+
+
+def p_expt_18(p):
+	'''
+	 expt_18 :  blockStatement 
+	| expt_18 blockStatement
+	'''
+
+	pass
+
+
+def p_expt_19(p):
+	'''
+	 expt_19 :  DOT Identifier 
+	| expt_19 DOT Identifier
+	'''
+
+	pass
+
+
+def p_expr_21(p):
+	'''
+	 expr_21 :  arrayCreatorRest 
+	| classCreatorRest
+	'''
+
+	pass
+
+
+def p_expr_20(p):
+	'''
+	 expr_20 :  FLPAREN expression FRPAREN 
+	| expr_20 FLPAREN expression FRPAREN
+	'''
+
+	pass
+
+
+def p_expr_22(p):
+	'''
+	 expr_22 :  FRPAREN expt_11 arrayInitializer 
+	| expression FRPAREN expt_38 expt_11
+	'''
+
+	pass
+
+
+def p_expr_8(p):
+	'''
+	 expr_8 :  EXTENDS 
+	| SUPER
+	'''
+
+	pass
+
+
+def p_expr_9(p):
+	'''
+	 expr_9 :  THIS 
+	| SUPER
+	'''
+
+	pass
+
+
+def p_expr_6(p):
+	'''
+	 expr_6 :  methodBody 
 	| SEMI
 	'''
 
 	pass
 
-# None 
+
+def p_expr_7(p):
+	'''
+	 expr_7 :  type 
+	| VOID
+	'''
+
+	pass
+
+
+def p_expr_4(p):
+	'''
+	 expr_4 :  type 
+	| VOID
+	'''
+
+	pass
+
+
 def p_expr_5(p):
 	'''
-	 expr_5 :  EXTENDS 
-	| SUPER
-	'''
-
-	pass
-
-# None 
-def p_expr_6(p):
-	'''
-	 expr_6 :  THIS 
-	| SUPER
+	 expr_5 :  methodBody 
+	| SEMI
 	'''
 
 	pass
 
 
-
-# None 
-def p_expr_9(p):
+def p_expr_2(p):
 	'''
-	 expr_9 :  catches FINALLY block 
-	| catches 
-	| FINALLY block
-
+	 expr_2 :  classDeclaration 
+	| interfaceDeclaration
 	'''
 
 	pass
 
-# None 
-def p_expr_10(p):
+
+def p_expr_3(p):
 	'''
-	 expr_10 :  switchLabel 
-	| expr_10 switchLabel
+	 expr_3 :  methodDeclaration 
+	| fieldDeclaration
 	'''
 
 	pass
 
-# None 
-def p_expr_11(p):
+
+def p_expr_1(p):
 	'''
-	 expr_11 :  OP_EQ 
+	 expr_1 :  packageDeclaration expt_1 expt_2 
+	| classOrInterfaceDeclaration expt_2
+	'''
+
+	pass
+
+
+def p_expr_18(p):
+	'''
+	 expr_18 :  type 
+	| expression
+	'''
+
+	pass
+
+
+def p_expr_19(p):
+	'''
+	 expr_19 :  FLPAREN FRPAREN 
+	| expr_19 FLPAREN FRPAREN
+	'''
+
+	pass
+
+
+def p_expr_14(p):
+	'''
+	 expr_14 :  OP_EQ 
 	| OP_NE
 	'''
 
 	pass
 
-# None 
-def p_expr_12(p):
+
+def p_expr_15(p):
 	'''
-	 expr_12 :  PLUS 
+	 expr_15 :  PLUS 
 	| DASH
 	'''
 
 	pass
 
-# None 
-def p_expr_13(p):
+
+def p_expr_16(p):
 	'''
-	 expr_13 :  MULT 
+	 expr_16 :  MULT 
 	| SLASH 
 	| PERCENT
 	'''
 
 	pass
 
-# None 
-def p_expr_14(p):
+
+def p_expr_17(p):
 	'''
-	 expr_14 :  OP_INC 
+	 expr_17 :  OP_INC 
 	| OP_DEC
 	'''
 
 	pass
 
-# None 
-def p_expr_15(p):
-	'''
-	 expr_15 :  type 
-	| expression
-	'''
-
-	pass
-
-# None 
-def p_suffixStatements(p):
-	'''
-	 suffixStatements :  FLPAREN FRPAREN 
-	| suffixStatements FLPAREN FRPAREN
-	'''
-
-	pass
-
-# None 
-def p_suffixExprStatements(p):
-	'''
-	 suffixExprStatements :  FLPAREN expression FRPAREN 
-	| suffixExprStatements FLPAREN expression FRPAREN
-	'''
-
-	pass
-
-
-# None 
-def p_expr_19(p):
-	'''
-	 expr_19 :  FRPAREN expt_24 arrayInitializer 
-	| expression FRPAREN expt_76 expt_24
-	'''
-
-	pass
-
-# None 
-def p_expt_0(p):
-	'''
-	 expt_0 :  importDeclaration 
-	| expt_0 importDeclaration
-	'''
-
-	pass
-
-# None 
-def p_expt_1(p):
-	'''
-	 expt_1 :  typeDeclaration 
-	| expt_1 typeDeclaration
-	'''
-
-	pass
-
-# None 
-def p_expt_2(p):
-	'''
-	 expt_2 :  packageDeclaration 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_3(p):
-	'''
-	 expt_3 :  STATIC 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_4(p):
-	'''
-	 expt_4 :  DOT MULT 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_5(p):
-	'''
-	 expt_5 :  classOrInterfaceModifier 
-	| expt_5 classOrInterfaceModifier
-	'''
-
-	pass
-
-# None 
-def p_expt_6(p):
-	'''
-	 expt_6 :  modifier 
-	| expt_6 modifier
-	'''
-
-	pass
-
-# None 
-def p_expt_7(p):
-	'''
-	 expt_7 :  typeParameters 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_8(p):
-	'''
-	 expt_8 :  EXTENDS type
-	'''
-
-	pass
-
-# None 
-def p_expt_9(p):
-	'''
-	 expt_9 :  IMPLEMENTS typeList 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_10(p):
-	'''
-	 expt_10 :  COMMA typeParameter 
-	| expt_10 COMMA typeParameter
-	'''
-
-	pass
-
-# None 
-def p_expt_11(p):
-	'''
-	 expt_11 :  EXTENDS typeBound 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_12(p):
-	'''
-	 expt_12 :  AND type 
-	| expt_12 AND type
-	'''
-
-	pass
-
-# None 
-def p_expt_13(p):
-	'''
-	 expt_13 :  enumConstants 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_14(p):
-	'''
-	 expt_14 :  COMMA 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_15(p):
-	'''
-	 expt_15 :  enumBodyDeclarations 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_16(p):
-	'''
-	 expt_16 :  COMMA enumConstant 
-	| expt_16 COMMA enumConstant
-	'''
-
-	pass
-
-# None 
-def p_expt_17(p):
-	'''
-	 expt_17 :  annotations 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_18(p):
-	'''
-	 expt_18 :  arguments 
-	| empty
-	'''
-
-	pass
-
-
-# None 
-def p_classBodyDeclarations(p):
-	'''
-	 classBodyDeclarations :  classBodyDeclaration 
-	| classBodyDeclarations classBodyDeclaration
-	'''
-
-	pass
-
-# None 
-def p_expt_21(p):
-	'''
-	 expt_21 :  EXTENDS typeList 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_22(p):
-	'''
-	 expt_22 :  COMMA type 
-	| expt_22 COMMA type
-	'''
-
-	pass
-
-# None 
-def p_expt_23(p):
-	'''
-	 expt_23 :  interfaceBodyDeclaration 
-	| expt_23 interfaceBodyDeclaration
-	'''
-
-	pass
-
-# None 
-def p_expt_24(p):
-	'''
-	 expt_24 :  FLPAREN FRPAREN 
-	| expt_24 FLPAREN FRPAREN
-	'''
-
-	pass
-
-# None 
-def p_expt_25(p):
-	'''
-	 expt_25 :  THROWS qualifiedNameList 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_26(p):
-	'''
-	 expt_26 :  COMMA variableDeclarator 
-	| expt_26 COMMA variableDeclarator
-	'''
-
-	pass
-
-# None 
-def p_expt_27(p):
-	'''
-	 expt_27 :  EQUALS variableInitializer 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_28(p):
-	'''
-	 expt_28 :  COMMA constantDeclarator 
-	| expt_28 COMMA constantDeclarator
-	'''
-
-	pass
-
-# None 
-def p_expt_29(p):
-	'''
-	 expt_29 :  COMMA variableInitializer 
-	| expt_29 COMMA variableInitializer
-	'''
-
-	pass
-
-# None 
-def p_expt_30(p):
-	'''
-	 expt_30 :  COMMA 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_31(p):
-	'''
-	 expt_31 :  variableInitializer expt_29 expt_30 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_32(p):
-	'''
-	 expt_32 :  typeArguments 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_33(p):
-	'''
-	 expt_33 :  DOT Identifier expt_32 
-	| expt_33 DOT Identifier expt_32
-	'''
-
-	pass
-
-# None 
-def p_expt_34(p):
-	'''
-	 expt_34 :  COMMA typeArgument 
-	| expt_34 COMMA typeArgument
-	'''
-
-	pass
-
-# None 
-def p_expt_35(p):
-	'''
-	 expt_35 :  expr_5 type 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_36(p):
-	'''
-	 expt_36 :  COMMA qualifiedName 
-	| expt_36 COMMA qualifiedName
-	'''
-
-	pass
-
-# None 
-def p_expt_37(p):
-	'''
-	 expt_37 :  formalParameterDecls 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_38(p):
-	'''
-	 expt_38 :  COMMA formalParameterDecls 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_39(p):
-	'''
-	 expt_39 :  explicitConstructorInvocation 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_40(p):
-	'''
-	 expt_40 :  blockStatement 
-	| expt_40 blockStatement
-	'''
-
-	pass
-
-# None 
-def p_expt_41(p):
-	'''
-	 expt_41 :  nonWildcardTypeArguments 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_42(p):
-	'''
-	 expt_42 :  DOT Identifier
-	| expt_42 DOT Identifier
-	'''
-
-	pass
-
-
-# None 
-def p_expt_44(p):
-	'''
-	 expt_44 :  COMMA elementValuePair 
-	| expt_44 COMMA elementValuePair
-	'''
-
-	pass
-
-# None 
-def p_expt_45(p):
-	'''
-	 expt_45 :  COMMA elementValue 
-	| expt_45 COMMA elementValue
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_46(p):
-	'''
-	 expt_46 :  elementValue expt_45
-	'''
-
-	pass
-
-# None 
-def p_expt_47(p):
-	'''
-	 expt_47 :  annotationTypeElementDeclaration 
-	| expt_47 annotationTypeElementDeclaration
-	'''
-
-	pass
-
-# None 
-def p_expt_48(p):
-	'''
-	 expt_48 :  SEMI 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_49(p):
-	'''
-	 expt_49 :  defaultValue 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_50(p):
-	'''
-	 expt_50 :  variableModifier 
-	| expt_50 variableModifier
-	'''
-
-	pass
-
-# None 
-def p_expt_51(p):
-	'''
-	 expt_51 :  COLON expression 
-	| empty
-	'''
-
-	pass
-
-
-# None 
-def p_expt_53(p):
-	'''
-	 expt_53 :  expression 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_55(p):
-	'''
-	 expt_55 :  catchClause 
-	| expt_55 catchClause
-	'''
-
-	pass
-
-# None 
-def p_expt_56(p):
-	'''
-	 expt_56 :  switchBlockStatementGroup 
-	| expt_56 switchBlockStatementGroup
-	'''
-
-	pass
-
-# None 
-def p_expt_57(p):
-	'''
-	 expt_57 :  forInit 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_58(p):
-	'''
-	 expt_58 :  expression 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_59(p):
-	'''
-	 expt_59 :  forUpdate 
-	| empty
-	'''
-
-	pass
-
-# None 
-def p_expt_60(p):
-	'''
-	 expt_60 :  COMMA expression 
-	| expt_60 COMMA expression
-	'''
-
-	pass
-
-
-
-# None 
-def p_expt_63(p):
-	'''
-	 expt_63 :  OP_LOR conditionalAndExpression 
-	| expt_63 OP_LOR conditionalAndExpression
-	'''
-
-	pass
-
-# None 
-def p_expt_64(p):
-	'''
-	 expt_64 :  OP_LAND inclusiveOrExpression 
-	| expt_64 OP_LAND inclusiveOrExpression
-	'''
-
-	pass
-
-# None 
-def p_expt_65(p):
-	'''
-	 expt_65 :  VERTICAL exclusiveOrExpression 
-	| expt_65 VERTICAL exclusiveOrExpression
-	'''
-
-	pass
-
-# None 
-def p_expt_66(p):
-	'''
-	 expt_66 :  CARET andExpression 
-	| expt_66 CARET andExpression
-	'''
-
-	pass
-
-# None 
-def p_expt_67(p):
-	'''
-	 expt_67 :  AND equalityExpression 
-	| expt_67 AND equalityExpression
-	'''
-
-	pass
 
-# None 
-def p_expt_68(p):
+def p_expr_10(p):
 	'''
-	 expt_68 :  expr_11 instanceOfExpression 
-	| expt_68 expr_11 instanceOfExpression
+	 expr_10 :  annotation 
+	| expr_10 annotation
 	'''
 
 	pass
 
 
-
-# None 
-def p_expt_70(p):
+def p_expr_11(p):
 	'''
-	 expt_70 :  relationalOp shiftExpression 
-	| expt_70 relationalOp shiftExpression
+	 expr_11 :  elementValuePairs 
+	| elementValue
 	'''
 
 	pass
-
-# None 
-def p_expt_71(p):
-	'''
-	 expt_71 :  shiftOp additiveExpression 
-	| expt_71 shiftOp additiveExpression
-	'''
 
-	pass
 
-# None 
-def p_expt_72(p):
+def p_expr_12(p):
 	'''
-	 expt_72 :  expr_12 multiplicativeExpression 
-	| expt_72 expr_12 multiplicativeExpression
+	 expr_12 :  catches FINALLY block 
+	| catches 
+	| FINALLY block
 	'''
 
 	pass
 
-def p_sub_expt_73(p):
-	'''
-	sub_expt_73 : expr_13 unaryExpression
-	'''
-# None 
-def p_expt_73(p):
-	'''
-	 expt_73 : sub_expt_73
-	| expt_73 sub_expt_73
-	'''
-
-	pass
 
-# None 
-def p_expt_74(p):
+def p_expr_13(p):
 	'''
-	 expt_74 :  selector 
-	| expt_74 selector
+	 expr_13 :  switchLabel 
+	| expr_13 switchLabel
 	'''
 
 	pass
-
-
-# None 
-def p_expt_76(p):
-	'''
-	 expt_76 :  FLPAREN expression FRPAREN 
-	| expt_76 FLPAREN expression FRPAREN
-	'''
 
-	pass
 
 
 def p_FloatingPointLiteral( p ):
