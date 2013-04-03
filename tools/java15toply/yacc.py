@@ -381,7 +381,7 @@ class Node:
 		if Item[0:4] != 'expt' and Item[0:5] != "ques_":
 			self.item = Item
 		else:
-			self.item = (Item,'empty')
+			self.item = (Item,'')
 #	def __str__(self):
 #		return str(self.rItem)
 #	def __repr__(self):
@@ -501,7 +501,7 @@ tokens = lex.tokens
 					s_list.extend( [ process_expr(item) for item in temp_list[0] ] )
 					iFlag = True
 
-			body = "\n\t\t| ".join( [" ".join(o) for o in s_list ] )
+			body = "\n\t\t| ".join( [" ".join(o) for o in s_list if "".join(o) != "" ] )
 		else:
 			l = len(x[2])
 			for i in xrange( l ):

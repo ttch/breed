@@ -10,13 +10,12 @@ def p_compilationUnit(p):
 	'''
 	 compilationUnit : annotations expr_1
 		| packageDeclaration expt_1 expt_2
-		| packageDeclaration expt_1 empty
-		| packageDeclaration empty expt_2
-		| packageDeclaration empty empty
-		| empty expt_1 expt_2
-		| empty expt_1 empty
-		| empty empty expt_2
-		| empty empty empty
+		| packageDeclaration expt_1 
+		| packageDeclaration  expt_2
+		| packageDeclaration  
+		|  expt_1 expt_2
+		|  expt_1 
+		|   expt_2
 	'''
 
 	pass
@@ -33,9 +32,9 @@ def p_packageDeclaration(p):
 def p_importDeclaration(p):
 	'''
 	 importDeclaration : IMPORT STATIC qualifiedName DOT MULT SEMI
-		| IMPORT STATIC qualifiedName empty SEMI
-		| IMPORT empty qualifiedName DOT MULT SEMI
-		| IMPORT empty qualifiedName empty SEMI
+		| IMPORT STATIC qualifiedName  SEMI
+		| IMPORT  qualifiedName DOT MULT SEMI
+		| IMPORT  qualifiedName  SEMI
 	'''
 
 	pass
@@ -53,6 +52,7 @@ def p_typeDeclaration(p):
 def p_classOrInterfaceDeclaration(p):
 	'''
 	 classOrInterfaceDeclaration :  classOrInterfaceModifiers expr_2
+	 							| expr_2
 	'''
 
 	pass
@@ -61,7 +61,6 @@ def p_classOrInterfaceDeclaration(p):
 def p_classOrInterfaceModifiers(p):
 	'''
 	 classOrInterfaceModifiers : expt_3
-		| empty
 	'''
 
 	pass
@@ -85,7 +84,6 @@ def p_classOrInterfaceModifier(p):
 def p_modifiers(p):
 	'''
 	 modifiers : expt_4
-		| empty
 	'''
 
 	pass
@@ -103,13 +101,13 @@ def p_classDeclaration(p):
 def p_normalClassDeclaration(p):
 	'''
 	 normalClassDeclaration : CLASS Identifier typeParameters EXTENDS type IMPLEMENTS typeList classBody
-		| CLASS Identifier typeParameters EXTENDS type empty classBody
-		| CLASS Identifier typeParameters empty IMPLEMENTS typeList classBody
-		| CLASS Identifier typeParameters empty empty classBody
-		| CLASS Identifier empty EXTENDS type IMPLEMENTS typeList classBody
-		| CLASS Identifier empty EXTENDS type empty classBody
-		| CLASS Identifier empty empty IMPLEMENTS typeList classBody
-		| CLASS Identifier empty empty empty classBody
+		| CLASS Identifier typeParameters EXTENDS type  classBody
+		| CLASS Identifier typeParameters  IMPLEMENTS typeList classBody
+		| CLASS Identifier typeParameters   classBody
+		| CLASS Identifier  EXTENDS type IMPLEMENTS typeList classBody
+		| CLASS Identifier  EXTENDS type  classBody
+		| CLASS Identifier   IMPLEMENTS typeList classBody
+		| CLASS Identifier    classBody
 	'''
 
 	pass
@@ -118,7 +116,7 @@ def p_normalClassDeclaration(p):
 def p_typeParameters(p):
 	'''
 	 typeParameters : LESS typeParameter expt_5 MORE
-		| LESS typeParameter empty MORE
+		| LESS typeParameter  MORE
 	'''
 
 	pass
@@ -127,7 +125,7 @@ def p_typeParameters(p):
 def p_typeParameter(p):
 	'''
 	 typeParameter : Identifier EXTENDS typeBound
-		| Identifier empty
+		| Identifier 
 	'''
 
 	pass
@@ -136,7 +134,7 @@ def p_typeParameter(p):
 def p_typeBound(p):
 	'''
 	 typeBound : type expt_6
-		| type empty
+		| type 
 	'''
 
 	pass
@@ -145,7 +143,7 @@ def p_typeBound(p):
 def p_enumDeclaration(p):
 	'''
 	 enumDeclaration : ENUM Identifier IMPLEMENTS typeList enumBody
-		| ENUM Identifier empty enumBody
+		| ENUM Identifier  enumBody
 	'''
 
 	pass
@@ -154,13 +152,13 @@ def p_enumDeclaration(p):
 def p_enumBody(p):
 	'''
 	 enumBody : BLPAREN enumConstants COMMA enumBodyDeclarations BRPAREN
-		| BLPAREN enumConstants COMMA empty BRPAREN
-		| BLPAREN enumConstants empty enumBodyDeclarations BRPAREN
-		| BLPAREN enumConstants empty empty BRPAREN
-		| BLPAREN empty COMMA enumBodyDeclarations BRPAREN
-		| BLPAREN empty COMMA empty BRPAREN
-		| BLPAREN empty empty enumBodyDeclarations BRPAREN
-		| BLPAREN empty empty empty BRPAREN
+		| BLPAREN enumConstants COMMA  BRPAREN
+		| BLPAREN enumConstants  enumBodyDeclarations BRPAREN
+		| BLPAREN enumConstants   BRPAREN
+		| BLPAREN  COMMA enumBodyDeclarations BRPAREN
+		| BLPAREN  COMMA  BRPAREN
+		| BLPAREN   enumBodyDeclarations BRPAREN
+		| BLPAREN    BRPAREN
 	'''
 
 	pass
@@ -169,7 +167,7 @@ def p_enumBody(p):
 def p_enumConstants(p):
 	'''
 	 enumConstants : enumConstant expt_7
-		| enumConstant empty
+		| enumConstant 
 	'''
 
 	pass
@@ -178,13 +176,13 @@ def p_enumConstants(p):
 def p_enumConstant(p):
 	'''
 	 enumConstant : annotations Identifier arguments classBody
-		| annotations Identifier arguments empty
-		| annotations Identifier empty classBody
-		| annotations Identifier empty empty
-		| empty Identifier arguments classBody
-		| empty Identifier arguments empty
-		| empty Identifier empty classBody
-		| empty Identifier empty empty
+		| annotations Identifier arguments 
+		| annotations Identifier  classBody
+		| annotations Identifier  
+		|  Identifier arguments classBody
+		|  Identifier arguments 
+		|  Identifier  classBody
+		|  Identifier  
 	'''
 
 	pass
@@ -193,7 +191,7 @@ def p_enumConstant(p):
 def p_enumBodyDeclarations(p):
 	'''
 	 enumBodyDeclarations : SEMI expt_8
-		| SEMI empty
+		| SEMI 
 	'''
 
 	pass
@@ -211,9 +209,9 @@ def p_interfaceDeclaration(p):
 def p_normalInterfaceDeclaration(p):
 	'''
 	 normalInterfaceDeclaration : INTERFACE Identifier typeParameters EXTENDS typeList interfaceBody
-		| INTERFACE Identifier typeParameters empty interfaceBody
-		| INTERFACE Identifier empty EXTENDS typeList interfaceBody
-		| INTERFACE Identifier empty empty interfaceBody
+		| INTERFACE Identifier typeParameters  interfaceBody
+		| INTERFACE Identifier  EXTENDS typeList interfaceBody
+		| INTERFACE Identifier   interfaceBody
 	'''
 
 	pass
@@ -222,7 +220,7 @@ def p_normalInterfaceDeclaration(p):
 def p_typeList(p):
 	'''
 	 typeList : type expt_9
-		| type empty
+		| type 
 	'''
 
 	pass
@@ -231,7 +229,7 @@ def p_typeList(p):
 def p_classBody(p):
 	'''
 	 classBody : BLPAREN expt_8 BRPAREN
-		| BLPAREN empty BRPAREN
+		| BLPAREN  BRPAREN
 	'''
 
 	pass
@@ -240,7 +238,7 @@ def p_classBody(p):
 def p_interfaceBody(p):
 	'''
 	 interfaceBody : BLPAREN expt_10 BRPAREN
-		| BLPAREN empty BRPAREN
+		| BLPAREN  BRPAREN
 	'''
 
 	pass
@@ -250,7 +248,7 @@ def p_classBodyDeclaration(p):
 	'''
 	 classBodyDeclaration : SEMI
 		| STATIC block
-		| empty block
+		|  block
 		| modifiers memberDecl
 	'''
 
@@ -288,7 +286,7 @@ def p_genericMethodOrConstructorDecl(p):
 
 def p_genericMethodOrConstructorRest(p):
 	'''
-	 genericMethodOrConstructorRest :  expr_4 Identifier methodDeclaratorRest 
+	 genericMethodOrConstructorRest :  type_void Identifier methodDeclaratorRest 
 	| Identifier constructorDeclaratorRest
 	'''
 
@@ -352,9 +350,9 @@ def p_interfaceMethodOrFieldRest(p):
 def p_methodDeclaratorRest(p):
 	'''
 	 methodDeclaratorRest : formalParameters expt_11 THROWS qualifiedNameList expr_5
-		| formalParameters expt_11 empty expr_5
-		| formalParameters empty THROWS qualifiedNameList expr_5
-		| formalParameters empty empty expr_5
+		| formalParameters expt_11  expr_5
+		| formalParameters  THROWS qualifiedNameList expr_5
+		| formalParameters   expr_5
 	'''
 
 	pass
@@ -363,7 +361,7 @@ def p_methodDeclaratorRest(p):
 def p_voidMethodDeclaratorRest(p):
 	'''
 	 voidMethodDeclaratorRest : formalParameters THROWS qualifiedNameList expr_6
-		| formalParameters empty expr_6
+		| formalParameters  expr_6
 	'''
 
 	pass
@@ -372,9 +370,9 @@ def p_voidMethodDeclaratorRest(p):
 def p_interfaceMethodDeclaratorRest(p):
 	'''
 	 interfaceMethodDeclaratorRest : formalParameters expt_11 THROWS qualifiedNameList SEMI
-		| formalParameters expt_11 empty SEMI
-		| formalParameters empty THROWS qualifiedNameList SEMI
-		| formalParameters empty empty SEMI
+		| formalParameters expt_11  SEMI
+		| formalParameters  THROWS qualifiedNameList SEMI
+		| formalParameters   SEMI
 	'''
 
 	pass
@@ -382,7 +380,7 @@ def p_interfaceMethodDeclaratorRest(p):
 
 def p_interfaceGenericMethodDecl(p):
 	'''
-	 interfaceGenericMethodDecl :  typeParameters expr_7 Identifier interfaceMethodDeclaratorRest
+	 interfaceGenericMethodDecl :  typeParameters type_void Identifier interfaceMethodDeclaratorRest
 	'''
 
 	pass
@@ -391,7 +389,7 @@ def p_interfaceGenericMethodDecl(p):
 def p_voidInterfaceMethodDeclaratorRest(p):
 	'''
 	 voidInterfaceMethodDeclaratorRest : formalParameters THROWS qualifiedNameList SEMI
-		| formalParameters empty SEMI
+		| formalParameters  SEMI
 	'''
 
 	pass
@@ -400,7 +398,7 @@ def p_voidInterfaceMethodDeclaratorRest(p):
 def p_constructorDeclaratorRest(p):
 	'''
 	 constructorDeclaratorRest : formalParameters THROWS qualifiedNameList constructorBody
-		| formalParameters empty constructorBody
+		| formalParameters  constructorBody
 	'''
 
 	pass
@@ -417,7 +415,7 @@ def p_constantDeclarator(p):
 def p_variableDeclarators(p):
 	'''
 	 variableDeclarators : variableDeclarator expt_12
-		| variableDeclarator empty
+		| variableDeclarator 
 	'''
 
 	pass
@@ -426,7 +424,7 @@ def p_variableDeclarators(p):
 def p_variableDeclarator(p):
 	'''
 	 variableDeclarator : variableDeclaratorId EQUALS variableInitializer
-		| variableDeclaratorId empty
+		| variableDeclaratorId 
 	'''
 
 	pass
@@ -435,7 +433,7 @@ def p_variableDeclarator(p):
 def p_constantDeclaratorsRest(p):
 	'''
 	 constantDeclaratorsRest : constantDeclaratorRest expt_13
-		| constantDeclaratorRest empty
+		| constantDeclaratorRest 
 	'''
 
 	pass
@@ -444,7 +442,7 @@ def p_constantDeclaratorsRest(p):
 def p_constantDeclaratorRest(p):
 	'''
 	 constantDeclaratorRest : expt_11 EQUALS variableInitializer
-		| empty EQUALS variableInitializer
+		|  EQUALS variableInitializer
 	'''
 
 	pass
@@ -453,7 +451,7 @@ def p_constantDeclaratorRest(p):
 def p_variableDeclaratorId(p):
 	'''
 	 variableDeclaratorId : Identifier expt_11
-		| Identifier empty
+		| Identifier 
 	'''
 
 	pass
@@ -470,11 +468,11 @@ def p_variableInitializer(p):
 
 def p_arrayInitializer(p):
 	'''
-	 arrayInitializer : BLPAREN empty BRPAREN
+	 arrayInitializer : BLPAREN  BRPAREN
 		| BLPAREN variableInitializer expt_14 COMMA BRPAREN
-		| BLPAREN variableInitializer expt_14 empty BRPAREN
-		| BLPAREN variableInitializer empty COMMA BRPAREN
-		| BLPAREN variableInitializer empty empty BRPAREN
+		| BLPAREN variableInitializer expt_14  BRPAREN
+		| BLPAREN variableInitializer  COMMA BRPAREN
+		| BLPAREN variableInitializer   BRPAREN
 	'''
 
 	pass
@@ -526,9 +524,9 @@ def p_typeName(p):
 def p_type(p):
 	'''
 	 type : classOrInterfaceType expt_11
-		| classOrInterfaceType empty
+		| classOrInterfaceType 
 		| primitiveType expt_11
-		| primitiveType empty
+		| primitiveType 
 	'''
 
 	pass
@@ -537,9 +535,9 @@ def p_type(p):
 def p_classOrInterfaceType(p):
 	'''
 	 classOrInterfaceType : Identifier typeArguments expt_15
-		| Identifier typeArguments empty
-		| Identifier empty expt_15
-		| Identifier empty empty
+		| Identifier typeArguments 
+		| Identifier  expt_15
+		| Identifier  
 	'''
 
 	pass
@@ -572,7 +570,7 @@ def p_variableModifier(p):
 def p_typeArguments(p):
 	'''
 	 typeArguments : LESS typeArgument expt_16 MORE
-		| LESS typeArgument empty MORE
+		| LESS typeArgument  MORE
 	'''
 
 	pass
@@ -582,7 +580,7 @@ def p_typeArgument(p):
 	'''
 	 typeArgument : type
 		| QUES expr_8 type
-		| QUES empty
+		| QUES 
 	'''
 
 	pass
@@ -591,7 +589,7 @@ def p_typeArgument(p):
 def p_qualifiedNameList(p):
 	'''
 	 qualifiedNameList : qualifiedName expt_17
-		| qualifiedName empty
+		| qualifiedName 
 	'''
 
 	pass
@@ -600,7 +598,7 @@ def p_qualifiedNameList(p):
 def p_formalParameters(p):
 	'''
 	 formalParameters : LPAREN formalParameterDecls RPAREN
-		| LPAREN empty RPAREN
+		| LPAREN  RPAREN
 	'''
 
 	pass
@@ -609,6 +607,7 @@ def p_formalParameters(p):
 def p_formalParameterDecls(p):
 	'''
 	 formalParameterDecls :  variableModifiers type formalParameterDeclsRest
+	 					| type formalParameterDeclsRest
 	'''
 
 	pass
@@ -617,7 +616,7 @@ def p_formalParameterDecls(p):
 def p_formalParameterDeclsRest(p):
 	'''
 	 formalParameterDeclsRest : variableDeclaratorId COMMA formalParameterDecls
-		| variableDeclaratorId empty
+		| variableDeclaratorId 
 		| OP_ARRAY variableDeclaratorId
 	'''
 
@@ -635,9 +634,9 @@ def p_methodBody(p):
 def p_constructorBody(p):
 	'''
 	 constructorBody : BLPAREN explicitConstructorInvocation expt_18 BRPAREN
-		| BLPAREN explicitConstructorInvocation empty BRPAREN
-		| BLPAREN empty expt_18 BRPAREN
-		| BLPAREN empty empty BRPAREN
+		| BLPAREN explicitConstructorInvocation  BRPAREN
+		| BLPAREN  expt_18 BRPAREN
+		| BLPAREN   BRPAREN
 	'''
 
 	pass
@@ -646,9 +645,9 @@ def p_constructorBody(p):
 def p_explicitConstructorInvocation(p):
 	'''
 	 explicitConstructorInvocation : nonWildcardTypeArguments expr_9 arguments SEMI
-		| empty expr_9 arguments SEMI
+		|  expr_9 arguments SEMI
 		| primary DOT nonWildcardTypeArguments SUPER arguments SEMI
-		| primary DOT empty SUPER arguments SEMI
+		| primary DOT  SUPER arguments SEMI
 	'''
 
 	pass
@@ -657,7 +656,7 @@ def p_explicitConstructorInvocation(p):
 def p_qualifiedName(p):
 	'''
 	 qualifiedName : Identifier expt_19
-		| Identifier empty
+		| Identifier 
 	'''
 
 	pass
@@ -687,7 +686,8 @@ def p_booleanLiteral(p):
 
 def p_annotations(p):
 	'''
-	 annotations :  expr_10
+	 annotations :  annotation
+	 			| annotations annotation
 	'''
 
 	pass
@@ -695,8 +695,10 @@ def p_annotations(p):
 
 def p_annotation(p):
 	'''
-	 annotation : AT annotationName LPAREN expr_11 RPAREN
-		| AT annotationName empty
+	 annotation : AT annotationName LPAREN elementValuePairs RPAREN
+	 	|  AT annotationName LPAREN elementValue RPAREN
+	 	| AT annotationName LPAREN RPAREN
+		| AT annotationName 
 	'''
 
 	pass
@@ -705,7 +707,7 @@ def p_annotation(p):
 def p_annotationName(p):
 	'''
 	 annotationName : Identifier expt_19
-		| Identifier empty
+		| Identifier 
 	'''
 
 	pass
@@ -714,7 +716,7 @@ def p_annotationName(p):
 def p_elementValuePairs(p):
 	'''
 	 elementValuePairs : elementValuePair expt_20
-		| elementValuePair empty
+		| elementValuePair 
 	'''
 
 	pass
@@ -741,9 +743,9 @@ def p_elementValue(p):
 def p_elementValueArrayInitializer(p):
 	'''
 	 elementValueArrayInitializer : BLPAREN elementValue expt_21 COMMA BRPAREN
-		| BLPAREN elementValue expt_21 empty BRPAREN
-		| BLPAREN empty COMMA BRPAREN
-		| BLPAREN empty empty BRPAREN
+		| BLPAREN elementValue expt_21  BRPAREN
+		| BLPAREN  COMMA BRPAREN
+		| BLPAREN   BRPAREN
 	'''
 
 	pass
@@ -760,7 +762,7 @@ def p_annotationTypeDeclaration(p):
 def p_annotationTypeBody(p):
 	'''
 	 annotationTypeBody : BLPAREN expt_22 BRPAREN
-		| BLPAREN empty BRPAREN
+		| BLPAREN  BRPAREN
 	'''
 
 	pass
@@ -778,13 +780,13 @@ def p_annotationTypeElementRest(p):
 	'''
 	 annotationTypeElementRest : type annotationMethodOrConstantRest SEMI
 		| normalClassDeclaration SEMI
-		| normalClassDeclaration empty
+		| normalClassDeclaration 
 		| normalInterfaceDeclaration SEMI
-		| normalInterfaceDeclaration empty
+		| normalInterfaceDeclaration 
 		| enumDeclaration SEMI
-		| enumDeclaration empty
+		| enumDeclaration 
 		| annotationTypeDeclaration SEMI
-		| annotationTypeDeclaration empty
+		| annotationTypeDeclaration 
 	'''
 
 	pass
@@ -802,7 +804,7 @@ def p_annotationMethodOrConstantRest(p):
 def p_annotationMethodRest(p):
 	'''
 	 annotationMethodRest : Identifier LPAREN RPAREN defaultValue
-		| Identifier LPAREN RPAREN empty
+		| Identifier LPAREN RPAREN 
 	'''
 
 	pass
@@ -827,7 +829,7 @@ def p_defaultValue(p):
 def p_block(p):
 	'''
 	 block : BLPAREN expt_18 BRPAREN
-		| BLPAREN empty BRPAREN
+		| BLPAREN  BRPAREN
 	'''
 
 	pass
@@ -846,6 +848,7 @@ def p_blockStatement(p):
 def p_localVariableDeclarationStatement(p):
 	'''
 	 localVariableDeclarationStatement :  localVariableDeclaration SEMI
+	 									| SEMI
 	'''
 
 	pass
@@ -854,6 +857,7 @@ def p_localVariableDeclarationStatement(p):
 def p_localVariableDeclaration(p):
 	'''
 	 localVariableDeclaration :  variableModifiers type variableDeclarators
+	 						|  type variableDeclarators
 	'''
 
 	pass
@@ -862,7 +866,6 @@ def p_localVariableDeclaration(p):
 def p_variableModifiers(p):
 	'''
 	 variableModifiers : expt_23
-		| empty
 	'''
 
 	pass
@@ -872,9 +875,9 @@ def p_statement(p):
 	'''
 	 statement : block
 		| ASSERT expression COLON expression SEMI
-		| ASSERT expression empty SEMI
+		| ASSERT expression  SEMI
 		| IF parExpression statement ELSE statement
-		| IF parExpression statement empty
+		| IF parExpression statement 
 		| FOR LPAREN forControl RPAREN statement
 		| WHILE parExpression statement
 		| DO statement WHILE parExpression SEMI
@@ -882,12 +885,12 @@ def p_statement(p):
 		| SWITCH parExpression BLPAREN switchBlockStatementGroups BRPAREN
 		| SYNCHRONIZED parExpression block
 		| RETURN expression SEMI
-		| RETURN empty SEMI
+		| RETURN  SEMI
 		| THROW expression SEMI
 		| BREAK Identifier SEMI
-		| BREAK empty SEMI
+		| BREAK  SEMI
 		| CONTINUE Identifier SEMI
-		| CONTINUE empty SEMI
+		| CONTINUE  SEMI
 		| SEMI
 		| statementExpression SEMI
 		| Identifier COLON statement
@@ -899,7 +902,7 @@ def p_statement(p):
 def p_catches(p):
 	'''
 	 catches : catchClause expt_24
-		| catchClause empty
+		| catchClause 
 	'''
 
 	pass
@@ -924,7 +927,6 @@ def p_formalParameter(p):
 def p_switchBlockStatementGroups(p):
 	'''
 	 switchBlockStatementGroups : expt_25
-		| empty
 	'''
 
 	pass
@@ -933,7 +935,7 @@ def p_switchBlockStatementGroups(p):
 def p_switchBlockStatementGroup(p):
 	'''
 	 switchBlockStatementGroup : expr_13 expt_18
-		| expr_13 empty
+		| expr_13 
 	'''
 
 	pass
@@ -953,13 +955,13 @@ def p_forControl(p):
 	'''
 	 forControl : enhancedForControl
 		| forInit SEMI expression SEMI forUpdate
-		| forInit SEMI expression SEMI empty
-		| forInit SEMI empty SEMI forUpdate
-		| forInit SEMI empty SEMI empty
-		| empty SEMI expression SEMI forUpdate
-		| empty SEMI expression SEMI empty
-		| empty SEMI empty SEMI forUpdate
-		| empty SEMI empty SEMI empty
+		| forInit SEMI expression SEMI 
+		| forInit SEMI  SEMI forUpdate
+		| forInit SEMI  SEMI 
+		|  SEMI expression SEMI forUpdate
+		|  SEMI expression SEMI 
+		|  SEMI  SEMI forUpdate
+		|  SEMI  SEMI 
 	'''
 
 	pass
@@ -1001,7 +1003,7 @@ def p_parExpression(p):
 def p_expressionList(p):
 	'''
 	 expressionList : expression expt_26
-		| expression empty
+		| expression 
 	'''
 
 	pass
@@ -1026,7 +1028,7 @@ def p_constantExpression(p):
 def p_expression(p):
 	'''
 	 expression : conditionalExpression assignmentOperator expression
-		| conditionalExpression empty
+		| conditionalExpression 
 	'''
 
 	pass
@@ -1043,9 +1045,9 @@ def p_assignmentOperator(p):
 	| ASS_OR 
 	| ASS_XOR 
 	| ASS_MOD 
-	| LESS LESS EQUALS 
-	| MORE MORE MORE EQUALS 
-	| MORE MORE EQUALS
+	| ASS_SHL 
+	| ASS_SHRR 
+	| ASS_SHR
 	'''
 
 	pass
@@ -1054,7 +1056,7 @@ def p_assignmentOperator(p):
 def p_conditionalExpression(p):
 	'''
 	 conditionalExpression : conditionalOrExpression QUES expression COLON expression
-		| conditionalOrExpression empty
+		| conditionalOrExpression 
 	'''
 
 	pass
@@ -1063,7 +1065,7 @@ def p_conditionalExpression(p):
 def p_conditionalOrExpression(p):
 	'''
 	 conditionalOrExpression : conditionalAndExpression expt_27
-		| conditionalAndExpression empty
+		| conditionalAndExpression 
 	'''
 
 	pass
@@ -1072,7 +1074,7 @@ def p_conditionalOrExpression(p):
 def p_conditionalAndExpression(p):
 	'''
 	 conditionalAndExpression : inclusiveOrExpression expt_28
-		| inclusiveOrExpression empty
+		| inclusiveOrExpression 
 	'''
 
 	pass
@@ -1081,7 +1083,7 @@ def p_conditionalAndExpression(p):
 def p_inclusiveOrExpression(p):
 	'''
 	 inclusiveOrExpression : exclusiveOrExpression expt_29
-		| exclusiveOrExpression empty
+		| exclusiveOrExpression 
 	'''
 
 	pass
@@ -1090,7 +1092,7 @@ def p_inclusiveOrExpression(p):
 def p_exclusiveOrExpression(p):
 	'''
 	 exclusiveOrExpression : andExpression expt_30
-		| andExpression empty
+		| andExpression 
 	'''
 
 	pass
@@ -1099,7 +1101,7 @@ def p_exclusiveOrExpression(p):
 def p_andExpression(p):
 	'''
 	 andExpression : equalityExpression expt_31
-		| equalityExpression empty
+		| equalityExpression 
 	'''
 
 	pass
@@ -1108,7 +1110,7 @@ def p_andExpression(p):
 def p_equalityExpression(p):
 	'''
 	 equalityExpression : instanceOfExpression expt_32
-		| instanceOfExpression empty
+		| instanceOfExpression 
 	'''
 
 	pass
@@ -1117,7 +1119,7 @@ def p_equalityExpression(p):
 def p_instanceOfExpression(p):
 	'''
 	 instanceOfExpression : relationalExpression INSTANCEOF type
-		| relationalExpression empty
+		| relationalExpression 
 	'''
 
 	pass
@@ -1126,7 +1128,7 @@ def p_instanceOfExpression(p):
 def p_relationalExpression(p):
 	'''
 	 relationalExpression : shiftExpression expt_33
-		| shiftExpression empty
+		| shiftExpression 
 	'''
 
 	pass
@@ -1134,8 +1136,8 @@ def p_relationalExpression(p):
 
 def p_relationalOp(p):
 	'''
-	 relationalOp :  LESS EQUALS 
-	| MORE EQUALS 
+	 relationalOp :  OP_LE 
+	| OP_GE 
 	| LESS 
 	| MORE
 	'''
@@ -1146,7 +1148,7 @@ def p_relationalOp(p):
 def p_shiftExpression(p):
 	'''
 	 shiftExpression : additiveExpression expt_34
-		| additiveExpression empty
+		| additiveExpression 
 	'''
 
 	pass
@@ -1154,9 +1156,9 @@ def p_shiftExpression(p):
 
 def p_shiftOp(p):
 	'''
-	 shiftOp :  LESS LESS 
-	| MORE MORE MORE 
-	| MORE MORE
+	 shiftOp :  OP_SHR 
+	| OP_SHRR 
+	| OP_SHL
 	'''
 
 	pass
@@ -1165,7 +1167,7 @@ def p_shiftOp(p):
 def p_additiveExpression(p):
 	'''
 	 additiveExpression : multiplicativeExpression expt_35
-		| multiplicativeExpression empty
+		| multiplicativeExpression 
 	'''
 
 	pass
@@ -1174,7 +1176,7 @@ def p_additiveExpression(p):
 def p_multiplicativeExpression(p):
 	'''
 	 multiplicativeExpression : unaryExpression expt_36
-		| unaryExpression empty
+		| unaryExpression 
 	'''
 
 	pass
@@ -1198,7 +1200,9 @@ def p_unaryExpressionNotPlusMinus(p):
 		| EXCLAMATION unaryExpression
 		| castExpression
 		| primary expt_37 expr_17
-		| primary empty expr_17
+		| primary  expr_17
+		| primary expt_37
+		| primary
 	'''
 
 	pass
@@ -1217,18 +1221,18 @@ def p_primary(p):
 	'''
 	 primary : parExpression
 		| THIS expt_19 identifierSuffix
-		| THIS expt_19 empty
-		| THIS empty identifierSuffix
-		| THIS empty empty
+		| THIS expt_19 
+		| THIS  identifierSuffix
+		| THIS  
 		| SUPER superSuffix
 		| literal
 		| NEW creator
 		| Identifier expt_19 identifierSuffix
-		| Identifier expt_19 empty
-		| Identifier empty identifierSuffix
-		| Identifier empty empty
+		| Identifier expt_19 
+		| Identifier  identifierSuffix
+		| Identifier  
 		| primitiveType expt_11 DOT CLASS
-		| primitiveType empty DOT CLASS
+		| primitiveType  DOT CLASS
 		| VOID DOT CLASS
 	'''
 
@@ -1237,8 +1241,8 @@ def p_primary(p):
 
 def p_identifierSuffix(p):
 	'''
-	 identifierSuffix :  expr_19 DOT CLASS 
-	| expr_20 
+	 identifierSuffix :  expt_11 DOT CLASS 
+	| expt_38 
 	| arguments 
 	| DOT CLASS 
 	| DOT explicitGenericInvocation 
@@ -1253,7 +1257,8 @@ def p_identifierSuffix(p):
 def p_creator(p):
 	'''
 	 creator :  nonWildcardTypeArguments createdName classCreatorRest 
-	| createdName expr_21
+	| createdName arrayCreatorRest 
+	| createdName classCreatorRest
 	'''
 
 	pass
@@ -1271,7 +1276,7 @@ def p_createdName(p):
 def p_innerCreator(p):
 	'''
 	 innerCreator : nonWildcardTypeArguments Identifier classCreatorRest
-		| empty Identifier classCreatorRest
+		|  Identifier classCreatorRest
 	'''
 
 	pass
@@ -1288,7 +1293,7 @@ def p_arrayCreatorRest(p):
 def p_classCreatorRest(p):
 	'''
 	 classCreatorRest : arguments classBody
-		| arguments empty
+		| arguments 
 	'''
 
 	pass
@@ -1313,7 +1318,7 @@ def p_nonWildcardTypeArguments(p):
 def p_selector(p):
 	'''
 	 selector : DOT Identifier arguments
-		| DOT Identifier empty
+		| DOT Identifier 
 		| DOT THIS
 		| DOT SUPER superSuffix
 		| DOT NEW innerCreator
@@ -1327,7 +1332,7 @@ def p_superSuffix(p):
 	'''
 	 superSuffix : arguments
 		| DOT Identifier arguments
-		| DOT Identifier empty
+		| DOT Identifier 
 	'''
 
 	pass
@@ -1336,7 +1341,7 @@ def p_superSuffix(p):
 def p_arguments(p):
 	'''
 	 arguments : LPAREN expressionList RPAREN
-		| LPAREN empty RPAREN
+		| LPAREN RPAREN
 	'''
 
 	pass
@@ -1368,11 +1373,16 @@ def p_expt_35(p):
 
 	pass
 
+def p_expt_sub_36(p):
+	'''
+		expt_sub_36 : expr_16 unaryExpression
+	'''
+	pass
 
 def p_expt_36(p):
 	'''
-	 expt_36 : expr_16 unaryExpression
-		| expt_36 expr_16 unaryExpression
+	 expt_36 : expt_sub_36
+		| expt_36 expt_sub_36
 	'''
 
 	pass
@@ -1684,24 +1694,6 @@ def p_expt_19(p):
 	pass
 
 
-def p_expr_21(p):
-	'''
-	 expr_21 :  arrayCreatorRest 
-	| classCreatorRest
-	'''
-
-	pass
-
-
-def p_expr_20(p):
-	'''
-	 expr_20 :  FLPAREN expression FRPAREN 
-	| expr_20 FLPAREN expression FRPAREN
-	'''
-
-	pass
-
-
 def p_expr_22(p):
 	'''
 	 expr_22 :  FRPAREN expt_11 arrayInitializer 
@@ -1738,18 +1730,9 @@ def p_expr_6(p):
 	pass
 
 
-def p_expr_7(p):
+def p_type_void(p):
 	'''
-	 expr_7 :  type 
-	| VOID
-	'''
-
-	pass
-
-
-def p_expr_4(p):
-	'''
-	 expr_4 :  type 
+	 type_void :  type 
 	| VOID
 	'''
 
@@ -1796,15 +1779,6 @@ def p_expr_18(p):
 	'''
 	 expr_18 :  type 
 	| expression
-	'''
-
-	pass
-
-
-def p_expr_19(p):
-	'''
-	 expr_19 :  FLPAREN FRPAREN 
-	| expr_19 FLPAREN FRPAREN
 	'''
 
 	pass

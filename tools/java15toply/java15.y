@@ -718,9 +718,9 @@ assignmentOperator
     |   '|='
     |   '^='
     |   '%='
-    |    '&lt;' '&lt;' '='
-    |    '&gt;' '&gt;' '&gt;' '='
-    |    '&gt;' '&gt;' '='
+    |   '<<='
+    |   '>>>='
+    |   '>>='
     ;
 
 conditionalExpression
@@ -760,8 +760,8 @@ relationalExpression
     ;
 
 relationalOp 
-    :    '&lt;' '='
-    |    '&gt;' '='
+    :   '<='
+    |   '>='
     |   '&lt;'
     |   '&gt;'
     ;
@@ -773,9 +773,9 @@ shiftExpression
 
 
 shiftOp 
-    :    '&lt;' '&lt;'
-    |    '&gt;' '&gt;' '&gt;'
-    |    '&gt;' '&gt;'
+    :   '>>'
+    |   '>>>'
+    |   '<<'
     ;
 
 additiveExpression

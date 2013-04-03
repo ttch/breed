@@ -98,6 +98,30 @@ tokens = [
 
 ]+ keywords.values()
 
+t_OP_EQ		=	r'=='
+t_OP_LE		=	r'<='
+t_OP_GE		=	r'>='
+t_OP_NE		= 	r'!='
+t_OP_LOR	=	r'\|\|'
+t_OP_LAND	=	r'\&\&'
+t_OP_INC	=	r'\+\+'
+t_OP_DEC	=	r'--'
+t_OP_SHR	=	r'>>'
+t_OP_SHL	=	r'<<'
+t_OP_SHRR	=	r'\>\>\>'
+t_OP_ARRAY  =   r'\.\.\.'
+
+t_ASS_ADD	=	r'\+='
+t_ASS_SUB	=	r'-='
+t_ASS_MUL	=	r'\*\='
+t_ASS_DIV	=	r'/='
+t_ASS_AND		=	r"&="
+t_ASS_OR		=	r"\|\="
+t_ASS_XOR		=	r"^="
+t_ASS_MOD		=	r"%="
+t_ASS_SHL		=	r"\<\<\="
+t_ASS_SHR		=	r"\>\>\="
+t_ASS_SHRR		=	r"\>\>\>\="
 
 t_PLUS	= r'\+'
 t_EQUALS  = r'='
@@ -120,13 +144,16 @@ t_MULT = r'\*'
 t_DASH = r'\-'
 t_AND = r'\&'
 t_SLASH = r'\/'
-t_EXCLAMATION = r'\!'
 t_VERTICAL = r'\|'
 t_CARET = r'\^'
 t_PERCENT = r'\%'
 
 
 t_ignore = ' \t\r'
+
+def t_EXCLAMATION( t ):
+	r'\!'
+	print t.value
 
 def t_MCOMMENT( t ):
 	r'/\*(.|\n)*?\*/'
@@ -179,30 +206,7 @@ def t_NON_INTEGER_3(t):
 	r'[0-9]+'
 	return t
 
-t_OP_EQ		=	r'=='
-t_OP_LE		=	r'<='
-t_OP_GE		=	r'>='
-t_OP_NE		= 	r'!='
-t_OP_LOR	=	r'\|\|'
-t_OP_LAND	=	r'\&\&'
-t_OP_INC	=	r'\+\+'
-t_OP_DEC	=	r'--'
-t_OP_SHR	=	r'>>'
-t_OP_SHL	=	r'<<'
-t_OP_SHRR	=	r'\>\>\>'
-t_OP_ARRAY  =   r'\.\.\.'
 
-t_ASS_ADD	=	r'\+='
-t_ASS_SUB	=	r'-='
-t_ASS_MUL	=	r'\*\='
-t_ASS_DIV	=	r'/='
-t_ASS_AND		=	r"&="
-t_ASS_OR		=	r"\|\="
-t_ASS_XOR		=	r"^="
-t_ASS_MOD		=	r"%="
-t_ASS_SHL		=	r"\<\<\="
-t_ASS_SHR		=	r"\>\>\="
-t_ASS_SHRR		=	r"\>\>\>\="
 
 
 
