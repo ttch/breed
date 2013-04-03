@@ -8,7 +8,8 @@ tokens = lex.tokens
 
 def p_compilationUnit(p):
 	'''
-	 compilationUnit : packageDeclaration expt_1 expt_2
+	 compilationUnit : annotations expr_1
+		| packageDeclaration expt_1 expt_2
 		| packageDeclaration expt_1 empty
 		| packageDeclaration empty expt_2
 		| packageDeclaration empty empty
@@ -16,7 +17,6 @@ def p_compilationUnit(p):
 		| empty expt_1 empty
 		| empty empty expt_2
 		| empty empty empty
-		| annotations expr_1
 	'''
 
 	pass
@@ -248,10 +248,10 @@ def p_interfaceBody(p):
 
 def p_classBodyDeclaration(p):
 	'''
-	 classBodyDeclaration : modifiers memberDecl
+	 classBodyDeclaration : SEMI
 		| STATIC block
 		| empty block
-		| SEMI
+		| modifiers memberDecl
 	'''
 
 	pass
@@ -470,8 +470,11 @@ def p_variableInitializer(p):
 
 def p_arrayInitializer(p):
 	'''
-	 arrayInitializer : BLPAREN variableInitializer expt_14 ques_9 BRPAREN
-		| BLPAREN empty BRPAREN
+	 arrayInitializer : BLPAREN empty BRPAREN
+		| BLPAREN variableInitializer expt_14 COMMA BRPAREN
+		| BLPAREN variableInitializer expt_14 empty BRPAREN
+		| BLPAREN variableInitializer empty COMMA BRPAREN
+		| BLPAREN variableInitializer empty empty BRPAREN
 	'''
 
 	pass
@@ -522,10 +525,10 @@ def p_typeName(p):
 
 def p_type(p):
 	'''
-	 type : primitiveType expt_11
-		| primitiveType empty
-		| classOrInterfaceType expt_11
+	 type : classOrInterfaceType expt_11
 		| classOrInterfaceType empty
+		| primitiveType expt_11
+		| primitiveType empty
 	'''
 
 	pass
@@ -577,9 +580,9 @@ def p_typeArguments(p):
 
 def p_typeArgument(p):
 	'''
-	 typeArgument : QUES expr_8 type
+	 typeArgument : type
+		| QUES expr_8 type
 		| QUES empty
-		| type
 	'''
 
 	pass
@@ -613,9 +616,9 @@ def p_formalParameterDecls(p):
 
 def p_formalParameterDeclsRest(p):
 	'''
-	 formalParameterDeclsRest : OP_ARRAY variableDeclaratorId
-		| variableDeclaratorId COMMA formalParameterDecls
+	 formalParameterDeclsRest : variableDeclaratorId COMMA formalParameterDecls
 		| variableDeclaratorId empty
+		| OP_ARRAY variableDeclaratorId
 	'''
 
 	pass
@@ -642,10 +645,10 @@ def p_constructorBody(p):
 
 def p_explicitConstructorInvocation(p):
 	'''
-	 explicitConstructorInvocation : primary DOT nonWildcardTypeArguments SUPER arguments SEMI
-		| primary DOT empty SUPER arguments SEMI
-		| nonWildcardTypeArguments expr_9 arguments SEMI
+	 explicitConstructorInvocation : nonWildcardTypeArguments expr_9 arguments SEMI
 		| empty expr_9 arguments SEMI
+		| primary DOT nonWildcardTypeArguments SUPER arguments SEMI
+		| primary DOT empty SUPER arguments SEMI
 	'''
 
 	pass
@@ -773,15 +776,15 @@ def p_annotationTypeElementDeclaration(p):
 
 def p_annotationTypeElementRest(p):
 	'''
-	 annotationTypeElementRest : annotationTypeDeclaration SEMI
-		| annotationTypeDeclaration empty
-		| enumDeclaration SEMI
-		| enumDeclaration empty
-		| normalInterfaceDeclaration SEMI
-		| normalInterfaceDeclaration empty
+	 annotationTypeElementRest : type annotationMethodOrConstantRest SEMI
 		| normalClassDeclaration SEMI
 		| normalClassDeclaration empty
-		| type annotationMethodOrConstantRest SEMI
+		| normalInterfaceDeclaration SEMI
+		| normalInterfaceDeclaration empty
+		| enumDeclaration SEMI
+		| enumDeclaration empty
+		| annotationTypeDeclaration SEMI
+		| annotationTypeDeclaration empty
 	'''
 
 	pass
@@ -867,27 +870,27 @@ def p_variableModifiers(p):
 
 def p_statement(p):
 	'''
-	 statement : Identifier COLON statement
-		| statementExpression SEMI
-		| SEMI
-		| CONTINUE Identifier SEMI
-		| CONTINUE empty SEMI
-		| BREAK Identifier SEMI
-		| BREAK empty SEMI
-		| THROW expression SEMI
-		| RETURN expression SEMI
-		| RETURN empty SEMI
-		| SYNCHRONIZED parExpression block
-		| SWITCH parExpression BLPAREN switchBlockStatementGroups BRPAREN
-		| TRY block expr_12
-		| DO statement WHILE parExpression SEMI
-		| WHILE parExpression statement
-		| FOR LPAREN forControl RPAREN statement
-		| IF parExpression statement ELSE statement
-		| IF parExpression statement empty
+	 statement : block
 		| ASSERT expression COLON expression SEMI
 		| ASSERT expression empty SEMI
-		| block
+		| IF parExpression statement ELSE statement
+		| IF parExpression statement empty
+		| FOR LPAREN forControl RPAREN statement
+		| WHILE parExpression statement
+		| DO statement WHILE parExpression SEMI
+		| TRY block expr_12
+		| SWITCH parExpression BLPAREN switchBlockStatementGroups BRPAREN
+		| SYNCHRONIZED parExpression block
+		| RETURN expression SEMI
+		| RETURN empty SEMI
+		| THROW expression SEMI
+		| BREAK Identifier SEMI
+		| BREAK empty SEMI
+		| CONTINUE Identifier SEMI
+		| CONTINUE empty SEMI
+		| SEMI
+		| statementExpression SEMI
+		| Identifier COLON statement
 	'''
 
 	pass
@@ -948,7 +951,8 @@ def p_switchLabel(p):
 
 def p_forControl(p):
 	'''
-	 forControl : forInit SEMI expression SEMI forUpdate
+	 forControl : enhancedForControl
+		| forInit SEMI expression SEMI forUpdate
 		| forInit SEMI expression SEMI empty
 		| forInit SEMI empty SEMI forUpdate
 		| forInit SEMI empty SEMI empty
@@ -956,7 +960,6 @@ def p_forControl(p):
 		| empty SEMI expression SEMI empty
 		| empty SEMI empty SEMI forUpdate
 		| empty SEMI empty SEMI empty
-		| enhancedForControl
 	'''
 
 	pass
@@ -1191,11 +1194,11 @@ def p_unaryExpression(p):
 
 def p_unaryExpressionNotPlusMinus(p):
 	'''
-	 unaryExpressionNotPlusMinus : primary expt_37 expr_17
-		| primary empty expr_17
-		| castExpression
+	 unaryExpressionNotPlusMinus : TILDE unaryExpression
 		| EXCLAMATION unaryExpression
-		| TILDE unaryExpression
+		| castExpression
+		| primary expt_37 expr_17
+		| primary empty expr_17
 	'''
 
 	pass
@@ -1212,21 +1215,21 @@ def p_castExpression(p):
 
 def p_primary(p):
 	'''
-	 primary : VOID DOT CLASS
-		| primitiveType expt_11 DOT CLASS
-		| primitiveType empty DOT CLASS
-		| Identifier expt_19 identifierSuffix
-		| Identifier expt_19 empty
-		| Identifier empty identifierSuffix
-		| Identifier empty empty
-		| NEW creator
-		| literal
-		| SUPER superSuffix
+	 primary : parExpression
 		| THIS expt_19 identifierSuffix
 		| THIS expt_19 empty
 		| THIS empty identifierSuffix
 		| THIS empty empty
-		| parExpression
+		| SUPER superSuffix
+		| literal
+		| NEW creator
+		| Identifier expt_19 identifierSuffix
+		| Identifier expt_19 empty
+		| Identifier empty identifierSuffix
+		| Identifier empty empty
+		| primitiveType expt_11 DOT CLASS
+		| primitiveType empty DOT CLASS
+		| VOID DOT CLASS
 	'''
 
 	pass
@@ -1309,12 +1312,12 @@ def p_nonWildcardTypeArguments(p):
 
 def p_selector(p):
 	'''
-	 selector : FLPAREN expression FRPAREN
-		| DOT NEW innerCreator
-		| DOT SUPER superSuffix
-		| DOT THIS
-		| DOT Identifier arguments
+	 selector : DOT Identifier arguments
 		| DOT Identifier empty
+		| DOT THIS
+		| DOT SUPER superSuffix
+		| DOT NEW innerCreator
+		| FLPAREN expression FRPAREN
 	'''
 
 	pass
@@ -1322,9 +1325,9 @@ def p_selector(p):
 
 def p_superSuffix(p):
 	'''
-	 superSuffix : DOT Identifier arguments
+	 superSuffix : arguments
+		| DOT Identifier arguments
 		| DOT Identifier empty
-		| arguments
 	'''
 
 	pass
@@ -1341,8 +1344,8 @@ def p_arguments(p):
 
 def p_expt_38(p):
 	'''
-	 expt_38 :  FLPAREN expression FRPAREN 
-	| expt_38 FLPAREN expression FRPAREN
+	 expt_38 : FLPAREN expression FRPAREN
+		| expt_38 FLPAREN expression FRPAREN
 	'''
 
 	pass
@@ -1350,8 +1353,8 @@ def p_expt_38(p):
 
 def p_expt_34(p):
 	'''
-	 expt_34 :  shiftOp additiveExpression 
-	| expt_34 shiftOp additiveExpression
+	 expt_34 : shiftOp additiveExpression
+		| expt_34 shiftOp additiveExpression
 	'''
 
 	pass
@@ -1359,8 +1362,8 @@ def p_expt_34(p):
 
 def p_expt_35(p):
 	'''
-	 expt_35 :  expr_15 multiplicativeExpression 
-	| expt_35 expr_15 multiplicativeExpression
+	 expt_35 : expr_15 multiplicativeExpression
+		| expt_35 expr_15 multiplicativeExpression
 	'''
 
 	pass
@@ -1368,8 +1371,8 @@ def p_expt_35(p):
 
 def p_expt_36(p):
 	'''
-	 expt_36 :  expr_16 unaryExpression 
-	| expt_36 expr_16 unaryExpression
+	 expt_36 : expr_16 unaryExpression
+		| expt_36 expr_16 unaryExpression
 	'''
 
 	pass
@@ -1377,8 +1380,8 @@ def p_expt_36(p):
 
 def p_expt_37(p):
 	'''
-	 expt_37 :  selector 
-	| expt_37 selector
+	 expt_37 : selector
+		| expt_37 selector
 	'''
 
 	pass
@@ -1386,8 +1389,8 @@ def p_expt_37(p):
 
 def p_expt_30(p):
 	'''
-	 expt_30 :  CARET andExpression 
-	| expt_30 CARET andExpression
+	 expt_30 : CARET andExpression
+		| expt_30 CARET andExpression
 	'''
 
 	pass
@@ -1395,8 +1398,8 @@ def p_expt_30(p):
 
 def p_expt_31(p):
 	'''
-	 expt_31 :  AND equalityExpression 
-	| expt_31 AND equalityExpression
+	 expt_31 : AND equalityExpression
+		| expt_31 AND equalityExpression
 	'''
 
 	pass
@@ -1404,8 +1407,8 @@ def p_expt_31(p):
 
 def p_expt_32(p):
 	'''
-	 expt_32 :  expr_14 instanceOfExpression 
-	| expt_32 expr_14 instanceOfExpression
+	 expt_32 : expr_14 instanceOfExpression
+		| expt_32 expr_14 instanceOfExpression
 	'''
 
 	pass
@@ -1413,8 +1416,8 @@ def p_expt_32(p):
 
 def p_expt_33(p):
 	'''
-	 expt_33 :  relationalOp shiftExpression 
-	| expt_33 relationalOp shiftExpression
+	 expt_33 : relationalOp shiftExpression
+		| expt_33 relationalOp shiftExpression
 	'''
 
 	pass
@@ -1422,8 +1425,8 @@ def p_expt_33(p):
 
 def p_expt_8(p):
 	'''
-	 expt_8 :  classBodyDeclaration 
-	| expt_8 classBodyDeclaration
+	 expt_8 : classBodyDeclaration
+		| expt_8 classBodyDeclaration
 	'''
 
 	pass
@@ -1431,8 +1434,8 @@ def p_expt_8(p):
 
 def p_expt_9(p):
 	'''
-	 expt_9 :  COMMA type 
-	| expt_9 COMMA type
+	 expt_9 : COMMA type
+		| expt_9 COMMA type
 	'''
 
 	pass
@@ -1440,8 +1443,8 @@ def p_expt_9(p):
 
 def p_expt_4(p):
 	'''
-	 expt_4 :  modifier 
-	| expt_4 modifier
+	 expt_4 : modifier
+		| expt_4 modifier
 	'''
 
 	pass
@@ -1449,8 +1452,8 @@ def p_expt_4(p):
 
 def p_expt_5(p):
 	'''
-	 expt_5 :  COMMA typeParameter 
-	| expt_5 COMMA typeParameter
+	 expt_5 : COMMA typeParameter
+		| expt_5 COMMA typeParameter
 	'''
 
 	pass
@@ -1458,8 +1461,8 @@ def p_expt_5(p):
 
 def p_expt_6(p):
 	'''
-	 expt_6 :  AND type 
-	| expt_6 AND type
+	 expt_6 : AND type
+		| expt_6 AND type
 	'''
 
 	pass
@@ -1467,8 +1470,8 @@ def p_expt_6(p):
 
 def p_expt_7(p):
 	'''
-	 expt_7 :  COMMA enumConstant 
-	| expt_7 COMMA enumConstant
+	 expt_7 : COMMA enumConstant
+		| expt_7 COMMA enumConstant
 	'''
 
 	pass
@@ -1476,8 +1479,8 @@ def p_expt_7(p):
 
 def p_expt_1(p):
 	'''
-	 expt_1 :  importDeclaration 
-	| expt_1 importDeclaration
+	 expt_1 : importDeclaration
+		| expt_1 importDeclaration
 	'''
 
 	pass
@@ -1485,8 +1488,8 @@ def p_expt_1(p):
 
 def p_expt_2(p):
 	'''
-	 expt_2 :  typeDeclaration 
-	| expt_2 typeDeclaration
+	 expt_2 : typeDeclaration
+		| expt_2 typeDeclaration
 	'''
 
 	pass
@@ -1494,8 +1497,8 @@ def p_expt_2(p):
 
 def p_expt_3(p):
 	'''
-	 expt_3 :  classOrInterfaceModifier 
-	| expt_3 classOrInterfaceModifier
+	 expt_3 : classOrInterfaceModifier
+		| expt_3 classOrInterfaceModifier
 	'''
 
 	pass
@@ -1503,8 +1506,8 @@ def p_expt_3(p):
 
 def p_expt_29(p):
 	'''
-	 expt_29 :  VERTICAL exclusiveOrExpression 
-	| expt_29 VERTICAL exclusiveOrExpression
+	 expt_29 : VERTICAL exclusiveOrExpression
+		| expt_29 VERTICAL exclusiveOrExpression
 	'''
 
 	pass
@@ -1512,8 +1515,8 @@ def p_expt_29(p):
 
 def p_expt_28(p):
 	'''
-	 expt_28 :  OP_LAND inclusiveOrExpression 
-	| expt_28 OP_LAND inclusiveOrExpression
+	 expt_28 : OP_LAND inclusiveOrExpression
+		| expt_28 OP_LAND inclusiveOrExpression
 	'''
 
 	pass
@@ -1521,8 +1524,8 @@ def p_expt_28(p):
 
 def p_expt_27(p):
 	'''
-	 expt_27 :  OP_LOR conditionalAndExpression 
-	| expt_27 OP_LOR conditionalAndExpression
+	 expt_27 : OP_LOR conditionalAndExpression
+		| expt_27 OP_LOR conditionalAndExpression
 	'''
 
 	pass
@@ -1530,8 +1533,8 @@ def p_expt_27(p):
 
 def p_expt_26(p):
 	'''
-	 expt_26 :  COMMA expression 
-	| expt_26 COMMA expression
+	 expt_26 : COMMA expression
+		| expt_26 COMMA expression
 	'''
 
 	pass
@@ -1539,8 +1542,8 @@ def p_expt_26(p):
 
 def p_expt_25(p):
 	'''
-	 expt_25 :  switchBlockStatementGroup 
-	| expt_25 switchBlockStatementGroup
+	 expt_25 : switchBlockStatementGroup
+		| expt_25 switchBlockStatementGroup
 	'''
 
 	pass
@@ -1548,8 +1551,8 @@ def p_expt_25(p):
 
 def p_expt_24(p):
 	'''
-	 expt_24 :  catchClause 
-	| expt_24 catchClause
+	 expt_24 : catchClause
+		| expt_24 catchClause
 	'''
 
 	pass
@@ -1557,8 +1560,8 @@ def p_expt_24(p):
 
 def p_expt_23(p):
 	'''
-	 expt_23 :  variableModifier 
-	| expt_23 variableModifier
+	 expt_23 : variableModifier
+		| expt_23 variableModifier
 	'''
 
 	pass
@@ -1566,8 +1569,8 @@ def p_expt_23(p):
 
 def p_expt_22(p):
 	'''
-	 expt_22 :  annotationTypeElementDeclaration 
-	| expt_22 annotationTypeElementDeclaration
+	 expt_22 : annotationTypeElementDeclaration
+		| expt_22 annotationTypeElementDeclaration
 	'''
 
 	pass
@@ -1575,8 +1578,8 @@ def p_expt_22(p):
 
 def p_expt_21(p):
 	'''
-	 expt_21 :  COMMA elementValue 
-	| expt_21 COMMA elementValue
+	 expt_21 : COMMA elementValue
+		| expt_21 COMMA elementValue
 	'''
 
 	pass
@@ -1584,8 +1587,8 @@ def p_expt_21(p):
 
 def p_expt_20(p):
 	'''
-	 expt_20 :  COMMA elementValuePair 
-	| expt_20 COMMA elementValuePair
+	 expt_20 : COMMA elementValuePair
+		| expt_20 COMMA elementValuePair
 	'''
 
 	pass
@@ -1593,8 +1596,8 @@ def p_expt_20(p):
 
 def p_expt_16(p):
 	'''
-	 expt_16 :  COMMA typeArgument 
-	| expt_16 COMMA typeArgument
+	 expt_16 : COMMA typeArgument
+		| expt_16 COMMA typeArgument
 	'''
 
 	pass
@@ -1602,8 +1605,8 @@ def p_expt_16(p):
 
 def p_expt_17(p):
 	'''
-	 expt_17 :  COMMA qualifiedName 
-	| expt_17 COMMA qualifiedName
+	 expt_17 : COMMA qualifiedName
+		| expt_17 COMMA qualifiedName
 	'''
 
 	pass
@@ -1611,8 +1614,8 @@ def p_expt_17(p):
 
 def p_expt_14(p):
 	'''
-	 expt_14 :  COMMA variableInitializer 
-	| expt_14 COMMA variableInitializer
+	 expt_14 : COMMA variableInitializer
+		| expt_14 COMMA variableInitializer
 	'''
 
 	pass
@@ -1620,8 +1623,8 @@ def p_expt_14(p):
 
 def p_expt_15(p):
 	'''
-	 expt_15 :  DOT Identifier ques_18 
-	| expt_15 DOT Identifier ques_18
+	 expt_15 : DOT Identifier typeArguments
+		| expt_15 DOT Identifier typeArguments
 	'''
 
 	pass
@@ -1629,8 +1632,8 @@ def p_expt_15(p):
 
 def p_expt_12(p):
 	'''
-	 expt_12 :  COMMA variableDeclarator 
-	| expt_12 COMMA variableDeclarator
+	 expt_12 : COMMA variableDeclarator
+		| expt_12 COMMA variableDeclarator
 	'''
 
 	pass
@@ -1638,8 +1641,8 @@ def p_expt_12(p):
 
 def p_expt_13(p):
 	'''
-	 expt_13 :  COMMA constantDeclarator 
-	| expt_13 COMMA constantDeclarator
+	 expt_13 : COMMA constantDeclarator
+		| expt_13 COMMA constantDeclarator
 	'''
 
 	pass
@@ -1647,8 +1650,8 @@ def p_expt_13(p):
 
 def p_expt_10(p):
 	'''
-	 expt_10 :  interfaceBodyDeclaration 
-	| expt_10 interfaceBodyDeclaration
+	 expt_10 : interfaceBodyDeclaration
+		| expt_10 interfaceBodyDeclaration
 	'''
 
 	pass
@@ -1656,8 +1659,8 @@ def p_expt_10(p):
 
 def p_expt_11(p):
 	'''
-	 expt_11 :  FLPAREN FRPAREN 
-	| expt_11 FLPAREN FRPAREN
+	 expt_11 : FLPAREN FRPAREN
+		| expt_11 FLPAREN FRPAREN
 	'''
 
 	pass
@@ -1665,8 +1668,8 @@ def p_expt_11(p):
 
 def p_expt_18(p):
 	'''
-	 expt_18 :  blockStatement 
-	| expt_18 blockStatement
+	 expt_18 : blockStatement
+		| expt_18 blockStatement
 	'''
 
 	pass
@@ -1674,8 +1677,8 @@ def p_expt_18(p):
 
 def p_expt_19(p):
 	'''
-	 expt_19 :  DOT Identifier 
-	| expt_19 DOT Identifier
+	 expt_19 : DOT Identifier
+		| expt_19 DOT Identifier
 	'''
 
 	pass

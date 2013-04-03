@@ -73,11 +73,11 @@ class mutlList:
 	def echo( self , sf ):
 		for x in self.l:
 			body = ""
-			for y in self.l[x][2:]:
-				if y == "|":
-					body = body + " " + ( "\n\t" + y )
-				else:
-					body = body + " "+ y
+			slist = []
+			for item in [item.split("<?>") for item in ("<?>".join(self.l[x][2:]) ).split("|") ]:
+				pitem = [ i for i in item if i != '' ]
+				slist.append(process_expr(pitem))
+			body = "\n\t\t| ".join( [" ".join(o) for o in slist ] )
 			print_p(sf, x, body)
 
 class exprList:
@@ -366,7 +366,7 @@ def split_lower(p):
 		return ( "_".join(re.findall('[A-Z][a-z]+',p)) ).lower()
 
 
-def print_p(sf,name,body,mate=None):
+def print_p(sf,name,body):
 	sf.write( '\ndef p_%s(p):' % name )
 	sf.write( "\n\t'''\n")
 	sf.write( "\t %s : %s" % (name , body) )
@@ -428,7 +428,36 @@ def process_tree(l):
 		result.append(d)
 	return result
 
+# function define
+def insert(s ,i , d ):
+	t = list(s)
+	del t[i]
+	for item in d :
+		t.insert( i , item)
+		i = i + 1
+	s = deque(t)
+	return s
+
+def find_ques(d):
+	l = len(d)
+	for i in range(l):
+		if d[i][0:5] == "ques_":
+			yield (i , d[i])
+
+def process_expr( expr ):
+	l = [ (i , f ) for i,f in find_ques(expr) ]
+			
+	if len( l ) == 0 : return expr
+	ilen = len(expr)
+	for i,f in l:	
+		i = (len(expr) - ilen ) + i
+		d = queslist.get_value( expr[i] )
+		expr = insert (expr , i ,d)
+	return expr
+# ------------------
+
 def get_yacc(l):
+
 	b = yacc.yacc()
 
 	b.error = 0
@@ -455,50 +484,24 @@ tokens = lex.tokens
 			d = process_tree(x[2])
 
 
-			#process replace ques ........
-			def insert(s ,i , d ):
-				t = list(s)
-				del t[i]
-				for x in d :
-					t.insert( i , x)
-					i = i + 1
-				s = deque(t)
-				return s
+			#process replace ques ........	
+			b = deque( d )
+			s_list = []
+			for item in d:
+				s_list.extend( [ process_expr( i ) for i in item ] )
+			iFlag = False
 
-			def find_ques(d):
-				l = len(d)
-				for i in range(l):
-					if d[i][0:5] == "ques_":
-						yield (i , d[i])
-
-			def process_expr( expr ):
-				l = [ (i , f ) for i,f in find_ques(expr) ]
-				ilen = len(expr)
-				for i,f in l:	
-					i = (len(expr) - ilen ) + i
-					d = queslist.get_value( expr[i] )
-					expr = insert (expr , i ,d)
-				return expr
-
-			def process_item( exprs ):
-				for i in range(len(exprs)):
-					exprs[i] = process_expr( exprs[i] )
-
-			for i in range(len(d)):
-				process_item( d[i] )
+			l = len(s_list)
+			for i in range( l ):
+				l = [ (k , f ) for k,f in find_ques(s_list[i]) ]
 				
+				if len(l) > 0:
+					temp_list = process_tree(s_list[i])
+					del s_list[i]
+					s_list.extend( [ process_expr(item) for item in temp_list[0] ] )
+					iFlag = True
 
-#			for z in d:
-#				for e in z:
-#					l =  len(e)
-#					for i in range(l):
-#						if e[i][0:5] == "ques_":
-#							e[i] = " ".join( queslist.get_value( e[i] ) )
-			for z in d:
-				if body == "":
-					body = "\n\t\t| ".join( [" ".join(o) for o in z if "".join(o) != '' ] )
-				else:
-					body = "\n\t\t| ".join( [" ".join(o) for o in z if "".join(o) != '' ] )+"\n\t\t| "+body
+			body = "\n\t\t| ".join( [" ".join(o) for o in s_list ] )
 		else:
 			l = len(x[2])
 			for i in xrange( l ):
@@ -509,7 +512,7 @@ tokens = lex.tokens
 					body = body + " " +  ( "\n\t" + y )
 				else:
 					body = body + " "+ y
-		print_p(sf, x[0], body,x)
+		print_p(sf, x[0], body)
 
 	multlist.echo(sf)
 	exprlist.echo(sf)
@@ -555,7 +558,7 @@ def get_yacc(l):
 	""")
 	sf.close()
 	#"""
-	if b.error : return None
+	#if b.error : return None
 
 
 
