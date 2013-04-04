@@ -1,6 +1,5 @@
 # *.* coding=utf-8 *.*
-# author by zhao_nf
-# lex for java
+
 
 #[The "BSD licence"]
 # Copyright (c) 2012- zhao_nf
@@ -28,6 +27,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# author by zhao_nf ( ttchgm@gmail.com)
+# lex for java v0.0.1
 
 from ply import *
 
