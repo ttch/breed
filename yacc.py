@@ -1,5 +1,179 @@
 # *.* coding=utf-8 *.*
 
+#/*
+# [The "BSD licence"]
+# Copyright (c) 2007-2008 Terence Parr
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. The name of the author may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#*/
+#/** A Java 1.5 grammar for ANTLR v3 derived from the spec
+# *
+# *  This is a very close representation of the spec; the changes
+# *  are comestic (remove left recursion) and also fixes (the spec
+# *  isn't exactly perfect).  I have run this on the 1.4.2 source
+# *  and some nasty looking enums from 1.5, but have not really
+# *  tested for 1.5 compatibility.
+# *
+# *  I built this with: java -Xmx100M org.antlr.Tool java.g 
+# *  and got two errors that are ok (for now):
+# *  java.g:691:9: Decision can match input such as
+# *    "'0'..'9'{'E', 'e'}{'+', '-'}'0'..'9'{'D', 'F', 'd', 'f'}"
+# *    using multiple alternatives: 3, 4
+# *  As a result, alternative(s) 4 were disabled for that input
+# *  java.g:734:35: Decision can match input such as "{'$', 'A'..'Z',
+# *    '_', 'a'..'z', '\u00C0'..'\u00D6', '\u00D8'..'\u00F6',
+# *    '\u00F8'..'\u1FFF', '\u3040'..'\u318F', '\u3300'..'\u337F',
+# *    '\u3400'..'\u3D2D', '\u4E00'..'\u9FFF', '\uF900'..'\uFAFF'}"
+# *    using multiple alternatives: 1, 2
+# *  As a result, alternative(s) 2 were disabled for that input
+# *
+# *  You can turn enum on/off as a keyword :)
+# *
+# *  Version 1.0 -- initial release July 5, 2006 (requires 3.0b2 or higher)
+# *
+# *  Primary author: Terence Parr, July 2006
+# *
+# *  Version 1.0.1 -- corrections by Koen Vanderkimpen & Marko van Dooren,
+# *      October 25, 2006;
+# *      fixed normalInterfaceDeclaration: now uses typeParameters instead
+# *          of typeParameter (according to JLS, 3rd edition)
+# *      fixed castExpression: no longer allows expression next to type
+# *          (according to semantics in JLS, in contrast with syntax in JLS)
+# *
+# *  Version 1.0.2 -- Terence Parr, Nov 27, 2006
+# *      java spec I built this from had some bizarre for-loop control.
+# *          Looked weird and so I looked elsewhere...Yep, it's messed up.
+# *          simplified.
+# *
+# *  Version 1.0.3 -- Chris Hogue, Feb 26, 2007
+# *      Factored out an annotationName rule and used it in the annotation rule.
+# *          Not sure why, but typeName wasn't recognizing references to inner
+# *          annotations (e.g. @InterfaceName.InnerAnnotation())
+# *      Factored out the elementValue section of an annotation reference.  Created 
+# *          elementValuePair and elementValuePairs rules, then used them in the 
+# *          annotation rule.  Allows it to recognize annotation references with 
+# *          multiple, comma separated attributes.
+# *      Updated elementValueArrayInitializer so that it allows multiple elements.
+# *          (It was only allowing 0 or 1 element).
+# *      Updated localVariableDeclaration to allow annotations.  Interestingly the JLS
+# *          doesn't appear to indicate this is legal, but it does work as of at least
+# *          JDK 1.5.0_06.
+# *      Moved the Identifier portion of annotationTypeElementRest to annotationMethodRest.
+# *          Because annotationConstantRest already references variableDeclarator which 
+# *          has the Identifier portion in it, the parser would fail on constants in 
+# *          annotation definitions because it expected two identifiers.  
+# *      Added optional trailing ';' to the alternatives in annotationTypeElementRest.
+# *          Wouldn't handle an inner interface that has a trailing ';'.
+# *      Swapped the expression and type rule reference order in castExpression to 
+# *          make it check for genericized casts first.  It was failing to recognize a
+# *          statement like  "Class<Byte> TYPE = (Class<Byte>)...;" because it was seeing
+# *          'Class<Byte' in the cast expression as a less than expression, then failing 
+# *          on the '>'.
+# *      Changed createdName to use typeArguments instead of nonWildcardTypeArguments.
+# *          Again, JLS doesn't seem to allow this, but java.lang.Class has an example of
+# *          of this construct.
+# *      Changed the 'this' alternative in primary to allow 'identifierSuffix' rather than
+# *          just 'arguments'.  The case it couldn't handle was a call to an explicit
+# *          generic method invocation (e.g. this.<E>doSomething()).  Using identifierSuffix
+# *          may be overly aggressive--perhaps should create a more constrained thisSuffix rule?
+# *      
+# *  Version 1.0.4 -- Hiroaki Nakamura, May 3, 2007
+# *
+# *  Fixed formalParameterDecls, localVariableDeclaration, forInit,
+# *  and forVarControl to use variableModifier* not 'final'? (annotation)?
+# *
+# *  Version 1.0.5 -- Terence, June 21, 2007
+# *  --a[i].foo didn't work. Fixed unaryExpression
+# *
+# *  Version 1.0.6 -- John Ridgway, March 17, 2008
+# *      Made "assert" a switchable keyword like "enum".
+# *      Fixed compilationUnit to disallow "annotation importDeclaration ...".
+# *      Changed "Identifier ('.' Identifier)*" to "qualifiedName" in more 
+# *          places.
+# *      Changed modifier* and/or variableModifier* to classOrInterfaceModifiers,
+# *          modifiers or variableModifiers, as appropriate.
+# *      Renamed "bound" to "typeBound" to better match language in the JLS.
+# *      Added "memberDeclaration" which rewrites to methodDeclaration or 
+# *      fieldDeclaration and pulled type into memberDeclaration.  So we parse 
+# *          type and then move on to decide whether we're dealing with a field
+# *          or a method.
+# *      Modified "constructorDeclaration" to use "constructorBody" instead of
+# *          "methodBody".  constructorBody starts with explicitConstructorInvocation,
+# *          then goes on to blockStatement*.  Pulling explicitConstructorInvocation
+# *          out of expressions allowed me to simplify "primary".
+# *      Changed variableDeclarator to simplify it.
+# *      Changed type to use classOrInterfaceType, thus simplifying it; of course
+# *          I then had to add classOrInterfaceType, but it is used in several 
+# *          places.
+# *      Fixed annotations, old version allowed "@X(y,z)", which is illegal.
+# *      Added optional comma to end of "elementValueArrayInitializer"; as per JLS.
+# *      Changed annotationTypeElementRest to use normalClassDeclaration and 
+# *          normalInterfaceDeclaration rather than classDeclaration and 
+# *          interfaceDeclaration, thus getting rid of a couple of grammar ambiguities.
+# *      Split localVariableDeclaration into localVariableDeclarationStatement
+# *          (includes the terminating semi-colon) and localVariableDeclaration.  
+# *          This allowed me to use localVariableDeclaration in "forInit" clauses,
+# *           simplifying them.
+# *      Changed switchBlockStatementGroup to use multiple labels.  This adds an
+# *          ambiguity, but if one uses appropriately greedy parsing it yields the
+# *           parse that is closest to the meaning of the switch statement.
+# *      Renamed "forVarControl" to "enhancedForControl" -- JLS language.
+# *      Added semantic predicates to test for shift operations rather than other
+# *          things.  Thus, for instance, the string "< <" will never be treated
+# *          as a left-shift operator.
+# *      In "creator" we rule out "nonWildcardTypeArguments" on arrayCreation, 
+# *          which are illegal.
+# *      Moved "nonWildcardTypeArguments into innerCreator.
+# *      Removed 'super' superSuffix from explicitGenericInvocation, since that
+# *          is only used in explicitConstructorInvocation at the beginning of a
+# *           constructorBody.  (This is part of the simplification of expressions
+# *           mentioned earlier.)
+# *      Simplified primary (got rid of those things that are only used in
+# *          explicitConstructorInvocation).
+# *      Lexer -- removed "Exponent?" from FloatingPointLiteral choice 4, since it
+# *          led to an ambiguity.
+# *
+# *      This grammar successfully parses every .java file in the JDK 1.5 source 
+# *          tree (excluding those whose file names include '-', which are not
+# *          valid Java compilation units).
+# *
+# *  Known remaining problems:
+# *      "Letter" and "JavaIDDigit" are wrong.  The actual specification of
+# *      "Letter" should be "a character for which the method
+# *      Character.isJavaIdentifierStart(int) returns true."  A "Java 
+# *      letter-or-digit is a character for which the method 
+# *      Character.isJavaIdentifierPart(int) returns true."
+# */
+#
+# convert by openjdk 1.5 grammar file
+#
+# author by zhao_nf ( ttchgm@gmail.com )
+#
+# [The "BSD licence"]
+# Copyright (c) 2011- zhao_nf
+# All rights reserved.
+
 import ply.yacc as yacc
 import lex
 from collections import deque
@@ -51,8 +225,8 @@ def p_typeDeclaration(p):
 
 def p_classOrInterfaceDeclaration(p):
 	'''
-	 classOrInterfaceDeclaration : classOrInterfaceModifiers expr_2
-		|  expr_2
+	 classOrInterfaceDeclaration :  classOrInterfaceModifiers expr_2
+	 							| expr_2
 	'''
 
 	pass
@@ -286,7 +460,7 @@ def p_genericMethodOrConstructorDecl(p):
 
 def p_genericMethodOrConstructorRest(p):
 	'''
-	 genericMethodOrConstructorRest :  expr_4 Identifier methodDeclaratorRest 
+	 genericMethodOrConstructorRest :  type_void Identifier methodDeclaratorRest 
 	| Identifier constructorDeclaratorRest
 	'''
 
@@ -380,7 +554,7 @@ def p_interfaceMethodDeclaratorRest(p):
 
 def p_interfaceGenericMethodDecl(p):
 	'''
-	 interfaceGenericMethodDecl :  typeParameters expr_7 Identifier interfaceMethodDeclaratorRest
+	 interfaceGenericMethodDecl :  typeParameters type_void Identifier interfaceMethodDeclaratorRest
 	'''
 
 	pass
@@ -606,8 +780,8 @@ def p_formalParameters(p):
 
 def p_formalParameterDecls(p):
 	'''
-	 formalParameterDecls : variableModifiers type formalParameterDeclsRest
-		|  type formalParameterDeclsRest
+	 formalParameterDecls :  variableModifiers type formalParameterDeclsRest
+	 					| type formalParameterDeclsRest
 	'''
 
 	pass
@@ -686,7 +860,8 @@ def p_booleanLiteral(p):
 
 def p_annotations(p):
 	'''
-	 annotations :  expr_10
+	 annotations :  annotation
+	 			| annotations annotation
 	'''
 
 	pass
@@ -694,9 +869,10 @@ def p_annotations(p):
 
 def p_annotation(p):
 	'''
-	 annotation : AT annotationName 
-		| AT annotationName LPAREN expr_11 RPAREN
-		| AT annotationName LPAREN  RPAREN
+	 annotation : AT annotationName LPAREN elementValuePairs RPAREN
+	 	|  AT annotationName LPAREN elementValue RPAREN
+	 	| AT annotationName LPAREN RPAREN
+		| AT annotationName 
 	'''
 
 	pass
@@ -846,6 +1022,7 @@ def p_blockStatement(p):
 def p_localVariableDeclarationStatement(p):
 	'''
 	 localVariableDeclarationStatement :  localVariableDeclaration SEMI
+	 									| SEMI
 	'''
 
 	pass
@@ -853,8 +1030,8 @@ def p_localVariableDeclarationStatement(p):
 
 def p_localVariableDeclaration(p):
 	'''
-	 localVariableDeclaration : variableModifiers type variableDeclarators
-		|  type variableDeclarators
+	 localVariableDeclaration :  variableModifiers type variableDeclarators
+	 						|  type variableDeclarators
 	'''
 
 	pass
@@ -915,8 +1092,7 @@ def p_catchClause(p):
 
 def p_formalParameter(p):
 	'''
-	 formalParameter : variableModifiers type variableDeclaratorId
-		|  type variableDeclaratorId
+	 formalParameter :  variableModifiers type variableDeclaratorId
 	'''
 
 	pass
@@ -976,8 +1152,7 @@ def p_forInit(p):
 
 def p_enhancedForControl(p):
 	'''
-	 enhancedForControl : variableModifiers type Identifier COLON expression
-		|  type Identifier COLON expression
+	 enhancedForControl :  variableModifiers type Identifier COLON expression
 	'''
 
 	pass
@@ -1199,9 +1374,9 @@ def p_unaryExpressionNotPlusMinus(p):
 		| EXCLAMATION unaryExpression
 		| castExpression
 		| primary expt_37 expr_17
-		| primary expt_37 
 		| primary  expr_17
-		| primary  
+		| primary expt_37
+		| primary
 	'''
 
 	pass
@@ -1240,8 +1415,8 @@ def p_primary(p):
 
 def p_identifierSuffix(p):
 	'''
-	 identifierSuffix :  expr_19 DOT CLASS 
-	| expr_20 
+	 identifierSuffix :  expt_11 DOT CLASS 
+	| expt_38 
 	| arguments 
 	| DOT CLASS 
 	| DOT explicitGenericInvocation 
@@ -1256,7 +1431,8 @@ def p_identifierSuffix(p):
 def p_creator(p):
 	'''
 	 creator :  nonWildcardTypeArguments createdName classCreatorRest 
-	| createdName expr_21
+	| createdName arrayCreatorRest 
+	| createdName classCreatorRest
 	'''
 
 	pass
@@ -1339,7 +1515,7 @@ def p_superSuffix(p):
 def p_arguments(p):
 	'''
 	 arguments : LPAREN expressionList RPAREN
-		| LPAREN  RPAREN
+		| LPAREN RPAREN
 	'''
 
 	pass
@@ -1371,11 +1547,16 @@ def p_expt_35(p):
 
 	pass
 
+def p_expt_sub_36(p):
+	'''
+		expt_sub_36 : expr_16 unaryExpression
+	'''
+	pass
 
 def p_expt_36(p):
 	'''
-	 expt_36 : expr_16 unaryExpression
-		| expt_36 expr_16 unaryExpression
+	 expt_36 : expt_sub_36
+		| expt_36 expt_sub_36
 	'''
 
 	pass
@@ -1687,24 +1868,6 @@ def p_expt_19(p):
 	pass
 
 
-def p_expr_21(p):
-	'''
-	 expr_21 :  arrayCreatorRest 
-	| classCreatorRest
-	'''
-
-	pass
-
-
-def p_expr_20(p):
-	'''
-	 expr_20 :  FLPAREN expression FRPAREN 
-	| expr_20 FLPAREN expression FRPAREN
-	'''
-
-	pass
-
-
 def p_expr_22(p):
 	'''
 	 expr_22 :  FRPAREN expt_11 arrayInitializer 
@@ -1741,18 +1904,9 @@ def p_expr_6(p):
 	pass
 
 
-def p_expr_7(p):
+def p_type_void(p):
 	'''
-	 expr_7 :  type 
-	| VOID
-	'''
-
-	pass
-
-
-def p_expr_4(p):
-	'''
-	 expr_4 :  type 
+	 type_void :  type 
 	| VOID
 	'''
 
@@ -1799,15 +1953,6 @@ def p_expr_18(p):
 	'''
 	 expr_18 :  type 
 	| expression
-	'''
-
-	pass
-
-
-def p_expr_19(p):
-	'''
-	 expr_19 :  FLPAREN FRPAREN 
-	| expr_19 FLPAREN FRPAREN
 	'''
 
 	pass

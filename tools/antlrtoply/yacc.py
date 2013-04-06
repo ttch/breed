@@ -38,7 +38,7 @@ rules = deque()
 rule = deque()
 
 
-class quesList:
+class QuesList:
 	def __init__(self):
 		self.l = {}
 		self.v = {}
@@ -54,6 +54,7 @@ class quesList:
 			if self.v[x] == value:
 				return x
 		return 'key_error'
+
 	def get_value(self,key):
 		return self.l[key]
 
@@ -67,7 +68,8 @@ class quesList:
 
 		else:
 			return self.get_key(value)
-class mutlList:
+
+class MutlList:
 	def __init__(self):
 		self.l = {}
 		self.v = {}
@@ -108,7 +110,7 @@ class mutlList:
 			body = "\n\t\t| ".join( [" ".join(o) for o in slist ] )
 			print_p(sf, x, body)
 
-class exprList:
+class ExprList:
 	def __init__(self):
 		self.l = {}
 		self.v = []
@@ -143,12 +145,12 @@ class exprList:
 					body = body + " "+ y
 			print_p(sf, x, body)
 
-exprlist = exprList()
-queslist = quesList()
-multlist = mutlList()
+exprlist = ExprList()
+queslist = QuesList()
+multlist = MutlList()
 
 
-class expr:
+class Expr:
 	def __init__(self,t):
 		self.t = t
 	def __str__(self):
@@ -186,7 +188,6 @@ class expr:
 		return self.t
 	def process_sub(self):
 		if self.t[0] == '(':
-
 			flag = False
 			if self.t[-1] == ')':
 				flag = False
@@ -197,12 +198,26 @@ class expr:
 				for x in self.t :
 					if x == '|': flag = True
 				if flag == True:
-					value = [ 'new_label' , ':' ] + self.t[1:-2]
-					self.t = [ exprlist.add( value ) ]
+					if self.t[-1] == '?':
+						value = [ 'new_label' , ':' ] + self.t[1:-2]
+						self.t = [ exprlist.add( value ) , '?' ]
+						self.t = [  queslist.add( [ self.t[0] ] ) ]
+					else:
+						value = [ 'new_label' , ':' ] + self.t[1:-1]
+						self.t = [ exprlist.add( value ) ]
+				else:
+					for x in self.t:
+						if x == '?':
+							return self.process_ques()
+						elif x=='+':
+							return self.process_plus()
+						elif x == '*':
+							return self. process_mult()
+					return self.t
 			else:
 				value = [ 'new_label' , ':' ] + self.t[1:-1]
-
 				self.t = [ exprlist.add( value ) ]
+
 	def process_no(self):
 		for x in self.t:
 			if x == '?':
@@ -211,16 +226,7 @@ class expr:
 			elif x == '+':
 				pass
 			elif x == '*':
-				pass	
-'''
-class rule:
-	def __init__(self,t):
-		self.t = t
-	def __str__(self):
-		return "rule:%s" % (str(self.t))
-	def __repr__(self):
-		return "rule:%s" % (str(self.t))
-'''
+				pass
 
 def p_program( p ):
 	'''
@@ -313,11 +319,11 @@ def p_sub_expr( p ):
 	'''
 	if len(p) == 4:
 		if p[2] !=None:
-			p[0] = expr( [ p[1] ] + p[2] +[ p[3] ]  )
+			p[0] = Expr( [ p[1] ] + p[2] +[ p[3] ]  )
 			p[0].process_sub()
 	if len(p) == 5:
 		if p[2] != None:
-			p[0] = expr( [ p[1] ] + p[2] + [ p[3] ] + p[4] )
+			p[0] = Expr( [ p[1] ] + p[2] + [ p[3] ] + p[4] )
 			p[0].process_sub()
 			p[0].process()
 
@@ -334,7 +340,7 @@ def p_s_expr( p ):
 		if p[1] != None and p[1] != '(':
 
 			if p[0] == None : p[0] = []
-			p[0] = expr(  p[0] + p[1] + p[2] )
+			p[0] = Expr(  p[0] + p[1] + p[2] )
 
 			#operator
 			if p[2] in [["?"],["+"],["*"]] :
@@ -406,7 +412,7 @@ class Node:
 	def __init__(self,Item):
 		self.rItem = Item
 		self.parent = None
-		if Item[0:4] != 'expt' and Item[0:5] != "ques_":
+		if Item[0:4] != 'expt' and Item[0:5] != "ques_"and Item != "variableModifiers" and Item != "classOrInterfaceModifiers":
 			self.item = Item
 		else:
 			self.item = (Item,'')
@@ -484,14 +490,16 @@ def process_expr( expr ):
 	return expr
 # ------------------
 
-def get_yacc(l):
+def get_yacc(l,outfile):
 
 	b = yacc.yacc()
 
 	b.error = 0
 	result = b.parse(lexer = l , debug=0)
-	#"""
-	sf = open("../javatobreed/yacc.py","w")
+
+	# begin
+
+	sf = open(outfile,"w")
 	sf.write("# *.* coding=utf-8 *.*\n")
 	sf.write("""
 import ply.yacc as yacc
@@ -500,16 +508,18 @@ from collections import deque
 
 tokens = lex.tokens
 """)
-	for x in  rules:
-		if x[0] == 'integerLiteral': continue
+
+
+	for rule in  rules:
+		if rule[0] == 'integerLiteral': continue
 		body = ""
 		flag = False
-		for y in x[2]:
-			if y[0:4] == 'expt' or y[0:5] == 'ques_':
+		for token in rule[2]:
+			if token[0:4] == 'expt' or token[0:5] == 'ques_' or token == "classOrInterfaceModifiers" or token == "variableModifiers":
 				flag = True
 				break
 		if flag == True:
-			d = process_tree(x[2])
+			d = process_tree(rule[2])
 
 
 			#process replace ques ........	
@@ -518,29 +528,35 @@ tokens = lex.tokens
 			for item in d:
 				s_list.extend( [ process_expr( i ) for i in item ] )
 			iFlag = False
-
+			if rule[0] == 'annotation':
+				print s_list
 			l = len(s_list)
 			for i in range( l ):
 				l = [ (k , f ) for k,f in find_ques(s_list[i]) ]
 				
 				if len(l) > 0:
 					temp_list = process_tree(s_list[i])
+					if rule[0] == 'annotation':
+						print temp_list
+						print queslist.l
 					del s_list[i]
 					s_list.extend( [ process_expr(item) for item in temp_list[0] ] )
 					iFlag = True
+			#if rule[0] == 'annotation':
+			#	print s_list
 
 			body = "\n\t\t| ".join( [" ".join(o) for o in s_list if "".join(o) != "" ] )
 		else:
-			l = len(x[2])
+			l = len(rule[2])
 			for i in xrange( l ):
-				if x[2][i][0:5] == "ques_":
-					x[2][i] = " ".join( queslist.get_value( x[2][i] ) )
-			for y in x[2]:
+				if rule[2][i][0:5] == "ques_":
+					rule[2][i] = " ".join( queslist.get_value( rule[2][i] ) )
+			for y in rule[2]:
 				if y == "|":
 					body = body + " " +  ( "\n\t" + y )
 				else:
 					body = body + " "+ y
-		print_p(sf, x[0], body)
+		print_p(sf, rule[0], body)
 
 	multlist.echo(sf)
 	exprlist.echo(sf)
@@ -585,8 +601,6 @@ def get_yacc(l):
 	if b.error : return None
 	""")
 	sf.close()
-	#"""
-	#if b.error : return None
 
 
 

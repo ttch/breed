@@ -29,3 +29,7 @@ pip-log.txt
 src/.DS_Store
 
 .DS_Store
+
+*.swp
+
+*.swp
