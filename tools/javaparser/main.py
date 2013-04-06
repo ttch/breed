@@ -39,7 +39,7 @@ def main(filename):
 	lexer.input(s)
 	yacc.get_yacc(lexer)
 
-	#for x in file_.getTokenList(lexer):
-	#	print x
+	for x in file_.getTokenList(lexer):
+		print x
 if __name__ == "__main__":
 	getopts()

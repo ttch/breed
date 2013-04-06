@@ -118,7 +118,7 @@ tokens = [
 
 	'CharacterLiteral','StringLiteral',
 
-	'NUMBER','HEX_NUMBER',
+	#'NUMBER','HEX_NUMBER',
 	'LONG_NUMBER' , 'LONG_HEX_NUMBER',
 	'NON_INTEGER_1' , 'NON_INTEGER_2' , 'NON_INTEGER_3'
 
@@ -190,9 +190,9 @@ def t_LCOMMENT( t ):
 	r'[\/][\/].*'
 	pass
 
-def t_NUMBER(t):
-	r'([0123456789])+'
-	return t
+#def t_NUMBER(t):
+#	r'([0123456789])+'
+#	return t
 
 
 def t_CharacterLiteral(t):
@@ -203,9 +203,9 @@ def t_StringLiteral(t):
 	r'\"([^\\\n]|(\\.))*?\"'
 	return t
 
-def t_HEX_NUMBER(t):
-	r'[0][x|X][0-9a-fA-F]+'
-	return t
+#def t_HEX_NUMBER(t):
+#	r'[0][x|X][0-9a-fA-F]+'
+#	return t
 
 def t_LONG_NUMBER(t):
 	r'([0123456789])+[l|L]'

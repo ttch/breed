@@ -572,9 +572,7 @@ def p_FloatingPointLiteral( p ):
 
 def p_integerLiteral(p):
 	'''
-		integerLiteral : NUMBER 
-					| HEX_NUMBER
-					| LONG_NUMBER
+		integerLiteral : LONG_NUMBER
 					| LONG_HEX_NUMBER
 	'''
 	pass
