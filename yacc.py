@@ -180,16 +180,48 @@ from collections import deque
 
 tokens = lex.tokens
 
+
+def p_importDeclarations(p):
+	'''
+	 importDeclarations : importDeclaration
+		| importDeclarations importDeclaration
+	'''
+
+	pass
+
+
+def p_typeDeclarations(p):
+	'''
+	 typeDeclarations : typeDeclaration
+		| typeDeclarations typeDeclaration
+	'''
+
+	pass
+
+def p_compilationUnit_sub(p):
+	'''
+		compilationUnit_sub : packageDeclaration importDeclarations typeDeclarations
+							| packageDeclaration importDeclarations
+							| packageDeclaration typeDeclarations
+							| packageDeclaration
+							| classOrInterfaceDeclaration typeDeclarations
+							| classOrInterfaceDeclaration
+	'''
+	pass
+
+def p_packageDeclaration_once(p):
+	'''
+		packageDeclaration_once : packageDeclaration
+								| 
+	'''
+
 def p_compilationUnit(p):
 	'''
-	 compilationUnit : annotations expr_1
-		| packageDeclaration expt_1 expt_2
-		| packageDeclaration expt_1 
-		| packageDeclaration  expt_2
-		| packageDeclaration  
-		|  expt_1 expt_2
-		|  expt_1 
-		|   expt_2
+	 compilationUnit : annotations p_compilationUnit_sub
+		| packageDeclaration_once importDeclarations typeDeclarations
+		| packageDeclaration importDeclarations 
+		| packageDeclaration typeDeclarations
+		| packageDeclaration 
 	'''
 
 	pass
@@ -202,13 +234,21 @@ def p_packageDeclaration(p):
 
 	pass
 
+def p_STATIC_empty(p):
+	'''
+		STATIC_empty : STATIC
+					 | 
+	'''
+
+def p_DOT_MULT(p):
+	'''
+		DOT_MULT : DOT MULT
+				 | 
+	'''
 
 def p_importDeclaration(p):
 	'''
-	 importDeclaration : IMPORT STATIC qualifiedName DOT MULT SEMI
-		| IMPORT STATIC qualifiedName  SEMI
-		| IMPORT  qualifiedName DOT MULT SEMI
-		| IMPORT  qualifiedName  SEMI
+	 importDeclaration : IMPORT STATIC_empty qualifiedName DOT_MULT SEMI
 	'''
 
 	pass
@@ -225,16 +265,18 @@ def p_typeDeclaration(p):
 
 def p_classOrInterfaceDeclaration(p):
 	'''
-	 classOrInterfaceDeclaration :  classOrInterfaceModifiers expr_2
-	 							| expr_2
+	 classOrInterfaceDeclaration :  classOrInterfaceModifiers classDeclaration
+	 							| classOrInterfaceModifiers interfaceDeclaration
+								| classDeclaration
+								| interfaceDeclaration
 	'''
 
 	pass
 
-
 def p_classOrInterfaceModifiers(p):
 	'''
-	 classOrInterfaceModifiers : expt_3
+	 classOrInterfaceModifiers : classOrInterfaceModifier
+	 							| classOrInterfaceModifiers classOrInterfaceModifier
 	'''
 
 	pass
@@ -254,10 +296,10 @@ def p_classOrInterfaceModifier(p):
 
 	pass
 
-
 def p_modifiers(p):
 	'''
-	 modifiers : expt_4
+	 modifiers : modifier
+	 		| modifiers modifier
 	'''
 
 	pass
@@ -271,44 +313,75 @@ def p_classDeclaration(p):
 
 	pass
 
+def p_ExtendType(p):
+	'''
+		ExtendType : EXTENDS type
+					|
+	'''
+
+def p_IMPLEMENTS_typeList(p):
+	'''
+		IMPLEMENTS_typeList : IMPLEMENTS typeList
+							|
+	'''
 
 def p_normalClassDeclaration(p):
 	'''
-	 normalClassDeclaration : CLASS Identifier typeParameters EXTENDS type IMPLEMENTS typeList classBody
-		| CLASS Identifier typeParameters EXTENDS type  classBody
-		| CLASS Identifier typeParameters  IMPLEMENTS typeList classBody
-		| CLASS Identifier typeParameters   classBody
-		| CLASS Identifier  EXTENDS type IMPLEMENTS typeList classBody
-		| CLASS Identifier  EXTENDS type  classBody
-		| CLASS Identifier   IMPLEMENTS typeList classBody
-		| CLASS Identifier    classBody
+	 normalClassDeclaration : CLASS Identifier typeParameters ExtendType IMPLEMENTS_typeList  classBody
 	'''
 
 	pass
 
+
+def p_dotTypeParameter(p):
+	'''
+		dotTypeParameter : COMMA typeParameter
+	'''
+def p_dotTypeParameters(p):
+	'''
+		dotTypeParameters : dotTypeParameter
+						| dotTypeParameters dotTypeParameter
+	'''
 
 def p_typeParameters(p):
 	'''
-	 typeParameters : LESS typeParameter expt_5 MORE
-		| LESS typeParameter  MORE
+	 typeParameters : LESS typeParameter dotTypeParameters MORE
+		| LESS typeParameter MORE
+		|
 	'''
 
 	pass
 
+def p_EXTENDS_typeBound(p):
+	'''
+		EXTENDS_typeBound : EXTENDS typeBound
+						| 
+	'''
 
 def p_typeParameter(p):
 	'''
-	 typeParameter : Identifier EXTENDS typeBound
-		| Identifier 
+	 typeParameter : Identifier EXTENDS_typeBound
 	'''
 
 	pass
 
+def p_and_type(p):
+	'''
+		and_type : AND type
+	'''
+
+def p_and_types(p):
+	'''
+	 and_types : and_type
+		| and_types and_type
+	'''
+
+	pass
 
 def p_typeBound(p):
 	'''
-	 typeBound : type expt_6
-		| type 
+	 typeBound : type and_types
+		| type
 	'''
 
 	pass
@@ -1625,15 +1698,6 @@ def p_expt_9(p):
 	pass
 
 
-def p_expt_4(p):
-	'''
-	 expt_4 : modifier
-		| expt_4 modifier
-	'''
-
-	pass
-
-
 def p_expt_5(p):
 	'''
 	 expt_5 : COMMA typeParameter
@@ -1643,46 +1707,10 @@ def p_expt_5(p):
 	pass
 
 
-def p_expt_6(p):
-	'''
-	 expt_6 : AND type
-		| expt_6 AND type
-	'''
-
-	pass
-
-
 def p_expt_7(p):
 	'''
 	 expt_7 : COMMA enumConstant
 		| expt_7 COMMA enumConstant
-	'''
-
-	pass
-
-
-def p_expt_1(p):
-	'''
-	 expt_1 : importDeclaration
-		| expt_1 importDeclaration
-	'''
-
-	pass
-
-
-def p_expt_2(p):
-	'''
-	 expt_2 : typeDeclaration
-		| expt_2 typeDeclaration
-	'''
-
-	pass
-
-
-def p_expt_3(p):
-	'''
-	 expt_3 : classOrInterfaceModifier
-		| expt_3 classOrInterfaceModifier
 	'''
 
 	pass
@@ -1922,28 +1950,10 @@ def p_expr_5(p):
 	pass
 
 
-def p_expr_2(p):
-	'''
-	 expr_2 :  classDeclaration 
-	| interfaceDeclaration
-	'''
-
-	pass
-
-
 def p_expr_3(p):
 	'''
 	 expr_3 :  methodDeclaration 
 	| fieldDeclaration
-	'''
-
-	pass
-
-
-def p_expr_1(p):
-	'''
-	 expr_1 :  packageDeclaration expt_1 expt_2 
-	| classOrInterfaceDeclaration expt_2
 	'''
 
 	pass

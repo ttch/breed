@@ -36,8 +36,6 @@ def getopts():
 			help()
 		if o == "--version":
 			help()
-	print filename
-	print outfilename
 	if filename != "" and outfilename != "":
 		main(filename,outfilename)
 	else:

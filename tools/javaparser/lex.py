@@ -98,6 +98,9 @@ keywords = {
 
 
 tokens = [
+	'LONG_NUMBER' , 'LONG_HEX_NUMBER',
+	'NON_INTEGER_1' , 'NON_INTEGER_2','NON_INTEGER_4','NON_INTEGER_3',
+
 	'MCOMMENT','LCOMMENT',
 	'Identifier',
 	'OP_EQ', 'OP_LE', 'OP_GE', 'OP_NE', 
@@ -116,11 +119,10 @@ tokens = [
 	'MULT','DASH','AND','SLASH','EXCLAMATION',
 	'VERTICAL','CARET','PERCENT',
 
-	'CharacterLiteral','StringLiteral',
+	'CharacterLiteral','StringLiteral'
 
 	#'NUMBER','HEX_NUMBER',
-	'LONG_NUMBER' , 'LONG_HEX_NUMBER',
-	'NON_INTEGER_1' , 'NON_INTEGER_2' , 'NON_INTEGER_3'
+
 
 ]+ keywords.values()
 
@@ -228,12 +230,13 @@ def t_NON_INTEGER_2(t):
 	r'[.][0-9]+[e|E]?[\+|\-]?[0-9]*'
 	return t
 
+def t_NON_INTEGER_4(t):
+	r'[0-9]+[d|D]'
+	return t
+
 def t_NON_INTEGER_3(t):
 	r'[0-9]+'
 	return t
-
-
-
 
 
 

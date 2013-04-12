@@ -528,17 +528,12 @@ tokens = lex.tokens
 			for item in d:
 				s_list.extend( [ process_expr( i ) for i in item ] )
 			iFlag = False
-			if rule[0] == 'annotation':
-				print s_list
 			l = len(s_list)
 			for i in range( l ):
 				l = [ (k , f ) for k,f in find_ques(s_list[i]) ]
 				
 				if len(l) > 0:
 					temp_list = process_tree(s_list[i])
-					if rule[0] == 'annotation':
-						print temp_list
-						print queslist.l
 					del s_list[i]
 					s_list.extend( [ process_expr(item) for item in temp_list[0] ] )
 					iFlag = True
@@ -591,12 +586,18 @@ def p_error(p):
 	else:
 		print "Syntax error at EOF"
 
-def get_yacc(l):
+def get_yacc(l,filename,debug):
 	b = yacc.yacc()
 
 	b.error = 0
-	result = b.parse(lexer = l , debug=2)
+
+	if debug == True:
+		result = b.parse(lexer = l , debug=2)
+	else:
+		result = b.parse(lexer = l , debug=0)
+
 	if b.error : return None
+	print "%s was successed" % filename
 	""")
 	sf.close()
 
