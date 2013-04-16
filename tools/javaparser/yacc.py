@@ -181,6 +181,18 @@ from collections import deque
 tokens = lex.tokens
 
 
+def p_compilationUnit(p):
+	'''
+	 compilationUnit : annotations compilationUnit_sub
+		| packageDeclaration importDeclarations typeDeclarations
+		| packageDeclaration importDeclarations 
+		| packageDeclaration typeDeclarations
+		| packageDeclaration
+		|
+	'''
+
+	pass
+
 def p_compilationUnit_sub(p):
 	'''
 		compilationUnit_sub : packageDeclaration importDeclarations typeDeclarations
@@ -214,17 +226,6 @@ def p_packageDeclaration_once(p):
 		packageDeclaration_once : packageDeclaration
 								| 
 	'''
-
-def p_compilationUnit(p):
-	'''
-	 compilationUnit : annotations compilationUnit_sub
-		| packageDeclaration_once importDeclarations typeDeclarations
-		| packageDeclaration importDeclarations 
-		| packageDeclaration typeDeclarations
-		| packageDeclaration 
-	'''
-
-	pass
 
 
 def p_packageDeclaration(p):
@@ -263,13 +264,16 @@ def p_typeDeclaration(p):
 
 	pass
 
+def p_classOrInterfaceModifiers_empty(p):
+	'''
+			classOrInterfaceModifiers_empty : classOrInterfaceModifiers
+											|
+	'''
 
 def p_classOrInterfaceDeclaration(p):
 	'''
-	 classOrInterfaceDeclaration :  classOrInterfaceModifiers classDeclaration
-	 							| classOrInterfaceModifiers interfaceDeclaration
-								| classDeclaration
-								| interfaceDeclaration
+	 classOrInterfaceDeclaration : classOrInterfaceModifiers_empty classDeclaration
+	 							| classOrInterfaceModifiers_empty interfaceDeclaration
 	'''
 
 	pass
@@ -562,8 +566,7 @@ def p_classBodyDeclaration(p):
 	 classBodyDeclaration : SEMI
 		| STATIC block
 		| block
-		| modifiers memberDecl
-		| memberDecl
+		| modifiers_empty memberDecl
 	'''
 
 	pass
@@ -627,7 +630,7 @@ def p_fieldDeclaration(p):
 
 def p_interfaceBodyDeclaration(p):
 	'''
-	 interfaceBodyDeclaration :  modifiers interfaceMemberDecl 
+	 interfaceBodyDeclaration :  modifiers_empty interfaceMemberDecl 
 	| SEMI
 	'''
 
@@ -1062,11 +1065,15 @@ def p_formalParameters(p):
 
 	pass
 
+def p_variableModifiers_empty(p):
+	'''
+		variableModifiers_empty : variableModifiers
+								|
+	'''
 
 def p_formalParameterDecls(p):
 	'''
-	 formalParameterDecls :  variableModifiers type formalParameterDeclsRest
-	 					| type formalParameterDeclsRest
+	 formalParameterDecls :  variableModifiers_empty type formalParameterDeclsRest
 						| empty
 	'''
 
@@ -1138,7 +1145,7 @@ def p_DOT_Identifier(p):
 def p_DOT_Identifiers(p):
 	'''
 		DOT_Identifiers : DOT_Identifier
-						| DOT_Identifiers DOT_Identifier 
+						| DOT_Identifiers DOT_Identifier
 	'''
 
 def p_qualifiedName(p):
@@ -1302,11 +1309,15 @@ def p_annotationTypeBody(p):
 
 	pass
 
+def p_modifiers_empty(p):
+	'''
+		modifiers_empty : modifiers
+						|
+	'''
 
 def p_annotationTypeElementDeclaration(p):
 	'''
-	 annotationTypeElementDeclaration :  modifiers annotationTypeElementRest
-	 								| annotationTypeElementRest
+	 annotationTypeElementDeclaration :  modifiers_empty annotationTypeElementRest
 	'''
 
 	pass
@@ -1378,9 +1389,9 @@ def p_block(p):
 
 def p_blockStatement(p):
 	'''
-	 blockStatement :  localVariableDeclarationStatement 
-	| classOrInterfaceDeclaration 
-	| statement
+	 blockStatement :  statement
+	| localVariableDeclarationStatement
+	| classOrInterfaceDeclaration  
 	'''
 
 	pass
@@ -1393,11 +1404,15 @@ def p_localVariableDeclarationStatement(p):
 
 	pass
 
+def p_localVariableDeclarationModifBody(p):
+	'''
+		localVariableDeclarationModifBody : variableModifiers type variableDeclarators
+											| type variableDeclarators
+	'''
 
 def p_localVariableDeclaration(p):
 	'''
-	 localVariableDeclaration :  variableModifiers type variableDeclarators
-	 						| type variableDeclarators
+	 localVariableDeclaration : localVariableDeclarationModifBody
 	'''
 
 	pass
@@ -1405,8 +1420,8 @@ def p_localVariableDeclaration(p):
 
 def p_variableModifiers(p):
 	'''
-	 variableModifiers : variableModifier
-	 					| variableModifiers variableModifier
+	 variableModifiers : variableModifiers variableModifier
+	 					| variableModifier
 	'''
 
 	pass
@@ -1483,8 +1498,7 @@ def p_catchClause(p):
 
 def p_formalParameter(p):
 	'''
-	 formalParameter :  variableModifiers type variableDeclaratorId
-	 				| type variableDeclaratorId
+	 formalParameter :  variableModifiers_empty type variableDeclaratorId
 	'''
 
 	pass
@@ -1546,8 +1560,7 @@ def p_forUpdate_empty(p):
 def p_forControl(p):
 	'''
 	 forControl : enhancedForControl
-
-		| forInit_or_empty SEMI expression_or_empty SEMI forUpdate_empty
+	 			| forInit_or_empty SEMI expression_or_empty SEMI forUpdate_empty
 	'''
 
 	pass
@@ -1564,7 +1577,7 @@ def p_forInit(p):
 
 def p_enhancedForControl(p):
 	'''
-	 enhancedForControl :  variableModifiers type Identifier COLON expression
+	 enhancedForControl :  variableModifiers_empty type Identifier COLON expression
 	 					| type Identifier COLON expression
 	'''
 
@@ -1600,7 +1613,7 @@ def p_COMMA_expressions(p):
 	'''
 
 
-
+# expression COMMA expression ....
 def p_expressionList(p):
 	'''
 	 expressionList : expression COMMA_expressions
@@ -1625,14 +1638,14 @@ def p_constantExpression(p):
 
 	pass
 
-def p_assignmentOperator_expression_empty(p):
+def p_assignmentOperator_expression(p):
 	'''
-		assignmentOperator_expression_empty : assignmentOperator expression
-											|
+		assignmentOperator_expression : assignmentOperator expression
 	'''
 def p_expression(p):
 	'''
-	 expression : conditionalExpression assignmentOperator_expression_empty 
+	 expression : conditionalExpression assignmentOperator_expression
+	 			| conditionalExpression
 	'''
 
 	pass
@@ -1660,16 +1673,11 @@ def p_conditionalExpressionStat(p):
 	'''
 		conditionalExpressionStat : QUES expression COLON expression
 	'''
-def p_conditionalExpressionStats(p):
-	'''
-		conditionalExpressionStats : conditionalExpressionStat
-							| conditionalExpressionStats conditionalExpressionStat
-	'''
 
 
 def p_conditionalExpression(p):
 	'''
-	 conditionalExpression : conditionalOrExpression conditionalExpressionStats
+	 conditionalExpression : conditionalOrExpression conditionalExpressionStat
 		| conditionalOrExpression 
 	'''
 
@@ -1807,15 +1815,16 @@ def p_equalityExpression(p):
 
 	pass
 
-def p_INSTANCEOF_type_once(p):
+def p_INSTANCEOF_type(p):
 	'''
-		INSTANCEOF_type_once : INSTANCEOF type
+		INSTANCEOF_type : INSTANCEOF type
 							| 
 	'''
 
 def p_instanceOfExpression(p):
 	'''
-	 instanceOfExpression : relationalExpression INSTANCEOF_type_once 
+	 instanceOfExpression : relationalExpression INSTANCEOF_type
+	 					| relationalExpression
 	'''
 
 	pass
@@ -1853,6 +1862,13 @@ def p_relationalOp(p):
 	pass
 
 
+def p_shiftOp(p):
+	'''
+	 shiftOp :  OP_SHR 
+	| OP_SHRR 
+	| OP_SHL
+	'''
+
 def p_sh_additiveExpression(p):
 	'''
 	 sh_additiveExpression : shiftOp additiveExpression
@@ -1874,15 +1890,6 @@ def p_shiftExpression(p):
 
 	pass
 
-
-def p_shiftOp(p):
-	'''
-	 shiftOp :  OP_SHR 
-	| OP_SHRR 
-	| OP_SHL
-	'''
-
-	pass
 
 def p_add_multiplicativeExpression(p):
 	'''
@@ -1906,6 +1913,8 @@ def p_additiveExpression(p):
 
 	pass
 
+
+# multiplicativeExpression -- begin
 def p_mu_unaryExpression(p):
 	'''
 		mu_unaryExpression : MULT unaryExpression
@@ -1922,6 +1931,9 @@ def p_mu_unaryExpressions(p):
 
 	pass
 
+#multiplicativeExpression
+#    :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )*
+#    ;
 def p_multiplicativeExpression(p):
 	'''
 	 multiplicativeExpression : unaryExpression mu_unaryExpressions
@@ -1929,7 +1941,7 @@ def p_multiplicativeExpression(p):
 	'''
 
 	pass
-#end
+# multiplicativeExpression -- end
 
 def p_unaryExpression(p):
 	'''
@@ -1943,11 +1955,10 @@ def p_unaryExpression(p):
 	pass
 
 
-def p_INC_DEC_empty(p):
+def p_INC_DEC(p):
 	'''
-	 INC_DEC_empty :  OP_INC 
+	 INC_DEC :  OP_INC 
 	| OP_DEC
-	| empty
 	'''
 
 	pass
@@ -1966,8 +1977,10 @@ def p_unaryExpressionNotPlusMinus(p):
 	 unaryExpressionNotPlusMinus : TILDE unaryExpression
 								 | EXCLAMATION unaryExpression
 								 | castExpression
-								 | primary selectors INC_DEC_empty
-								 | primary INC_DEC_empty
+								 | primary selectors INC_DEC
+								 | primary INC_DEC
+								 | primary selectors
+								 | primary
 	'''
 
 	pass
@@ -1981,10 +1994,22 @@ def p_castExpression(p):
 
 	pass
 
-def p_identifierSuffix_empty(p):
+def p_CallTerm(p):
 	'''
-		identifierSuffix_empty : identifierSuffix
-								|
+		CallTerm : DOT_Identifiers identifierSuffix
+						| DOT_Identifiers
+						| identifierSuffix
+						|
+	'''
+
+def p_methodCall(p):
+	'''
+		methodCall : Identifier CallTerm
+	'''
+
+def p_thisCall(p):
+	'''
+		thisCall : THIS CallTerm
 	'''
 
 #primary
@@ -2000,13 +2025,11 @@ def p_identifierSuffix_empty(p):
 def p_primary(p):
 	'''
 	 primary : parExpression
-		| THIS DOT_Identifiers identifierSuffix_empty
-		| THIS identifierSuffix_empty
+		| thisCall
 		| SUPER superSuffix
 		| literal
 		| NEW creator
-		| Identifier DOT_Identifiers identifierSuffix_empty
-		| Identifier identifierSuffix_empty 
+		| methodCall
 		| primitiveType arrays DOT CLASS
 		| primitiveType  DOT CLASS
 		| VOID DOT CLASS
@@ -2114,7 +2137,7 @@ def p_nonWildcardTypeArguments(p):
 
 def p_selector(p):
 	'''
-	 selector : DOT Identifier arguments_once
+	 selector : DOT Identifier arguments
 		| DOT Identifier 
 		| DOT THIS
 		| DOT SUPER superSuffix
@@ -2128,20 +2151,16 @@ def p_selector(p):
 def p_superSuffix(p):
 	'''
 	 superSuffix : arguments
-		| DOT Identifier arguments_once
+		| DOT Identifier arguments
+		| DOT Identifier
 	'''
 
 	pass
 
-def p_expressionList_once(p):
-	'''
-		expressionList_once : expressionList
-							|
-	'''
-
 def p_arguments(p):
 	'''
-	 arguments : LPAREN expressionList_once RPAREN
+	 arguments : LPAREN expressionList RPAREN
+	 			| LPAREN RPAREN
 	'''
 
 	pass
