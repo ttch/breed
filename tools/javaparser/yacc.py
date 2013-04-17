@@ -781,14 +781,9 @@ def p_variableDeclarators(p):
 	pass
 
 
-def p_EQUALS_variableInitializer(p):
-	'''
-		EQUALS_variableInitializer : EQUALS variableInitializer
-	'''
-
 def p_variableDeclarator(p):
 	'''
-	 variableDeclarator : variableDeclaratorId EQUALS_variableInitializer
+	 variableDeclarator : variableDeclaratorId EQUALS variableInitializer
 		| variableDeclaratorId 
 	'''
 
@@ -1655,16 +1650,11 @@ def p_constantExpression(p):
 
 	pass
 
-def p_assignmentOperator_expression(p):
-	'''
-		assignmentOperator_expression : assignmentOperator expression
-	'''
-
 # expression begin
 
 def p_expression(p):
 	'''
-	 expression : conditionalExpression assignmentOperator_expression
+	 expression : conditionalExpression assignmentOperator expression
 	 			| conditionalExpression
 	'''
 
@@ -1860,7 +1850,7 @@ def p_additiveExpression(p):
 def p_multiplicativeExpressions(p):
 	'''
 		multiplicativeExpressions : multiplicativeExpression
-						| multiplicativeExpressions multiplicativeExpression
+						| multiplicativeExpression multiplicativeExpressions
 	'''
 
 #multiplicativeExpression
@@ -1871,7 +1861,7 @@ def p_multiplicativeExpression(p):
 	 multiplicativeExpression : unaryExpressions
 	 		| MULT unaryExpressions
 			| SLASH unaryExpressions
-			| PERCENT unaryExpressions
+			| PERCENT unaryExpressions 
 	'''
 
 	pass
@@ -1879,7 +1869,7 @@ def p_multiplicativeExpression(p):
 def p_unaryExpressions(p):
 	'''
 		unaryExpressions : unaryExpression
-					| unaryExpressions unaryExpression
+					| unaryExpressions unaryExpression 
 	'''
 
 # multiplicativeExpression -- end
@@ -1931,6 +1921,8 @@ def p_castExpression(p):
 	 castExpression :  LPAREN primitiveType RPAREN unaryExpression 
 					| LPAREN type RPAREN unaryExpressionNotPlusMinus
 					| LPAREN expression RPAREN unaryExpressionNotPlusMinus
+					| LPAREN type RPAREN
+					| LPAREN expression RPAREN
 	'''
 
 	pass
