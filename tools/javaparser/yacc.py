@@ -2007,12 +2007,12 @@ def p_primary(p):
 	 primary : parExpression
 		| thisCall
 		| THIS
-		| THIS CallBody
+		| THIS CallBodys
 		| SUPER superSuffix
 		| literal
 		| NEW creator
 		| methodCall
-		| Identifier CallBody
+		| Identifier CallBodys
 		| Identifier
 		| primitiveType arrays DOT CLASS
 		| primitiveType  DOT CLASS
