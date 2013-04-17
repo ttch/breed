@@ -877,9 +877,15 @@ def p_array_body(p):
 		array_body : variableInitializer COMMA_variableInitializers COMMA_once
 					| variableInitializer COMMA_once
 	'''
+
+#arrayInitializer
+#    :   '{' (variableInitializer (',' variableInitializer)* (',')? )? '}'
+#    ;
+
 def p_arrayInitializer(p):
 	'''
 		arrayInitializer : BLPAREN array_body BRPAREN
+						| BLPAREN BRPAREN
 	'''
 
 	pass
@@ -2035,6 +2041,13 @@ def p_innerCreator(p):
 	'''
 
 	pass
+
+#arrayCreatorRest
+#    :   '['
+#        (   ']' ('[' ']')* arrayInitializer
+#        |   expression ']' ('[' expression ']')* ('[' ']')*
+#        )
+#    ;
 
 def p_arrayCreatorRest(p):
 	'''
