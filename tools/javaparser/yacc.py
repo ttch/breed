@@ -181,9 +181,21 @@ from collections import deque
 tokens = lex.tokens
 
 
+#compilationUnit
+#    :   annotations
+#        (   packageDeclaration (importDeclaration)* (typeDeclaration)*
+#        |   classOrInterfaceDeclaration (typeDeclaration)*
+#        )
+#    |   (packageDeclaration)? (importDeclaration)* (typeDeclaration)*
+#    ;
 def p_compilationUnit(p):
 	'''
-	 compilationUnit : annotations compilationUnit_sub
+	 compilationUnit : annotations packageDeclaration importDeclarations typeDeclarations
+		| annotations packageDeclaration importDeclarations
+		| annotations packageDeclaration typeDeclarations
+		| annotations packageDeclaration
+		| annotations classOrInterfaceDeclaration typeDeclarations
+		| annotations classOrInterfaceDeclaration
 		| packageDeclaration importDeclarations typeDeclarations
 		| packageDeclaration importDeclarations 
 		| packageDeclaration typeDeclarations
@@ -191,17 +203,6 @@ def p_compilationUnit(p):
 		|
 	'''
 
-	pass
-
-def p_compilationUnit_sub(p):
-	'''
-		compilationUnit_sub : packageDeclaration importDeclarations typeDeclarations
-							| packageDeclaration importDeclarations
-							| packageDeclaration typeDeclarations
-							| packageDeclaration
-							| classOrInterfaceDeclaration typeDeclarations
-							| classOrInterfaceDeclaration
-	'''
 	pass
 
 def p_importDeclarations(p):
@@ -264,16 +265,13 @@ def p_typeDeclaration(p):
 
 	pass
 
-def p_classOrInterfaceModifiers_empty(p):
-	'''
-			classOrInterfaceModifiers_empty : classOrInterfaceModifiers
-											|
-	'''
 
 def p_classOrInterfaceDeclaration(p):
 	'''
-	 classOrInterfaceDeclaration : classOrInterfaceModifiers_empty classDeclaration
-	 							| classOrInterfaceModifiers_empty interfaceDeclaration
+	 classOrInterfaceDeclaration : classOrInterfaceModifiers classDeclaration
+	 							| classDeclaration
+	 							| classOrInterfaceModifiers interfaceDeclaration
+								| interfaceDeclaration
 	'''
 
 	pass
@@ -402,19 +400,12 @@ def p_enumDeclaration(p):
 #enumBody
 #    :   '{' (enumConstants)? ','? enumBodyDeclarations? '}'
 #    ;
-def p_enumBodyStatement(p):
-	'''
-		enumBodyStatement : enumConstants COMMA enumBodyDeclarations
-						| enumConstants COMMA
-						| enumConstants enumBodyDeclarations
-						| COMMA enumBodyDeclarations
-						| COMMA
-						| enumConstants
-						| enumBodyDeclarations
-	'''
+
 def p_enumBody(p):
 	'''
-	 enumBody : BLPAREN enumBodyStatement BRPAREN
+	 enumBody : BLPAREN enumConstants enumBodyDeclarations BRPAREN
+	 		| BLPAREN enumConstants BRPAREN
+			| BLPAREN enumBodyDeclarations BRPAREN
 			| BLPAREN BRPAREN
 	'''
 
@@ -423,6 +414,7 @@ def p_enumBody(p):
 def p_COMMA_enumConstant(p):
 	'''
 		COMMA_enumConstant : COMMA enumConstant
+							| COMMA
 	'''
 
 def p_COMMA_enumConstants(p):
@@ -1325,7 +1317,8 @@ def p_modifiers_empty(p):
 
 def p_annotationTypeElementDeclaration(p):
 	'''
-	 annotationTypeElementDeclaration :  modifiers_empty annotationTypeElementRest
+	 annotationTypeElementDeclaration :  modifiers annotationTypeElementRest
+	 								| annotationTypeElementRest
 	'''
 
 	pass
@@ -1339,10 +1332,14 @@ def p_SEMI_OR_empty(p):
 def p_annotationTypeElementRest(p):
 	'''
 	 annotationTypeElementRest : type annotationMethodOrConstantRest SEMI
-								| normalClassDeclaration SEMI_OR_empty
-								| normalInterfaceDeclaration SEMI_OR_empty
-								| enumDeclaration SEMI_OR_empty
-								| annotationTypeDeclaration SEMI_OR_empty
+								| normalClassDeclaration SEMI
+								| normalInterfaceDeclaration SEMI
+								| enumDeclaration SEMI
+								| annotationTypeDeclaration SEMI
+								| normalClassDeclaration
+								| normalInterfaceDeclaration
+								| enumDeclaration
+								| annotationTypeDeclaration
 	'''
 
 	pass
@@ -1829,7 +1826,7 @@ def p_relationalExpressions(p):
 def p_relationalExpression(p):
 	'''
 		relationalExpression : shiftExpressions
-							| shiftOp shiftExpressions
+							| shiftExpressions shiftOp
 	'''
 
 def p_shiftExpressions(p):
