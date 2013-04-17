@@ -952,10 +952,11 @@ def p_classOrInterfaceTypeBody(p):
 						| classOrInterfaceTypeStatements
 	'''
 
+
 def p_classOrInterfaceTypeStatement(p):
 	'''
-		classOrInterfaceTypeStatement : DOT Identifier typeArguments
-									| DOT Identifier
+		classOrInterfaceTypeStatement : CallBody typeArguments
+									| CallBody
 	'''
 
 def p_classOrInterfaceTypeStatements(p):
@@ -1969,22 +1970,26 @@ def p_castExpression(p):
 
 	pass
 
-def p_CallTerm(p):
+def p_CallBody(p):
 	'''
-		CallTerm : DOT_Identifiers identifierSuffix
-						| DOT_Identifiers
-						| identifierSuffix
-						|
+		CallBody : DOT Identifier
+	'''
+
+def p_CallBodys(p):
+	'''
+		CallBodys : CallBody
+					| CallBody CallBodys
 	'''
 
 def p_methodCall(p):
 	'''
-		methodCall : Identifier CallTerm
+		methodCall : Identifier  CallBodys identifierSuffix
+				| Identifier identifierSuffix
 	'''
 
 def p_thisCall(p):
 	'''
-		thisCall : THIS CallTerm
+		thisCall : THIS CallBodys identifierSuffix
 	'''
 
 #primary
@@ -2005,6 +2010,8 @@ def p_primary(p):
 		| literal
 		| NEW creator
 		| methodCall
+		| Identifier CallBody
+		| Identifier
 		| primitiveType arrays DOT CLASS
 		| primitiveType  DOT CLASS
 		| VOID DOT CLASS
