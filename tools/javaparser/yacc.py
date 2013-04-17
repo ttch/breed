@@ -2006,6 +2006,8 @@ def p_primary(p):
 	'''
 	 primary : parExpression
 		| thisCall
+		| THIS
+		| THIS CallBody
 		| SUPER superSuffix
 		| literal
 		| NEW creator
