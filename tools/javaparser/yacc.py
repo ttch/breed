@@ -566,7 +566,8 @@ def p_classBodyDeclaration(p):
 	 classBodyDeclaration : SEMI
 		| STATIC block
 		| block
-		| modifiers_empty memberDecl
+		| modifiers memberDecl
+		| memberDecl
 	'''
 
 	pass
@@ -1829,28 +1830,6 @@ def p_instanceOfExpression(p):
 
 	pass
 
-def p_re_shiftExpression(p):
-	'''
-	 re_shiftExpression : relationalOp shiftExpression
-	'''
-
-	pass
-
-def p_re_shiftExpressions(p):
-	'''
-		re_shiftExpressions : re_shiftExpression
-							| re_shiftExpressions re_shiftExpression
-	'''
-
-
-def p_relationalExpression(p):
-	'''
-	 relationalExpression : shiftExpression re_shiftExpressions
-		| shiftExpression 
-	'''
-
-	pass
-
 def p_relationalOp(p):
 	'''
 	 relationalOp :  OP_LE 
@@ -1861,35 +1840,31 @@ def p_relationalOp(p):
 
 	pass
 
-
 def p_shiftOp(p):
 	'''
-	 shiftOp :  OP_SHR 
-	| OP_SHRR 
+	 shiftOp :  MORE MORE
+	| MORE MORE MORE 
 	| OP_SHL
 	'''
 
-def p_sh_additiveExpression(p):
+def p_re_relationalExpression(p):
 	'''
-	 sh_additiveExpression : shiftOp additiveExpression
-	'''
-
-	pass
-
-def p_sh_additiveExpressions(p):
-	'''
-		sh_additiveExpressions : sh_additiveExpression
-								| sh_additiveExpressions sh_additiveExpression
+		re_relationalExpression : relationalOp additiveExpression
+							| shiftOp additiveExpression
 	'''
 
-def p_shiftExpression(p):
+def p_re_relationalExpressions(p):
 	'''
-	 shiftExpression : additiveExpression sh_additiveExpressions
-		| additiveExpression 
+		re_relationalExpressions : re_relationalExpression
+							| re_relationalExpressions re_relationalExpression
 	'''
 
-	pass
 
+def p_relationalExpression(p):
+	'''
+		relationalExpression : additiveExpression re_relationalExpressions
+							| additiveExpression
+	'''
 
 def p_add_multiplicativeExpression(p):
 	'''

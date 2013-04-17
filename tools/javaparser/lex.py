@@ -78,7 +78,7 @@ keywords = {
 	'switch'				:'SWITCH',
 	'continue'				:'CONTINUE',
 	'goto'					:'GOTO',
-	'operator'				:'OPERATOR',
+#	'operator'				:'OPERATOR',
 	'synchronized'			:'SYNCHRONIZED',
 	'default'				:'DEFAULT',
 	'if'					:'IF',
@@ -105,8 +105,8 @@ tokens = [
 	'Identifier',
 	'OP_EQ', 'OP_LE', 'OP_GE', 'OP_NE', 
 	'OP_LOR', 'OP_LAND', 'OP_INC', 'OP_DEC',
-	'OP_SHR', 'OP_SHL', 'OP_SHRR','OP_ARRAY',
-	
+	'OP_SHL','OP_ARRAY',
+	# 'OP_SHRR' , 'OP_SHR'
 	'ASS_ADD',
 	'ASS_SUB', 'ASS_MUL', 'ASS_DIV', 'ASS_AND',
 	'ASS_OR', 'ASS_XOR', 'ASS_MOD', 'ASS_SHL',
@@ -134,9 +134,9 @@ t_OP_LOR	=	r'\|\|'
 t_OP_LAND	=	r'\&\&'
 t_OP_INC	=	r'\+\+'
 t_OP_DEC	=	r'--'
-t_OP_SHR	=	r'>>'
+#t_OP_SHR	=	r'>>'
 t_OP_SHL	=	r'<<'
-t_OP_SHRR	=	r'\>\>\>'
+#t_OP_SHRR	=	r'\>\>\>'
 t_OP_ARRAY  =   r'\.\.\.'
 
 t_ASS_ADD	=	r'\+='
