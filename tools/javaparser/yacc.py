@@ -1559,10 +1559,22 @@ def p_forUpdate_empty(p):
 		forUpdate_empty : forUpdate
 						|
 	'''
+
+#forControl
+#    :   enhancedForControl
+#    |   (forInit)? ';' expression? ';' (forUpdate)?
+#    ;
 def p_forControl(p):
 	'''
 	 forControl : enhancedForControl
-	 			| forInit_or_empty SEMI expression_or_empty SEMI forUpdate_empty
+	 			| forInit SEMI expression SEMI forUpdate
+				| forInit SEMI expression SEMI
+				| forInit SEMI SEMI forUpdate
+				| forInit SEMI SEMI
+				| SEMI SEMI
+				| SEMI expression SEMI forUpdate
+				| SEMI expression SEMI
+				| SEMI SEMI forUpdate
 	'''
 
 	pass
@@ -1579,7 +1591,7 @@ def p_forInit(p):
 
 def p_enhancedForControl(p):
 	'''
-	 enhancedForControl :  variableModifiers_empty type Identifier COLON expression
+	 enhancedForControl :  variableModifiers type Identifier COLON expression
 	 					| type Identifier COLON expression
 	'''
 
@@ -1644,6 +1656,9 @@ def p_assignmentOperator_expression(p):
 	'''
 		assignmentOperator_expression : assignmentOperator expression
 	'''
+
+# expression begin
+
 def p_expression(p):
 	'''
 	 expression : conditionalExpression assignmentOperator_expression
@@ -1671,162 +1686,113 @@ def p_assignmentOperator(p):
 
 	pass
 
-def p_conditionalExpressionStat(p):
-	'''
-		conditionalExpressionStat : QUES expression COLON expression
-	'''
-
-
 def p_conditionalExpression(p):
 	'''
-	 conditionalExpression : conditionalOrExpression conditionalExpressionStat
-		| conditionalOrExpression 
+	 conditionalExpression : conditionalOrExpressions
+						| conditionalOrExpressions QUES expression COLON expression
 	'''
 
 	pass
 
-def p_O_conditionalAndExpression(p):
-	'''
-	 O_conditionalAndExpression : OP_LOR conditionalAndExpression
-	'''
 
-	pass
-def p_O_conditionalAndExpressions(p):
-	'''
-		O_conditionalAndExpressions : O_conditionalAndExpression
-									| O_conditionalAndExpressions O_conditionalAndExpression
-	'''
 # begin
+
+def p_conditionalOrExpressions(p):
+	'''
+		conditionalOrExpressions : conditionalOrExpression
+								| conditionalOrExpressions conditionalOrExpression 
+	'''
+
 def p_conditionalOrExpression(p):
 	'''
-	 conditionalOrExpression : conditionalAndExpression O_conditionalAndExpressions
-		| conditionalAndExpression 
+	 conditionalOrExpression : conditionalAndExpressions
+	 						| OP_LOR conditionalAndExpression
 	'''
 
 	pass
 
-def p_O_inclusiveOrExpression(p):
+def p_conditionalAndExpressions(p):
 	'''
-	 O_inclusiveOrExpression : OP_LAND inclusiveOrExpression
+		conditionalAndExpressions : conditionalAndExpression
+								| conditionalAndExpressions conditionalAndExpression
 	'''
-
-	pass
-
-
-def p_O_inclusiveOrExpressions(p):
-	'''
-	 O_inclusiveOrExpressions : O_inclusiveOrExpression
-	 						| O_inclusiveOrExpressions O_inclusiveOrExpression
-	'''
-
-	pass
-
 
 def p_conditionalAndExpression(p):
 	'''
-	 conditionalAndExpression : inclusiveOrExpression O_inclusiveOrExpressions
-		| inclusiveOrExpression 
+	 conditionalAndExpression : inclusiveOrExpressions
+	 						| OP_LAND inclusiveOrExpressions
 	'''
 
 	pass
 
-def p_V_exclusiveOrExpression(p):
+def p_inclusiveOrExpressions(p):
 	'''
-	 V_exclusiveOrExpression : VERTICAL exclusiveOrExpression
-	'''
-
-	pass
-
-def p_V_exclusiveOrExpressions(p):
-	'''
-	V_exclusiveOrExpressions : V_exclusiveOrExpression
-							| V_exclusiveOrExpressions V_exclusiveOrExpression
+		inclusiveOrExpressions : inclusiveOrExpression
+								| inclusiveOrExpressions inclusiveOrExpression
 	'''
 
 def p_inclusiveOrExpression(p):
 	'''
-	 inclusiveOrExpression : exclusiveOrExpression V_exclusiveOrExpression
-		| exclusiveOrExpression 
+	 inclusiveOrExpression : exclusiveOrExpressions
+	 					| VERTICAL exclusiveOrExpressions
 	'''
 
 	pass
 
-def p_CARET_andExpression(p):
+def p_exclusiveOrExpressions(p):
 	'''
-	 CARET_andExpression : CARET andExpression
+		exclusiveOrExpressions : exclusiveOrExpression
+							| exclusiveOrExpressions exclusiveOrExpression
 	'''
-
-	pass
-
-def p_CARET_andExpressions(p):
-	'''
-		CARET_andExpressions : CARET_andExpression
-							| CARET_andExpressions CARET_andExpression
-	'''
-
 
 def p_exclusiveOrExpression(p):
 	'''
-	 exclusiveOrExpression : andExpression CARET_andExpressions
-		| andExpression 
+	 exclusiveOrExpression : andExpressions
+	 					| CARET andExpressions
 	'''
 
 	pass
 
-def p_AND_equalityExpression(p):
+def p_andExpressions(p):
 	'''
-	 AND_equalityExpression : AND equalityExpression
-	'''
-
-	pass
-
-def p_AND_equalityExpressions(p):
-	'''
-		AND_equalityExpressions : AND_equalityExpression
-								| AND_equalityExpressions AND_equalityExpression
+		andExpressions : andExpression
+					| andExpressions andExpression
 	'''
 
 def p_andExpression(p):
 	'''
-	 andExpression : equalityExpression AND_equalityExpressions
-		| equalityExpression 
+	 andExpression : equalityExpressions
+	 			| AND equalityExpressions
 	'''
 
 	pass
 
-
-def p_instanceOfExpressionStat(p):
+def p_equalityExpressions(p):
 	'''
-	 instanceOfExpressionStat : OP_EQ instanceOfExpression
-		| OP_NE instanceOfExpression
-	'''
-
-	pass
-
-def p_instanceOfExpressionStats(p):
-	'''
-		instanceOfExpressionStats : instanceOfExpressionStat
-								| instanceOfExpressionStats instanceOfExpressionStat
+		equalityExpressions : equalityExpression
+						| equalityExpressions equalityExpression
 	'''
 
 def p_equalityExpression(p):
 	'''
-	 equalityExpression : instanceOfExpression instanceOfExpressionStats
-		| instanceOfExpression 
+	 equalityExpression : instanceOfExpressions
+	 					| OP_EQ instanceOfExpressions
+						| OP_NE instanceOfExpressions
 	'''
 
 	pass
 
-def p_INSTANCEOF_type(p):
+def p_instanceOfExpressions(p):
 	'''
-		INSTANCEOF_type : INSTANCEOF type
-							| 
+		instanceOfExpressions : instanceOfExpression
+							| instanceOfExpressions instanceOfExpression
 	'''
+
 
 def p_instanceOfExpression(p):
 	'''
-	 instanceOfExpression : relationalExpression INSTANCEOF_type
-	 					| relationalExpression
+	 instanceOfExpression : relationalExpressions INSTANCEOF type
+	 					| relationalExpressions
 	'''
 
 	pass
@@ -1848,75 +1814,71 @@ def p_shiftOp(p):
 	| OP_SHL
 	'''
 
-def p_re_relationalExpression(p):
+def p_relationalExpressions(p):
 	'''
-		re_relationalExpression : relationalOp additiveExpression
-							| shiftOp additiveExpression
+		relationalExpressions : relationalExpression
+						| relationalExpressions relationalExpression
 	'''
-
-def p_re_relationalExpressions(p):
-	'''
-		re_relationalExpressions : re_relationalExpression
-							| re_relationalExpressions re_relationalExpression
-	'''
-
 
 def p_relationalExpression(p):
 	'''
-		relationalExpression : additiveExpression re_relationalExpressions
-							| additiveExpression
+		relationalExpression : shiftExpressions
+							| shiftOp shiftExpressions
 	'''
 
-def p_add_multiplicativeExpression(p):
+def p_shiftExpressions(p):
 	'''
-	 add_multiplicativeExpression : PLUS multiplicativeExpression
-		| DASH multiplicativeExpression
+		shiftExpressions : shiftExpression
+						| shiftExpressions shiftExpression
 	'''
 
-	pass
+def p_shiftExpression(p):
+	'''
+		shiftExpression : additiveExpressions
+						| relationalOp additiveExpressions
+	'''
 
-def p_add_multiplicativeExpressions(p):
+def p_additiveExpressions(p):
 	'''
-		add_multiplicativeExpressions : add_multiplicativeExpression
-									| add_multiplicativeExpressions add_multiplicativeExpression
+		additiveExpressions : additiveExpression
+						| additiveExpressions additiveExpression
 	'''
+
 
 def p_additiveExpression(p):
 	'''
-	 additiveExpression : multiplicativeExpression add_multiplicativeExpressions
-		| multiplicativeExpression 
+	 additiveExpression : multiplicativeExpressions
+	 					| PLUS multiplicativeExpressions
+						| DASH multiplicativeExpressions
 	'''
 
 	pass
 
-
-# multiplicativeExpression -- begin
-def p_mu_unaryExpression(p):
+def p_multiplicativeExpressions(p):
 	'''
-		mu_unaryExpression : MULT unaryExpression
-						| SLASH unaryExpression
-						| PERCENT unaryExpression
+		multiplicativeExpressions : multiplicativeExpression
+						| multiplicativeExpressions multiplicativeExpression
 	'''
-	pass
-
-def p_mu_unaryExpressions(p):
-	'''
-	 mu_unaryExpressions : mu_unaryExpression
-		| mu_unaryExpressions mu_unaryExpression
-	'''
-
-	pass
 
 #multiplicativeExpression
 #    :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )*
 #    ;
 def p_multiplicativeExpression(p):
 	'''
-	 multiplicativeExpression : unaryExpression mu_unaryExpressions
-		| unaryExpression 
+	 multiplicativeExpression : unaryExpressions
+	 		| MULT unaryExpressions
+			| SLASH unaryExpressions
+			| PERCENT unaryExpressions
 	'''
 
 	pass
+
+def p_unaryExpressions(p):
+	'''
+		unaryExpressions : unaryExpression
+					| unaryExpressions unaryExpression
+	'''
+
 # multiplicativeExpression -- end
 
 def p_unaryExpression(p):
@@ -1973,23 +1935,13 @@ def p_castExpression(p):
 def p_CallBody(p):
 	'''
 		CallBody : DOT Identifier
+				| DOT CLASS
 	'''
 
 def p_CallBodys(p):
 	'''
 		CallBodys : CallBody
 					| CallBody CallBodys
-	'''
-
-def p_methodCall(p):
-	'''
-		methodCall : Identifier  CallBodys identifierSuffix
-				| Identifier identifierSuffix
-	'''
-
-def p_thisCall(p):
-	'''
-		thisCall : THIS CallBodys identifierSuffix
 	'''
 
 #primary
@@ -2005,14 +1957,16 @@ def p_thisCall(p):
 def p_primary(p):
 	'''
 	 primary : parExpression
-		| thisCall
-		| THIS
+		| THIS CallBodys identifierSuffix
 		| THIS CallBodys
+		| THIS identifierSuffix
+		| THIS
 		| SUPER superSuffix
 		| literal
 		| NEW creator
-		| methodCall
+		| Identifier CallBodys identifierSuffix
 		| Identifier CallBodys
+		| Identifier identifierSuffix
 		| Identifier
 		| primitiveType arrays DOT CLASS
 		| primitiveType  DOT CLASS
