@@ -10,7 +10,7 @@ import file_
 import yacc
 def help():
 	print """
-java parser v0.0.1
+java parser v0.0.2
 author by zhao_nf
 command line is main.py -shortoptions args
 example : python main.py --file $HOME/project/xxxx.java
