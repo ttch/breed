@@ -99,14 +99,15 @@ keywords = {
 
 tokens = [
 	'LONG_NUMBER' , 'LONG_HEX_NUMBER',
-	'NON_INTEGER_1' , 'NON_INTEGER_2','NON_INTEGER_4','NON_INTEGER_3',
+	'NON_INTEGER_1' , 'NON_INTEGER_2','NON_INTEGER_4','NON_INTEGER_3','NON_INTEGER_5','NON_INTEGER_6',
 
 	'MCOMMENT','LCOMMENT',
 	'Identifier',
-	'OP_EQ', 'OP_LE', 'OP_GE', 'OP_NE', 
+	'OP_NE','OP_EQ', 'OP_LE', 'OP_GE', 
 	'OP_LOR', 'OP_LAND', 'OP_INC', 'OP_DEC',
 	'OP_SHL','OP_ARRAY',
-	# 'OP_SHRR' , 'OP_SHR'
+	 'OP_SHRR' , 'OP_SHR',
+	'ASS',
 	'ASS_ADD',
 	'ASS_SUB', 'ASS_MUL', 'ASS_DIV', 'ASS_AND',
 	'ASS_OR', 'ASS_XOR', 'ASS_MOD', 'ASS_SHL',
@@ -126,17 +127,17 @@ tokens = [
 
 ]+ keywords.values()
 
-t_OP_EQ		=	r'=='
+t_ASS		=	r'='
 t_OP_LE		=	r'<='
 t_OP_GE		=	r'>='
-t_OP_NE		= 	r'!='
+t_OP_NE		= 	r'\!='
 t_OP_LOR	=	r'\|\|'
 t_OP_LAND	=	r'\&\&'
 t_OP_INC	=	r'\+\+'
 t_OP_DEC	=	r'--'
-#t_OP_SHR	=	r'>>'
+t_OP_SHR	=	r'>>'
 t_OP_SHL	=	r'<<'
-#t_OP_SHRR	=	r'\>\>\>'
+t_OP_SHRR	=	r'\>\>\>'
 t_OP_ARRAY  =   r'\.\.\.'
 
 t_ASS_ADD	=	r'\+='
@@ -152,7 +153,7 @@ t_ASS_SHR		=	r"\>\>\="
 t_ASS_SHRR		=	r"\>\>\>\="
 
 t_PLUS	= r'\+'
-t_EQUALS  = r'='
+t_OP_EQ  = r'=='
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
 t_BLPAREN = r'\{'
@@ -175,13 +176,9 @@ t_SLASH = r'\/'
 t_VERTICAL = r'\|'
 t_CARET = r'\^'
 t_PERCENT = r'\%'
-
+t_EXCLAMATION = r'!'
 
 t_ignore = ' \t\r'
-
-def t_EXCLAMATION( t ):
-	r'\!'
-	print t.value
 
 def t_MCOMMENT( t ):
 	r'/\*(.|\n)*?\*/'
@@ -223,15 +220,23 @@ def t_Identifier(t):
 	return t
 
 def t_NON_INTEGER_1(t):
-	r'[0-9]+[.][0-9]+[e|E]?[\+|\-]?[0-9]*'
+	r'[0-9]+[.][0-9]+[e|E|d|D]?[\+|\-]?[0-9]*'
 	return t
 
 def t_NON_INTEGER_2(t):
 	r'[.][0-9]+[e|E]?[\+|\-]?[0-9]*'
 	return t
 
+
 def t_NON_INTEGER_4(t):
+	r'[0-9]+[x][f]'
+	return t
+
+def t_NON_INTEGER_5(t):
 	r'[0-9]+[d|D]'
+	return t
+def t_NON_INTEGER_6(t):
+	r'[0-9]+[.][0-9]+[d|D]'
 	return t
 
 def t_NON_INTEGER_3(t):

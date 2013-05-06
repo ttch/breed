@@ -1,178 +1,15 @@
 # *.* coding=utf-8 *.*
-
-#/*
+# convert by The Java Language Specification
+#
+# the part of code was reference by plyj(http://travis-ci.org/musiKk/plyj)
+# 
+#
 # [The "BSD licence"]
-# Copyright (c) 2007-2008 Terence Parr
+# Copyright (c) 2013 zhao_nf
 # All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-# 3. The name of the author may not be used to endorse or promote products
-#    derived from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#*/
-#/** A Java 1.5 grammar for ANTLR v3 derived from the spec
-# *
-# *  This is a very close representation of the spec; the changes
-# *  are comestic (remove left recursion) and also fixes (the spec
-# *  isn't exactly perfect).  I have run this on the 1.4.2 source
-# *  and some nasty looking enums from 1.5, but have not really
-# *  tested for 1.5 compatibility.
-# *
-# *  I built this with: java -Xmx100M org.antlr.Tool java.g 
-# *  and got two errors that are ok (for now):
-# *  java.g:691:9: Decision can match input such as
-# *    "'0'..'9'{'E', 'e'}{'+', '-'}'0'..'9'{'D', 'F', 'd', 'f'}"
-# *    using multiple alternatives: 3, 4
-# *  As a result, alternative(s) 4 were disabled for that input
-# *  java.g:734:35: Decision can match input such as "{'$', 'A'..'Z',
-# *    '_', 'a'..'z', '\u00C0'..'\u00D6', '\u00D8'..'\u00F6',
-# *    '\u00F8'..'\u1FFF', '\u3040'..'\u318F', '\u3300'..'\u337F',
-# *    '\u3400'..'\u3D2D', '\u4E00'..'\u9FFF', '\uF900'..'\uFAFF'}"
-# *    using multiple alternatives: 1, 2
-# *  As a result, alternative(s) 2 were disabled for that input
-# *
-# *  You can turn enum on/off as a keyword :)
-# *
-# *  Version 1.0 -- initial release July 5, 2006 (requires 3.0b2 or higher)
-# *
-# *  Primary author: Terence Parr, July 2006
-# *
-# *  Version 1.0.1 -- corrections by Koen Vanderkimpen & Marko van Dooren,
-# *      October 25, 2006;
-# *      fixed normalInterfaceDeclaration: now uses typeParameters instead
-# *          of typeParameter (according to JLS, 3rd edition)
-# *      fixed castExpression: no longer allows expression next to type
-# *          (according to semantics in JLS, in contrast with syntax in JLS)
-# *
-# *  Version 1.0.2 -- Terence Parr, Nov 27, 2006
-# *      java spec I built this from had some bizarre for-loop control.
-# *          Looked weird and so I looked elsewhere...Yep, it's messed up.
-# *          simplified.
-# *
-# *  Version 1.0.3 -- Chris Hogue, Feb 26, 2007
-# *      Factored out an annotationName rule and used it in the annotation rule.
-# *          Not sure why, but typeName wasn't recognizing references to inner
-# *          annotations (e.g. @InterfaceName.InnerAnnotation())
-# *      Factored out the elementValue section of an annotation reference.  Created 
-# *          elementValuePair and elementValuePairs rules, then used them in the 
-# *          annotation rule.  Allows it to recognize annotation references with 
-# *          multiple, comma separated attributes.
-# *      Updated elementValueArrayInitializer so that it allows multiple elements.
-# *          (It was only allowing 0 or 1 element).
-# *      Updated localVariableDeclaration to allow annotations.  Interestingly the JLS
-# *          doesn't appear to indicate this is legal, but it does work as of at least
-# *          JDK 1.5.0_06.
-# *      Moved the Identifier portion of annotationTypeElementRest to annotationMethodRest.
-# *          Because annotationConstantRest already references variableDeclarator which 
-# *          has the Identifier portion in it, the parser would fail on constants in 
-# *          annotation definitions because it expected two identifiers.  
-# *      Added optional trailing ';' to the alternatives in annotationTypeElementRest.
-# *          Wouldn't handle an inner interface that has a trailing ';'.
-# *      Swapped the expression and type rule reference order in castExpression to 
-# *          make it check for genericized casts first.  It was failing to recognize a
-# *          statement like  "Class<Byte> TYPE = (Class<Byte>)...;" because it was seeing
-# *          'Class<Byte' in the cast expression as a less than expression, then failing 
-# *          on the '>'.
-# *      Changed createdName to use typeArguments instead of nonWildcardTypeArguments.
-# *          Again, JLS doesn't seem to allow this, but java.lang.Class has an example of
-# *          of this construct.
-# *      Changed the 'this' alternative in primary to allow 'identifierSuffix' rather than
-# *          just 'arguments'.  The case it couldn't handle was a call to an explicit
-# *          generic method invocation (e.g. this.<E>doSomething()).  Using identifierSuffix
-# *          may be overly aggressive--perhaps should create a more constrained thisSuffix rule?
-# *      
-# *  Version 1.0.4 -- Hiroaki Nakamura, May 3, 2007
-# *
-# *  Fixed formalParameterDecls, localVariableDeclaration, forInit,
-# *  and forVarControl to use variableModifier* not 'final'? (annotation)?
-# *
-# *  Version 1.0.5 -- Terence, June 21, 2007
-# *  --a[i].foo didn't work. Fixed unaryExpression
-# *
-# *  Version 1.0.6 -- John Ridgway, March 17, 2008
-# *      Made "assert" a switchable keyword like "enum".
-# *      Fixed compilationUnit to disallow "annotation importDeclaration ...".
-# *      Changed "Identifier ('.' Identifier)*" to "qualifiedName" in more 
-# *          places.
-# *      Changed modifier* and/or variableModifier* to classOrInterfaceModifiers,
-# *          modifiers or variableModifiers, as appropriate.
-# *      Renamed "bound" to "typeBound" to better match language in the JLS.
-# *      Added "memberDeclaration" which rewrites to methodDeclaration or 
-# *      fieldDeclaration and pulled type into memberDeclaration.  So we parse 
-# *          type and then move on to decide whether we're dealing with a field
-# *          or a method.
-# *      Modified "constructorDeclaration" to use "constructorBody" instead of
-# *          "methodBody".  constructorBody starts with explicitConstructorInvocation,
-# *          then goes on to blockStatement*.  Pulling explicitConstructorInvocation
-# *          out of expressions allowed me to simplify "primary".
-# *      Changed variableDeclarator to simplify it.
-# *      Changed type to use classOrInterfaceType, thus simplifying it; of course
-# *          I then had to add classOrInterfaceType, but it is used in several 
-# *          places.
-# *      Fixed annotations, old version allowed "@X(y,z)", which is illegal.
-# *      Added optional comma to end of "elementValueArrayInitializer"; as per JLS.
-# *      Changed annotationTypeElementRest to use normalClassDeclaration and 
-# *          normalInterfaceDeclaration rather than classDeclaration and 
-# *          interfaceDeclaration, thus getting rid of a couple of grammar ambiguities.
-# *      Split localVariableDeclaration into localVariableDeclarationStatement
-# *          (includes the terminating semi-colon) and localVariableDeclaration.  
-# *          This allowed me to use localVariableDeclaration in "forInit" clauses,
-# *           simplifying them.
-# *      Changed switchBlockStatementGroup to use multiple labels.  This adds an
-# *          ambiguity, but if one uses appropriately greedy parsing it yields the
-# *           parse that is closest to the meaning of the switch statement.
-# *      Renamed "forVarControl" to "enhancedForControl" -- JLS language.
-# *      Added semantic predicates to test for shift operations rather than other
-# *          things.  Thus, for instance, the string "< <" will never be treated
-# *          as a left-shift operator.
-# *      In "creator" we rule out "nonWildcardTypeArguments" on arrayCreation, 
-# *          which are illegal.
-# *      Moved "nonWildcardTypeArguments into innerCreator.
-# *      Removed 'super' superSuffix from explicitGenericInvocation, since that
-# *          is only used in explicitConstructorInvocation at the beginning of a
-# *           constructorBody.  (This is part of the simplification of expressions
-# *           mentioned earlier.)
-# *      Simplified primary (got rid of those things that are only used in
-# *          explicitConstructorInvocation).
-# *      Lexer -- removed "Exponent?" from FloatingPointLiteral choice 4, since it
-# *          led to an ambiguity.
-# *
-# *      This grammar successfully parses every .java file in the JDK 1.5 source 
-# *          tree (excluding those whose file names include '-', which are not
-# *          valid Java compilation units).
-# *
-# *  Known remaining problems:
-# *      "Letter" and "JavaIDDigit" are wrong.  The actual specification of
-# *      "Letter" should be "a character for which the method
-# *      Character.isJavaIdentifierStart(int) returns true."  A "Java 
-# *      letter-or-digit is a character for which the method 
-# *      Character.isJavaIdentifierPart(int) returns true."
-# */
-#
-# convert by openjdk 1.5 grammar file
 #
 # author by zhao_nf ( ttchgm@gmail.com )
 #
-# [The "BSD licence"]
-# Copyright (c) 2011- zhao_nf
-# All rights reserved.
 
 import ply.yacc as yacc
 import lex
@@ -180,1490 +17,1427 @@ from collections import deque
 
 tokens = lex.tokens
 
-
-#compilationUnit
-#    :   annotations
-#        (   packageDeclaration (importDeclaration)* (typeDeclaration)*
-#        |   classOrInterfaceDeclaration (typeDeclaration)*
-#        )
-#    |   (packageDeclaration)? (importDeclaration)* (typeDeclaration)*
-#    ;
+# package 
+# ## Compilation Units begin
 def p_compilationUnit(p):
 	'''
-	 compilationUnit : annotations packageDeclaration importDeclarations typeDeclarations
-		| annotations packageDeclaration importDeclarations
-		| annotations packageDeclaration typeDeclarations
-		| annotations packageDeclaration
-		| annotations classOrInterfaceDeclaration typeDeclarations
-		| annotations classOrInterfaceDeclaration
-		| packageDeclaration importDeclarations typeDeclarations
-		| packageDeclaration importDeclarations 
+		compilationUnit : packageDeclaration importDeclarations typeDeclarations
+		| packageDeclaration importDeclarations
 		| packageDeclaration typeDeclarations
 		| packageDeclaration
-		|
+		| typeDeclarations
+		| importDeclarations
+		| importDeclarations typeDeclarations
+		| empty
 	'''
-
-	pass
 
 def p_importDeclarations(p):
 	'''
-	 importDeclarations : importDeclaration
+		importDeclarations : importDeclaration
 		| importDeclarations importDeclaration
 	'''
 
-	pass
-
-
 def p_typeDeclarations(p):
 	'''
-	 typeDeclarations : typeDeclaration
+		typeDeclarations : typeDeclaration
 		| typeDeclarations typeDeclaration
 	'''
 
-	pass
-
-def p_packageDeclaration_once(p):
-	'''
-		packageDeclaration_once : packageDeclaration
-								| 
-	'''
-
-
 def p_packageDeclaration(p):
 	'''
-	 packageDeclaration :  PACKAGE qualifiedName SEMI
+		packageDeclaration : packageDeclarationName SEMI
 	'''
 
-	pass
-
-def p_STATIC_empty(p):
+def p_packageDeclarationName(p):
 	'''
-		STATIC_empty : STATIC
-					 | 
+		packageDeclarationName : modifiers PACKAGE name
+		| PACKAGE name
 	'''
 
-def p_DOT_MULT(p):
-	'''
-		DOT_MULT : DOT MULT 
-	'''
-
-#   'import' ('static')? qualifiedName ('.' '*')? ';'
 def p_importDeclaration(p):
 	'''
-	 importDeclaration : IMPORT STATIC qualifiedName SEMI
-						| IMPORT qualifiedName SEMI
+    	importDeclaration : singleTypeImportDeclaration
+		| typeImportOnDemandDeclaration	
+		| singleStaticImportDeclaration	
+		| staticImportOnDemandDeclaration
 	'''
 
-	pass
+def p_singleTypeImportDeclaration(p):
+	'''
+		singleTypeImportDeclaration : IMPORT name SEMI
+	'''
+def p_typeImportOnDemandDeclaration(p):
+	'''
+		typeImportOnDemandDeclaration : IMPORT name DOT MULT SEMI
+	'''
 
+def p_singleStaticImportDeclaration(p):
+	'''
+		singleStaticImportDeclaration : IMPORT STATIC name SEMI
+
+	'''
+
+def p_staticImportOnDemandDeclaration(p):
+	'''
+		staticImportOnDemandDeclaration : IMPORT STATIC name DOT MULT SEMI
+	'''
 
 def p_typeDeclaration(p):
 	'''
-	 typeDeclaration :  classOrInterfaceDeclaration 
-	| SEMI
+		typeDeclaration : classDeclaration
+		| interfaceDeclaration
+		| annotationTypeDeclaration
+		| enumDeclaration
+		| SEMI
 	'''
+# ## Compilation Units end
 
-	pass
+# name begin
 
-
-def p_classOrInterfaceDeclaration(p):
-	'''
-	 classOrInterfaceDeclaration : classOrInterfaceModifiers classDeclaration
-	 							| classDeclaration
-	 							| classOrInterfaceModifiers interfaceDeclaration
-								| interfaceDeclaration
-	'''
-
-	pass
-
-def p_classOrInterfaceModifiers(p):
-	'''
-	 classOrInterfaceModifiers : classOrInterfaceModifier
-	 							| classOrInterfaceModifiers classOrInterfaceModifier
-	'''
-
-	pass
-
-
-def p_classOrInterfaceModifier(p):
-	'''
-	 classOrInterfaceModifier :  annotation 
-	| PUBLIC 
-	| PROTECTED 
-	| PRIVATE 
-	| ABSTRACT 
-	| STATIC 
-	| FINAL 
-	| STRICTFP
-	'''
-
-	pass
-
-def p_modifiers(p):
-	'''
-	 modifiers : modifier
-	 		| modifiers modifier
-	'''
-
-	pass
-
-
-def p_classDeclaration(p):
-	'''
-	 classDeclaration :  normalClassDeclaration 
-	| enumDeclaration
-	'''
-
-	pass
-
-def p_ExtendType(p):
-	'''
-		ExtendType : EXTENDS type
-					|
-	'''
-
-def p_IMPLEMENTS_typeList(p):
-	'''
-		IMPLEMENTS_typeList : IMPLEMENTS typeList
-							|
-	'''
-
-def p_normalClassDeclaration(p):
-	'''
-	 normalClassDeclaration : CLASS Identifier typeParameters ExtendType IMPLEMENTS_typeList  classBody
-	'''
-
-	pass
-
-
-def p_dotTypeParameter(p):
-	'''
-		dotTypeParameter : COMMA typeParameter
-	'''
-def p_dotTypeParameters(p):
-	'''
-		dotTypeParameters : dotTypeParameter
-						| dotTypeParameters dotTypeParameter
-	'''
-
-def p_typeParameters(p):
-	'''
-	 typeParameters : LESS typeParameter dotTypeParameters MORE
-		| LESS typeParameter MORE
-		|
-	'''
-
-	pass
-
-def p_EXTENDS_typeBound(p):
-	'''
-		EXTENDS_typeBound : EXTENDS typeBound
-						| 
-	'''
-
-def p_typeParameter(p):
-	'''
-	 typeParameter : Identifier EXTENDS_typeBound
-	'''
-
-	pass
-
-def p_and_type(p):
-	'''
-		and_type : AND type
-	'''
-
-def p_and_types(p):
-	'''
-	 and_types : and_type
-		| and_types and_type
-	'''
-
-	pass
-
-def p_typeBound(p):
-	'''
-	 typeBound : type and_types
-		| type
-	'''
-
-	pass
-
-
-def p_enumDeclaration(p):
-	'''
-	 enumDeclaration : ENUM Identifier IMPLEMENTS_typeList enumBody
-	'''
-
-	pass
-
-#enumBody
-#    :   '{' (enumConstants)? ','? enumBodyDeclarations? '}'
-#    ;
-
-def p_enumBody(p):
-	'''
-	 enumBody : BLPAREN enumConstants enumBodyDeclarations BRPAREN
-	 		| BLPAREN enumConstants BRPAREN
-			| BLPAREN enumBodyDeclarations BRPAREN
-			| BLPAREN BRPAREN
-	'''
-
-	pass
-
-def p_COMMA_enumConstant(p):
-	'''
-		COMMA_enumConstant : COMMA enumConstant
-							| COMMA
-	'''
-
-def p_COMMA_enumConstants(p):
-	'''
-	 COMMA_enumConstants : COMMA_enumConstant
-		| COMMA_enumConstant COMMA_enumConstants
-	'''
-
-	pass
-
-
-def p_enumConstants(p):
-	'''
-	 enumConstants : enumConstant COMMA_enumConstants
-		| enumConstant 
-	'''
-
-	pass
-
-
-def p_annotations_once(p):
-	'''
-		annotations_once : annotations
-						| empty
-	'''
-
-def p_arguments_once(p):
-	'''
-		arguments_once : arguments
-						| 
-	'''
-
-def p_classBody_once(p):
-	'''
-		classBody_once : classBody
-						| 
-	'''
-
-def p_enumConstant(p):
-	'''
-	 enumConstant : annotations_once Identifier arguments_once classBody_once
-	'''
-
-	pass
-
-def p_classBodyDeclarations(p):
-	'''
-	 classBodyDeclarations : classBodyDeclaration
-		| classBodyDeclarations classBodyDeclaration
-	'''
-
-	pass
-
-def p_enumBodyDeclarations(p):
-	'''
-	 enumBodyDeclarations : SEMI classBodyDeclarations
-		| SEMI 
-	'''
-
-	pass
-
-
-def p_interfaceDeclaration(p):
-	'''
-	 interfaceDeclaration :  normalInterfaceDeclaration 
-	| annotationTypeDeclaration
-	'''
-
-	pass
-
-
-def p_typeParameters_once(p):
-	'''
-		typeParameters_once : typeParameters
-							| 
-	'''
-
-def p_EXTENDS_typeList(p):
-	'''
-		EXTENDS_typeList : EXTENDS typeList
-						|
-	'''
-
-def p_normalInterfaceDeclaration(p):
-	'''
-	 normalInterfaceDeclaration : INTERFACE Identifier typeParameters_once EXTENDS_typeList interfaceBody
-	'''
-
-	pass
-
-def p_COMMA_type(p):
-	'''
-	 COMMA_type : COMMA type
-	'''
-
-	pass
-
-def p_COMMA_types(p):
-	'''
-		COMMA_types : COMMA_type
-					| COMMA_types COMMA_type
-	'''
-
-def p_typeList(p):
-	'''
-	 typeList : type COMMA_types
-		| type 
-	'''
-
-	pass
-
-
-def p_classBody(p):
+def p_name(p):
 	'''
-	 classBody : BLPAREN classBodyDeclarations BRPAREN
-		| BLPAREN BRPAREN
+		name : simpleName
+		| qualifiedName
 	'''
-
-	pass
-
-def p_interfaceBodyDeclarations(p):
-	'''
-	 interfaceBodyDeclarations : interfaceBodyDeclaration
-		| interfaceBodyDeclarations interfaceBodyDeclaration
-	'''
-
-	pass
-
-
-def p_interfaceBody(p):
-	'''
-	 interfaceBody : BLPAREN interfaceBodyDeclarations BRPAREN
-		| BLPAREN BRPAREN
-	'''
-
-	pass
-
 
-def p_classBodyDeclaration(p):
+def p_simpleName(p):
 	'''
-	 classBodyDeclaration : SEMI
-		| STATIC block
-		| block
-		| modifiers memberDecl
-		| memberDecl
+		simpleName : Identifier
 	'''
 
-	pass
-
-
-def p_memberDecl(p):
+def p_qualifiedName(p):
 	'''
-	 memberDecl :  genericMethodOrConstructorDecl 
-	| memberDeclaration 
-	| VOID Identifier voidMethodDeclaratorRest 
-	| Identifier constructorDeclaratorRest 
-	| interfaceDeclaration 
-	| classDeclaration
-	'''
-
-	pass
-
+		qualifiedName : name DOT simpleName		
 
-def p_memberDeclaration(p):
 	'''
-	 memberDeclaration :  type methodDeclaration
-	 					| type fieldDeclaration
-	'''
+# name end
 
-	pass
+# Types, Values, and Variables * begin
 
+# ## type begin
 
-def p_genericMethodOrConstructorDecl(p):
+def p_type(p):
 	'''
-	 genericMethodOrConstructorDecl :  typeParameters genericMethodOrConstructorRest
+		type : primitiveType
+		| referenceType
 	'''
-
-	pass
 
 
-def p_genericMethodOrConstructorRest(p):
+def p_primitiveType(p):
 	'''
-	 genericMethodOrConstructorRest :  type Identifier methodDeclaratorRest
-									| VOID Identifier methodDeclaratorRest
-									| Identifier constructorDeclaratorRest
+		primitiveType : BOOLEAN
+		| VOID
+		| BYTE
+		| SHORT
+		| INT
+		| LONG
+		| CHAR
+		| FLOAT
+		| DOUBLE
 	'''
-
-	pass
-
-
-def p_methodDeclaration(p):
+def p_referenceType(p):
 	'''
-	 methodDeclaration :  Identifier methodDeclaratorRest
+		referenceType : classOrInterfaceType
+		| arrayType
 	'''
 
-	pass
-
-
-def p_fieldDeclaration(p):
+def p_classOrInterfaceType(p):
 	'''
-	 fieldDeclaration :  variableDeclarators SEMI
+		classOrInterfaceType : classOrInterface
+		| genericType
 	'''
 
-	pass
-
-
-def p_interfaceBodyDeclaration(p):
+def p_classOrInterface(p):
 	'''
-	 interfaceBodyDeclaration :  modifiers_empty interfaceMemberDecl 
-	| SEMI
+		classOrInterface : name
+		| genericType DOT name
 	'''
-
-	pass
 
-
-def p_interfaceMemberDecl(p):
+def p_genericType(p):
 	'''
-	 interfaceMemberDecl :  interfaceMethodOrFieldDecl 
-	| interfaceGenericMethodDecl 
-	| VOID Identifier voidInterfaceMethodDeclaratorRest 
-	| interfaceDeclaration 
-	| classDeclaration
+		genericType : classOrInterface typeArguments
+		| classOrInterface LESS MORE
 	'''
-
-	pass
-
 
-def p_interfaceMethodOrFieldDecl(p):
+def p_classType(p):
 	'''
-	 interfaceMethodOrFieldDecl :  type Identifier interfaceMethodOrFieldRest
+		classType : classOrInterfaceType	
 	'''
 
-	pass
-
-
-def p_interfaceMethodOrFieldRest(p):
+def p_interfaceType(p):
 	'''
-	 interfaceMethodOrFieldRest :  constantDeclaratorsRest SEMI 
-	| interfaceMethodDeclaratorRest
+		interfaceType : classOrInterfaceType
 	'''
-
-	pass
 
-def p_throwList(p):
+def p_arrayType (p):
 	'''
-		throwList : THROWS qualifiedNameList
+		arrayType : genericType arrays
+		| genericType DOT name arrays
+		| primitiveType arrays
+		| name arrays
 	'''
-	pass
 
 def p_array(p):
 	'''
 		array : FLPAREN FRPAREN
 	'''
-	pass
-
 def p_arrays(p):
 	'''
-		arrays : arrays array
-				| array
+		arrays : array_loop
 	'''
 
-#methodDeclaratorRest
-#    :   formalParameters ('[' ']')*
-#        ('throws' qualifiedNameList)?
-#        (   methodBody
-#        |   ';'
-#        )
-#    ;
-
-def p_methodDeclaratorRest(p):
-	'''
-	 methodDeclaratorRest : formalParameters arrays throwList methodBody
-	 					| formalParameters arrays throwList SEMI
-						| formalParameters throwList SEMI
-						| formalParameters throwList methodBody
-						| formalParameters arrays methodBody
-	 					| formalParameters arrays SEMI
-						| formalParameters methodBody
-						| formalParameters SEMI
-	'''
-
-	pass
-
-
-def p_voidMethodDeclaratorRest(p):
-	'''
-	 voidMethodDeclaratorRest : formalParameters throwList methodBody
-		| formalParameters throwList SEMI
-		| formalParameters methodBody
-		| formalParameters SEMI
-	'''
-
-	pass
-
-
-def p_interfaceMethodDeclaratorRest(p):
-	'''
-	 interfaceMethodDeclaratorRest : formalParameters arrays throwList SEMI
-	 								| formalParameters throwList SEMI
-									| formalParameters arrays SEMI
-									| formalParameters SEMI
-
-	'''
-
-	pass
-
-
-def p_interfaceGenericMethodDecl(p):
-	'''
-	 interfaceGenericMethodDecl :  typeParameters type Identifier interfaceMethodDeclaratorRest
-	 		| typeParameters VOID Identifier interfaceMethodDeclaratorRest
-	'''
-
-	pass
-
-
-def p_voidInterfaceMethodDeclaratorRest(p):
-	'''
-	 voidInterfaceMethodDeclaratorRest : formalParameters throwList SEMI
-	 								| formalParameters SEMI
-	'''
-
-	pass
-
-#constructorDeclaratorRest
-#    :   formalParameters ('throws' qualifiedNameList)? constructorBody
-#    ;
-
-def p_constructorDeclaratorRest(p):
-	'''
-	 constructorDeclaratorRest : formalParameters throwList constructorBody
-	 							| formalParameters constructorBody
-	'''
-
-	pass
-
-
-def p_constantDeclarator(p):
-	'''
-	 constantDeclarator :  Identifier constantDeclaratorRest
-	'''
-
-	pass
-
-def p_COMMA_VAR(p):
-	'''
-		COMMA_VAR : COMMA variableDeclarator
-	'''
-
-def p_COMMA_VARS(p):
-	'''
-	 COMMA_VARS : COMMA_VAR
-		| COMMA_VARS COMMA_VAR
-	'''
-
-	pass
-
-def p_variableDeclarators(p):
-	'''
-	 variableDeclarators : variableDeclarator COMMA_VARS
-		| variableDeclarator 
-	'''
-
-	pass
-
-
-def p_variableDeclarator(p):
-	'''
-	 variableDeclarator : variableDeclaratorId EQUALS variableInitializer
-		| variableDeclaratorId 
-	'''
-
-	pass
-
-def p_COMMA_const(p):
-	'''
-		COMMA_const : COMMA constantDeclarator
-	'''
-
-def p_COMMA_consts(p):
-	'''
-	 COMMA_consts : COMMA_const
-		| COMMA_consts COMMA_const
-	'''
-
-	pass
-
-def p_constantDeclaratorsRest(p):
+def p_array_loop(p):
 	'''
-	 constantDeclaratorsRest : constantDeclaratorRest COMMA_consts
-		| constantDeclaratorRest 
+		array_loop : array
+		| array_loop array
 	'''
 
-	pass
-
-
-def p_constantDeclaratorRest(p):
-	'''
-	 constantDeclaratorRest : arrays EQUALS variableInitializer
-		|  EQUALS variableInitializer
-	'''
-
-	pass
-
-
-def p_variableDeclaratorId(p):
-	'''
-	 variableDeclaratorId : Identifier arrays
-		| Identifier 
-	'''
-
-	pass
-
-
-def p_variableInitializer(p):
-	'''
-	 variableInitializer :  arrayInitializer 
-	| expression
-	'''
-
-	pass
-
-
-
-def p_COMMA_variableInitializer( p ):
-	'''
-		COMMA_variableInitializer : COMMA variableInitializer
-	'''
-
-def p_COMMA_variableInitializers(p):
-	'''
-	 COMMA_variableInitializers : COMMA_variableInitializer
-							| COMMA_variableInitializers COMMA variableInitializer
-	'''
-
-	pass
-
-
-def p_COMMA_once(p):
-	'''
-		COMMA_once : COMMA
-				| 
-	'''
-
-def p_array_body(p):
-	'''
-		array_body : variableInitializer COMMA_variableInitializers COMMA_once
-					| variableInitializer COMMA_once
+def p_arrays_opt(p):
 	'''
-
-#arrayInitializer
-#    :   '{' (variableInitializer (',' variableInitializer)* (',')? )? '}'
-#    ;
-
-def p_arrayInitializer(p):
-	'''
-		arrayInitializer : BLPAREN array_body BRPAREN
-						| BLPAREN BRPAREN
-	'''
-
-	pass
-
-
-def p_modifier(p):
-	'''
-	 modifier :  annotation 
-	| PUBLIC 
-	| PROTECTED 
-	| PRIVATE 
-	| STATIC 
-	| ABSTRACT 
-	| FINAL 
-	| NATIVE 
-	| SYNCHRONIZED 
-	| TRANSIENT 
-	| VOLATILE 
-	| STRICTFP
-	'''
-
-	pass
-
-
-def p_packageOrTypeName(p):
-	'''
-	 packageOrTypeName :  qualifiedName
-	'''
-
-	pass
-
-
-def p_enumConstantName(p):
-	'''
-	 enumConstantName :  Identifier
+		arrays_opt : arrays
+		| empty
 	'''
 
-	pass
+# ## type end
 
+# ## Type Parameter - begin
 
-def p_typeName(p):
+def p_typeParametersHeaderName(p):
 	'''
-	 typeName :  qualifiedName
+		typeParametersHeaderName : Identifier
 	'''
 
-	pass
-
-
-def p_type(p):
+def p_typeParameters(p):
 	'''
-	 type : type_body
-		| primitiveType arrays
-		| primitiveType 
+		typeParameters : LESS typeParameterList1
 	'''
 
-	pass
-
-def p_type_body(p):
+def p_typeParameterList(p):
 	'''
-		type_body : Identifier classOrInterfaceTypeBody arrays
-				| Identifier classOrInterfaceTypeBody
-				| Identifier arrays
-				| Identifier
+		typeParameterList : typeParameter
+		| typeParameterList COMMA typeParameter
 	'''
 
-def p_classOrInterfaceTypeBody(p):
+def p_typeParameter(p):
 	'''
-		classOrInterfaceTypeBody : typeArguments classOrInterfaceTypeStatements
-						| typeArguments
-						| classOrInterfaceTypeStatements
+		typeParameter : typeParametersHeaderName
+		| typeParametersHeaderName EXTENDS referenceType
+		| typeParametersHeaderName EXTENDS referenceType additionalBoundList
 	'''
-
 
-def p_classOrInterfaceTypeStatement(p):
+def p_additionalBoundList(p):
 	'''
-		classOrInterfaceTypeStatement : CallBody typeArguments
-									| CallBody
+		additionalBoundList : additionalBound
+		| additionalBoundList additionalBound
 	'''
 
-def p_classOrInterfaceTypeStatements(p):
+def p_additionalBound(p):
 	'''
-		classOrInterfaceTypeStatements : classOrInterfaceTypeStatement
-			| classOrInterfaceTypeStatements classOrInterfaceTypeStatement
+		additionalBound : AND referenceType
 	'''
-
-#classOrInterfaceType
-#	:	Identifier typeArguments? ('.' Identifier typeArguments? )*
-def p_classOrInterfaceType(p):
+def p_typeParameterList1(p):
 	'''
-	 classOrInterfaceType : Identifier classOrInterfaceTypeBody
-						| Identifier
+		typeParameterList1 : typeParameter1
+		| typeParameterList COMMA typeParameter1
 	'''
-
-	pass
 
-
-def p_primitiveType(p):
+def p_typeParameter1(p):
 	'''
-	 primitiveType :  BOOLEAN 
-	| CHAR 
-	| BYTE 
-	| SHORT 
-	| INT 
-	| LONG 
-	| FLOAT 
-	| DOUBLE
+		typeParameter1 : typeParametersHeaderName MORE
+		| typeParametersHeaderName EXTENDS referenceType1
+		| typeParametersHeaderName EXTENDS referenceType additionalBoundList1
 	'''
-
-	pass
 
-
-def p_variableModifier(p):
+def p_additionalBoundList1(p):
 	'''
-	 variableModifier :  FINAL 
-	| annotation
+		additionalBoundList1 : additionalBound1
+		| additionalBoundList additionalBound1
 	'''
-
-	pass
 
-def p_COMMA_typeArgument( p ):
+def p_additionalBound1(p):
 	'''
-		COMMA_typeArgument : COMMA typeArgument
+		additionalBound1 : AND referenceType1
 	'''
 
-def p_COMMA_typeArguments(p):
-	'''
-	 COMMA_typeArguments : COMMA_typeArgument
-		| COMMA_typeArguments COMMA_typeArgument
-	'''
+# ## Type Parameter - end
 
-	pass
 
+# ## Type Argument - begin
 def p_typeArguments(p):
 	'''
-	 typeArguments : LESS typeArgument COMMA_typeArguments MORE
-		| LESS typeArgument MORE
+		typeArguments : LESS typeArgumentList1
 	'''
-
-	pass
-
-def p_typeArgumentStatment(p):
-	'''
-	 typeArgumentStatment :  EXTENDS type
-	| SUPER type
-	| empty
-	'''
-
-	pass
 
 def p_typeArgument(p):
 	'''
-	 typeArgument : type
-		| QUES typeArgumentStatment
+		typeArgument : referenceType
+		| wildcard
 	'''
 
-	pass
-
-def p_COMMA_qualifiedName(p):
+def p_typeArgumentList(p):
 	'''
-		COMMA_qualifiedName : COMMA qualifiedName
-	'''
-
-def p_COMMA_qualifiedNames(p):
-	'''
-	 COMMA_qualifiedNames : COMMA_qualifiedName
-	 	| COMMA_qualifiedNames COMMA_qualifiedName
+		typeArgumentList : typeArgument
+		| typeArgumentList COMMA typeArgument
 	'''
 
-	pass
 
-
-def p_qualifiedNameList(p):
+def p_typeArgumentList1(p):
 	'''
-	 qualifiedNameList : qualifiedName COMMA_qualifiedNames
-		| qualifiedName 
+		typeArgumentList1 : typeArgument1
+		| typeArgumentList COMMA typeArgument1
 	'''
 
-	pass
-
-
-def p_formalParameters(p):
+def p_typeArgument1(p):
 	'''
-	 formalParameters : LPAREN formalParameterDecls RPAREN
+		typeArgument1 : referenceType1
+		| wildcard1
 	'''
 
-	pass
-
-def p_variableModifiers_empty(p):
+def p_referenceType1(p):
 	'''
-		variableModifiers_empty : variableModifiers
-								|
+		referenceType1 : referenceType MORE
+		| classOrInterface LESS typeArgumentList2
 	'''
 
-def p_formalParameterDecls(p):
+def p_typeArgumentList2(p):
 	'''
-	 formalParameterDecls :  variableModifiers_empty type formalParameterDeclsRest
-						| empty
-	'''
-
-	pass
-
-def p_formalParameterDeclsRestBody(p):
-	'''
-		formalParameterDeclsRestBody :  COMMA formalParameterDecls
-		|
-	'''
-def p_formalParameterDeclsRest(p):
-	'''
-	 formalParameterDeclsRest : variableDeclaratorId formalParameterDeclsRestBody
-		| OP_ARRAY variableDeclaratorId
+		typeArgumentList2 : typeArgument2
+		| typeArgumentList COMMA typeArgument2
 	'''
 
-	pass
+def p_typeArgument2(p):
+	'''
+		typeArgument2 : referenceType2
+		| wildcard2
+	'''
 
+def p_referenceType2(p):
+	'''
+		referenceType2 : referenceType OP_SHR
+		| classOrInterface LESS typeArgumentList3
+	'''
+
+def p_typeArgumentList3(p):
+	'''
+		typeArgumentList3 : typeArgument3
+		| typeArgumentList COMMA typeArgument3
+	'''
+
+def p_typeArgument3(p):
+	'''
+		typeArgument3 : referenceType3
+		| wildcard3
+	'''
+
+def p_referenceType3(p):
+	'''
+		referenceType3 : referenceType OP_SHRR
+	'''
+
+def p_wildcard(p):
+	'''
+		wildcard : QUES
+		| QUES wildcardBounds
+	'''
+
+def p_wildcardBounds(p):
+	'''
+		wildcardBounds : EXTENDS referenceType
+		| SUPER referenceType
+	'''
+
+def p_wildcard1(p):
+	'''
+		wildcard1 : QUES MORE
+		| QUES wildcardBounds1
+	'''
+
+def p_wildcardBounds1(p):
+	'''
+		wildcardBounds1 : EXTENDS referenceType1
+		| SUPER referenceType1
+	'''
+
+def p_wildcard2(p):
+	'''
+		wildcard2 : QUES OP_SHR
+		| QUES wildcardBounds2
+	'''
+
+def p_wildcardBounds2(p):
+	'''
+		wildcardBounds2 : EXTENDS referenceType2
+		| SUPER referenceType2
+	'''
+
+def p_wildcard3(p):
+	'''
+		wildcard3 : QUES OP_SHRR
+		| QUES wildcardBounds3
+	'''
+
+def p_wildcardBounds3(p):
+	'''
+		wildcardBounds3 : EXTENDS referenceType3
+		| SUPER referenceType3
+	'''
+
+# ## Type Argument - end
+
+def p_modifiers_opt(p):
+	'''
+		modifiers_opt : modifiers
+		| empty
+	'''
+	
+
+def p_modifiers(p):
+	'''
+		modifiers : modifier
+		| modifiers modifier
+	'''
+
+def p_modifier(p):
+	'''
+		modifier : PUBLIC
+		| PROTECTED
+		| PRIVATE
+		| STATIC
+		| ABSTRACT
+		| FINAL
+		| NATIVE
+		| SYNCHRONIZED
+		| TRANSIENT
+		| VOLATILE
+		| STRICTFP
+		| annotation
+	'''
+
+# class begin
+
+def p_classDeclaration(p):
+	'''
+		classDeclaration : classHead classBody
+	'''
+def p_classHead(p):
+	'''
+		classHead : className classExtends_opt classImpls_opt
+	'''
+
+def p_className(p):
+	'''
+		className : classHeadName1 typeParameters
+		| classHeadName1
+	'''
+
+def p_classHeadName1(p):
+	'''
+		classHeadName1 :  modifiers_opt CLASS Identifier
+	'''
+
+
+
+def p_classExtends_opt(p):
+	'''
+		classExtends_opt : classExtends
+		| empty
+	'''
+def p_classImpls_opt(p):
+	'''
+		classImpls_opt : classImpls
+		| empty
+	'''
+
+def p_classExtends(p):
+	'''
+		classExtends : EXTENDS classType
+	'''
+
+def p_classImpls(p):
+	'''
+		classImpls : IMPLEMENTS interfaceTypeList
+	'''
+
+def p_interfaceTypeList(p):
+	'''
+		interfaceTypeList : interfaceType
+		| interfaceTypeList COMMA interfaceType
+	'''
+
+def p_typeParameters_opt(p):
+	'''
+		typeParameters_opt : typeParameters
+		| empty
+	'''
+
+def p_classBody(p):
+	'''
+		classBody : BLPAREN classBodyDeclarations_opt BRPAREN
+	'''
+
+def p_classBodyDeclarations_opt(p):
+	'''
+		classBodyDeclarations_opt : classBodyDeclarations
+		| empty
+	'''
+
+def p_classBodyDeclarations(p):
+	'''
+		classBodyDeclarations : classBodyDeclaration
+		| classBodyDeclarations classBodyDeclaration
+	'''
+
+def p_classBodyDeclaration(p):
+	'''
+		classBodyDeclaration : classMemberDeclaration
+		| staticInitializer
+		| constructorDeclaration
+		| block
+	'''
+
+def p_staticInitializer(p):
+	'''
+		staticInitializer : STATIC block
+	'''
+
+def p_constructorDeclaration(p):
+	'''
+		constructorDeclaration : constructorHead methodBody
+	'''
+
+def p_constructorHead(p):
+	'''
+		constructorHead : constructorName formalParameterList_opt RPAREN methodHeadThrowList_opt
+	'''
+
+def p_constructorName(p):
+	'''
+		constructorName : modifiers_opt typeParameters Identifier LPAREN
+		| modifiers_opt Identifier LPAREN
+	'''
+
+def p_formalParameterList_opt(p):
+	'''
+		formalParameterList_opt : formalParameterList
+		| empty
+	'''
+
+def p_formalParameterList(p):
+	'''
+		formalParameterList : formalParameter
+		| formalParameterList COMMA formalParameter
+	'''
+def p_formalParameter(p):
+	'''
+		formalParameter : modifiers_opt type variableDeclaratorId
+		| modifiers_opt type OP_ARRAY variableDeclaratorId
+	'''
+def p_methodHeadThrowList_opt(p):
+	'''
+		methodHeadThrowList_opt : methodHeadThrowList
+		| empty
+	'''
+
+def p_methodHeadThrowList(p):
+	'''
+		methodHeadThrowList : THROWS exceptionTypeList
+	'''
+
+def p_exceptionTypeList(p):
+	'''
+		exceptionTypeList : exceptionType
+		| exceptionTypeList exceptionType
+	'''
+
+def p_exceptionType(p):
+	'''
+		exceptionType : classType
+	'''
+
+def p_classMemberDeclaration(p):
+	'''
+		classMemberDeclaration : fieldDeclaration
+		| methodDeclaration
+		| classDeclaration
+		| interfaceDeclaration
+		| enumDeclaration
+		| annotationTypeDeclaration
+		| SEMI
+	'''
+
+def p_fieldDeclaration(p):
+	'''
+		fieldDeclaration : modifiers_opt type variableDeclarators SEMI
+	'''
+def p_variableDeclarators(p):
+	'''
+		variableDeclarators : variableDeclarator
+		| variableDeclarators COMMA variableDeclarator
+	'''
+
+def p_variableDeclarator(p):
+	'''
+		variableDeclarator : variableDeclaratorId
+		| variableDeclaratorId ASS variableInitializer
+	'''
+
+def p_variableDeclaratorId(p):
+	'''
+		variableDeclaratorId : Identifier arrays_opt
+	'''
+
+def p_variableInitializer(p):
+	'''
+		variableInitializer : expression
+		| arrayInitializer
+	'''
+
+def p_methodDeclaration(p):
+	'''
+		methodDeclaration : abstractMethodDeclaration
+		| methodHeader methodBody
+	'''
+
+def p_abstractMethodDeclaration(p):
+	'''
+		abstractMethodDeclaration : methodHeader SEMI
+	'''
+
+def p_methodHeader(p):
+	'''
+		methodHeader : methodName formalParameterList_opt RPAREN methodHeadExtendedDims methodHeadThrowList_opt
+	'''
+
+def p_methodName(p):
+	'''
+		methodName : modifiers_opt typeParameters type Identifier LPAREN
+		| modifiers_opt type Identifier LPAREN
+	'''
+def p_methodHeadExtendedDims(p):
+	'''
+		methodHeadExtendedDims : arrays_opt
+	'''
+
+def p_methodHeadThrowList_opt(p):
+	'''
+		methodHeadThrowList_opt : methodHeadThrowList
+		| empty
+	'''
+
+def p_methodHeadThrowList(p):
+	'''
+		methodHeadThrowList : THROWS classTypeList
+	'''
+def p_classTypeList(p):
+	'''
+		classTypeList : classType
+		| classTypeList COMMA classType
+	'''
 
 def p_methodBody(p):
 	'''
-	 methodBody :  block
+		methodBody : BLPAREN blockStatements_opt BRPAREN
 	'''
 
-	pass
-
-
-def p_blockStatements(p):
+def p_interfaceDeclaration(p):
 	'''
-	 blockStatements : blockStatement
-		| blockStatements blockStatement
+		interfaceDeclaration : interfaceHead InterfaceBody
 	'''
-
-	pass
-
-#constructorBody
-#    :   '{' (explicitConstructorInvocation)? (blockStatement)* '}'
-#    ;
-
-def p_constructorBody(p):
+def p_interfaceHead(p):
 	'''
-	 constructorBody : BLPAREN explicitConstructorInvocation blockStatements BRPAREN
-		| BLPAREN explicitConstructorInvocation BRPAREN
-		| BLPAREN blockStatements BRPAREN
-		| BLPAREN BRPAREN
+		interfaceHead : interfaceHeadName interfaceHeadExtends_opt
+	'''
+def p_interfaceHeadName(p):
+	'''
+		interfaceHeadName : modifiers_opt INTERFACE Identifier typeParameters
+		| modifiers_opt INTERFACE Identifier
 	'''
 
-	pass
-
-
-def p_explicitConstructorInvocation(p):
+def p_interfaceHeadExtends_opt(p):
 	'''
-	 explicitConstructorInvocation : nonWildcardTypeArguments THIS arguments SEMI
-	 				| nonWildcardTypeArguments SUPER arguments SEMI
-	 				| THIS arguments SEMI
-					| SUPER arguments SEMI
-					| primary DOT nonWildcardTypeArguments SUPER arguments SEMI
-					| primary DOT SUPER arguments SEMI
+		interfaceHeadExtends_opt : interfaceHeadExtends
+		| empty
 	'''
 
-	pass
-
-def p_DOT_Identifier(p):
+def p_interfaceHeadExtends(p):
 	'''
-		DOT_Identifier : DOT Identifier
-					| DOT MULT
+		interfaceHeadExtends : EXTENDS interfaceTypeList
 	'''
 
-def p_DOT_Identifiers(p):
+def p_interfaceBody(p):
 	'''
-		DOT_Identifiers : DOT_Identifier
-						| DOT_Identifiers DOT_Identifier
-	'''
-
-def p_qualifiedName(p):
-	'''
-	 qualifiedName : Identifier DOT_Identifiers
-		| Identifier
+		InterfaceBody : BLPAREN interfaceMemberDeclarations_opt BRPAREN
 	'''
 
-	pass
-
-
-def p_literal(p):
+def p_interfaceMemberDeclarations_opt(p):
 	'''
-	 literal :  integerLiteral 
-	| FloatingPointLiteral 
-	| CharacterLiteral 
-	| StringLiteral 
-	| booleanLiteral 
-	| NULL
+		interfaceMemberDeclarations_opt : interfaceMemberDeclarations
+		| empty
+	'''
+def p_interfaceMemberDeclarations(p):
+	'''
+		interfaceMemberDeclarations : interfaceMemberDeclaration
+		| interfaceMemberDeclarations interfaceMemberDeclaration
 	'''
 
-	pass
-
-
-def p_booleanLiteral(p):
+def p_interfaceMemberDeclaration(p):
 	'''
-	 booleanLiteral :  TRUE 
-	| FALSE
-	'''
-
-	pass
-
-
-def p_annotations(p):
-	'''
-	 annotations :  annotation
-	 			| annotations annotation
+		interfaceMemberDeclaration : constantDeclaration
+		| abstractMethodDeclaration
+		| classDeclaration
+		| interfaceDeclaration
+		| enumDeclaration
+		| annotationTypeDeclaration
+		| SEMI
 	'''
 
-	pass
-
-def p_annotationBody(p):
+def p_constantDeclaration(p):
 	'''
-		annotationBody :  LPAREN elementValuePairs RPAREN
-					| LPAREN elementValue RPAREN
-					| LPAREN RPAREN
-					|
+		constantDeclaration : fieldDeclaration
 	'''
 
-def p_annotation(p):
+def p_enumDeclaration(p):
 	'''
-	 annotation : AT annotationName annotationBody
-	'''
-
-	pass
-
-
-def p_annotationName(p):
-	'''
-	 annotationName : Identifier DOT_Identifiers
-		| Identifier 
+		enumDeclaration : enumHead enumBody
 	'''
 
-	pass
-
-def p_elementValuePairsBody(p):
+def p_enumHead(p):
 	'''
-		elementValuePairsBody :  COMMA elementValuePair
+		enumHead : enumHeadName classImpls_opt
 	'''
 
-def p_elementValuePairsBodys(p):
+def p_enumHeadName(p):
 	'''
-	 elementValuePairsBodys : elementValuePairsBody
-		| elementValuePairsBodys elementValuePairsBody
-	'''
-
-	pass
-
-
-def p_elementValuePairs(p):
-	'''
-	 elementValuePairs : elementValuePair elementValuePairsBodys
-		| elementValuePair 
+		enumHeadName : modifiers_opt ENUM Identifier
+		| modifiers_opt ENUM Identifier typeParameters
 	'''
 
-	pass
-
-
-def p_elementValuePair(p):
+def p_enumBody(p):
 	'''
-	 elementValuePair :  Identifier EQUALS elementValue
-	'''
-
-	pass
-
-
-def p_elementValue(p):
-	'''
-	 elementValue :  conditionalExpression 
-	| annotation 
-	| elementValueArrayInitializer
+		enumBody : BLPAREN enumBodyDeclarations_opt BRPAREN
+		| BLPAREN COMMA enumBodyDeclarations_opt BRPAREN
+		| BLPAREN enumConstants COMMA enumBodyDeclarations_opt BRPAREN
+		| BLPAREN enumConstants enumBodyDeclarations_opt BRPAREN
 	'''
 
-	pass
-
-
-def p_elementValueBody(p):
+def p_enumConstants(p):
 	'''
-		elementValueBody : COMMA elementValue
+		enumConstants : enumConstant
+		| enumConstants COMMA enumConstant
 	'''
 
-def p_elementValueBodys(p):
+def p_enumConstant(p):
 	'''
-	 elementValueBodys : elementValueBody
-		| elementValueBodys elementValueBody
-	'''
-
-	pass
-
-def p_elementValueStatement(p):
-	'''
-		elementValueStatement : elementValue elementValueBodys
-							| elementValue
-							|
+		enumConstant : enumConstantHead classBody
+		| enumConstantHead
 	'''
 
-def p_COMMA_OR_empty(p):
+def p_enumConstantHead(p):
 	'''
-		COMMA_OR_empty : COMMA
-					| 
-	'''
-
-def p_elementValueArrayInitializer(p):
-	'''
-	 elementValueArrayInitializer : BLPAREN elementValueStatement COMMA_OR_empty BRPAREN
+		enumConstantHead : enumConstantHeadName arguments_opt
 	'''
 
-	pass
+def p_enumConstantHeadName(p):
+	'''
+		enumConstantHeadName : modifiers_opt Identifier
+	'''
 
+def p_arguments_opt(p):
+	'''
+		arguments_opt : arguments
+		| empty
+	'''
+
+def p_arguments(p):
+	'''
+		arguments : LPAREN argumentList_opt RPAREN
+	'''
+
+def p_argumentList_opt(p):
+	'''
+		argumentList_opt : argumentList
+		| empty
+	'''
+
+def p_argumentList(p):
+	'''
+		argumentList : expression
+		| argumentList COMMA expression
+	'''
+
+def p_enumBodyDeclarations_opt(p):
+	'''
+		enumBodyDeclarations_opt : enumDeclarations
+		| empty
+
+	'''
+
+def p_enumDeclarations(p):
+	'''
+		enumDeclarations : SEMI classBodyDeclarations_opt
+	'''
 
 def p_annotationTypeDeclaration(p):
 	'''
-	 annotationTypeDeclaration :  AT INTERFACE Identifier annotationTypeBody
+		annotationTypeDeclaration : annotationTypeDeclarationHead annotationTypeBody
 	'''
 
-	pass
-
-def p_annotationTypeElementDeclarations(p):
+def p_annotationTypeDeclarationHead(p):
 	'''
-	 annotationTypeElementDeclarations : annotationTypeElementDeclaration
-		| annotationTypeElementDeclarations annotationTypeElementDeclaration
+		annotationTypeDeclarationHead : annotationTypeDeclarationHeadName classExtends_opt classImpls_opt
 	'''
 
-	pass
+def p_annotationTypeDeclarationHeadName(p):
+	'''
+		annotationTypeDeclarationHeadName : modifiers AT INTERFACE Identifier
+		| modifiers AT INTERFACE Identifier typeParameters
+		| AT INTERFACE Identifier typeParameters
+		| AT INTERFACE Identifier
+	'''
 
 def p_annotationTypeBody(p):
 	'''
-	 annotationTypeBody : BLPAREN annotationTypeElementDeclarations BRPAREN
-		| BLPAREN  BRPAREN
+		annotationTypeBody : BLPAREN annotationTypeMemberDeclarations_opt BRPAREN
 	'''
 
-	pass
-
-def p_modifiers_empty(p):
+def p_annotationTypeMemberDeclarations_opt(p):
 	'''
-		modifiers_empty : modifiers
-						|
+		annotationTypeMemberDeclarations_opt : annotationTypeMemberDeclarations
+		| empty
 	'''
 
-def p_annotationTypeElementDeclaration(p):
+def p_annotationTypeMemberDeclarations(p):
 	'''
-	 annotationTypeElementDeclaration :  modifiers annotationTypeElementRest
-	 								| annotationTypeElementRest
-	'''
-
-	pass
-
-def p_SEMI_OR_empty(p):
-	'''
-		SEMI_OR_empty : SEMI
-					| 
+		annotationTypeMemberDeclarations : annotationTypeMemberDeclaration
+		| annotationTypeMemberDeclarations annotationTypeMemberDeclaration
 	'''
 
-def p_annotationTypeElementRest(p):
+def p_annotationTypeMemberDeclaration(p):
 	'''
-	 annotationTypeElementRest : type annotationMethodOrConstantRest SEMI
-								| normalClassDeclaration SEMI
-								| normalInterfaceDeclaration SEMI
-								| enumDeclaration SEMI
-								| annotationTypeDeclaration SEMI
-								| normalClassDeclaration
-								| normalInterfaceDeclaration
-								| enumDeclaration
-								| annotationTypeDeclaration
+		annotationTypeMemberDeclaration : annotationMethodHead SEMI
+		| constantDeclaration
+		| constructorDeclaration
+		| typeDeclaration
 	'''
 
-	pass
-
-
-def p_annotationMethodOrConstantRest(p):
+def p_annotationMethodHead(p):
 	'''
-	 annotationMethodOrConstantRest :  annotationMethodRest 
-									| annotationConstantRest
+		annotationMethodHead : annotationMethodHeadName formalParameterList_opt RPAREN methodHeadExtendedDims annotationMethodHeadDefaultValue_opt
 	'''
 
-	pass
-
-def p_defaultValue_or_empty(p):
+def p_annotationMethodHeadDefaultValue_opt(p):
 	'''
-		defaultValue_or_empty : defaultValue
-								| 
+		annotationMethodHeadDefaultValue_opt : defaultValue
+		| empty
 	'''
 
-def p_annotationMethodRest(p):
+def p_annotationMethodHeadName(p):
 	'''
-	 annotationMethodRest : Identifier LPAREN RPAREN defaultValue_or_empty
+		annotationMethodHeadName : modifiers_opt typeParameters type Identifier LPAREN
+		| modifiers_opt type Identifier LPAREN
 	'''
-
-	pass
-
-
-def p_annotationConstantRest(p):
-	'''
-	 annotationConstantRest :  variableDeclarators
-	'''
-
-	pass
-
 
 def p_defaultValue(p):
 	'''
-	 defaultValue :  DEFAULT elementValue
+		defaultValue : DEFAULT memberValue
 	'''
 
-	pass
-
-
-def p_block(p):
+def p_memberValue(p):
 	'''
-	 block : BLPAREN blockStatements BRPAREN
+		memberValue : conditionalExpressionNotName
+		| name
+		| annotation
+		| memberValueArrayInitializer
+	'''
+
+def p_memberValueArrayInitializer(p):
+	'''
+		memberValueArrayInitializer : BLPAREN memberValues COMMA BRPAREN
+		| BLPAREN memberValues BRPAREN
+		| BLPAREN COMMA BRPAREN
 		| BLPAREN BRPAREN
 	'''
 
-	pass
+def p_memberValues(p):
+	'''
+		memberValues : memberValue
+		| memberValues COMMA memberValue
+	'''
 
+
+# annotation begin
+def p_annotation(p):
+	'''
+		annotation : normalAnnotation
+		| markerAnnotation
+		| singleMemberAnnotation
+	'''
+
+def p_normalAnnotation(p):
+	'''
+		normalAnnotation : annotationName LPAREN memberValuePairs_opt RPAREN
+	'''
+
+def p_annotationName(p):
+	'''
+		annotationName : AT name
+	'''
+
+def p_memberValuePairs_opt(p):
+	'''
+		memberValuePairs_opt : memberValuePairs
+		| empty
+	'''
+
+def p_memberValuePairs(p):
+	'''
+		memberValuePairs : memberValuePair
+		| memberValuePairs COMMA memberValuePair
+	'''
+
+def p_memberValuePair(p):
+	'''
+		memberValuePair : Identifier ASS memberValue
+	'''
+
+def p_markerAnnotation(p):
+	'''
+		markerAnnotation : annotationName
+	'''
+
+def p_singleMemberAnnotation(p):
+	'''
+		singleMemberAnnotation : annotationName LPAREN singleMemberAnnotationMemberValue RPAREN
+	'''
+
+def p_singleMemberAnnotationMemberValue(p):
+	'''
+		singleMemberAnnotationMemberValue : memberValue
+	'''
+# class end
+
+
+# block begin
+def p_block(p):
+	'''
+		block : BLPAREN blockStatements_opt BRPAREN
+	'''
+
+def p_blockStatements(p):
+	'''
+		blockStatements : blockStatement
+		| blockStatements blockStatement
+	'''
+
+def p_blockStatements_opt(p):
+	'''
+		blockStatements_opt : blockStatements
+		| empty
+	'''
 
 def p_blockStatement(p):
 	'''
-	 blockStatement :  statement
-	| localVariableDeclarationStatement
-	| classOrInterfaceDeclaration  
+		blockStatement : localVariableDeclarationStatement
+		| statement
+		| classDeclaration
+		| interfaceDeclaration
+		| annotationTypeDeclaration
+		| enumDeclaration
 	'''
-
-	pass
-
 
 def p_localVariableDeclarationStatement(p):
 	'''
-	 localVariableDeclarationStatement :  localVariableDeclaration SEMI
-	'''
-
-	pass
-
-def p_localVariableDeclarationModifBody(p):
-	'''
-		localVariableDeclarationModifBody : variableModifiers type variableDeclarators
-											| type variableDeclarators
+		localVariableDeclarationStatement : localVariableDeclaration SEMI
 	'''
 
 def p_localVariableDeclaration(p):
 	'''
-	 localVariableDeclaration : localVariableDeclarationModifBody
+		localVariableDeclaration : type variableDeclarators
+		| modifiers type variableDeclarators
 	'''
 
-	pass
-
-
-def p_variableModifiers(p):
+def p_variableDeclarators(p):
 	'''
-	 variableModifiers : variableModifiers variableModifier
-	 					| variableModifier
+		variableDeclarators : variableDeclarator
+		| variableDeclarators COMMA variableDeclarator
 	'''
 
-	pass
-
-def p_expression_colon_or_empty(p):
+def p_variableDeclarator(p):
 	'''
-		expression_colon_or_empty : COLON expression
-							| 
+		variableDeclarator : variableDeclaratorId
+		| variableDeclaratorId ASS variableInitializer
 	'''
 
-def p_else_statement(p):
+def p_variableDeclaratorId(p):
 	'''
-		else_statement : ELSE statement
-						|
-	'''
-
-def p_expression_or_empty(p):
-	'''
-		expression_or_empty : expression
-							| 
+		variableDeclaratorId : Identifier arrays_opt
 	'''
 
-def p_Identifier_or_empty(p):
+def p_variableInitializer(p):
 	'''
-		Identifier_or_empty : Identifier
-							|
+		variableInitializer : expression
+		| arrayInitializer
 	'''
+
+# statement
 
 def p_statement(p):
 	'''
-	 statement : block
-	 			| ASSERT expression expression_colon_or_empty SEMI
-				| IF parExpression statement else_statement
-				| FOR LPAREN forControl RPAREN statement
-	 			| WHILE parExpression statement
-				| DO statement WHILE parExpression SEMI
-				| TRY block catches FINALLY block
-				| TRY block catches
-				| TRY block FINALLY block
-				| SWITCH parExpression BLPAREN switchBlockStatementGroups BRPAREN
-				| SYNCHRONIZED parExpression block
-				| RETURN expression_or_empty SEMI
-				| THROW expression SEMI
-				| BREAK Identifier_or_empty SEMI
-				| CONTINUE  Identifier_or_empty SEMI
-				| SEMI
-				| statementExpression SEMI
-				| Identifier COLON statement
+		statement : statementWithoutTrailingSubStatement
+		| labeldStatement
+		| ifThenStatement
+		| ifThenElseStatement
+		| whileStatement
+		| forStatement
+		| enhancedForStatement
 	'''
 
-	pass
-
-def p_catchClauses(p):
+def p_statementWithoutTrailingSubStatement(p):
 	'''
-		catchClauses : catchClause
-					| catchClauses catchClause
-	'''
-def p_catches(p):
-	'''
-	 catches : catchClause catchClauses
-		| catchClause 
-	'''
+		statementWithoutTrailingSubStatement : block
+		| expressionStatement
+		| assertStatement
+		| emptyStatement
+		| switchStatement
+		| doStatement
+		| breakStatement
+		| continueStatement
+		| returnStatement
+		| synchronizedStatement
+		| throwStatment
+		| tryStatement
+		| tryStatementWithResources
 
-	pass
-
-
-def p_catchClause(p):
-	'''
-	 catchClause :  CATCH LPAREN formalParameter RPAREN block
-	'''
-
-	pass
-
-
-def p_formalParameter(p):
-	'''
-	 formalParameter :  variableModifiers_empty type variableDeclaratorId
-	'''
-
-	pass
-
-
-def p_switchBlockStatementGroupStats(p):
-	'''
-	 switchBlockStatementGroupStats : switchBlockStatementGroup
-		| switchBlockStatementGroupStats switchBlockStatementGroup
-	'''
-
-	pass
-
-def p_switchBlockStatementGroups(p):
-	'''
-		switchBlockStatementGroups : switchBlockStatementGroupStats
-									|
-	'''
-
-	pass
-
-
-def p_switchLabels(p):
-	'''
-	 switchLabels :  switchLabel 
-	| switchLabels switchLabel
-	'''
-
-	pass
-
-def p_switchBlockStatementGroup(p):
-	'''
-	 switchBlockStatementGroup : switchLabels blockStatements
-		| switchLabels 
-	'''
-
-	pass
-
-
-def p_switchLabel(p):
-	'''
-	 switchLabel :  CASE constantExpression COLON 
-	| CASE enumConstantName COLON 
-	| DEFAULT COLON
-	'''
-
-	pass
-
-def p_forInit_or_empty(p):
-	'''
-		forInit_or_empty : forInit
-						|
-	'''
-def p_forUpdate_empty(p):
-	'''
-		forUpdate_empty : forUpdate
-						|
-	'''
-
-#forControl
-#    :   enhancedForControl
-#    |   (forInit)? ';' expression? ';' (forUpdate)?
-#    ;
-def p_forControl(p):
-	'''
-	 forControl : enhancedForControl
-	 			| forInit SEMI expression SEMI forUpdate
-				| forInit SEMI expression SEMI
-				| forInit SEMI SEMI forUpdate
-				| forInit SEMI SEMI
-				| SEMI SEMI
-				| SEMI expression SEMI forUpdate
-				| SEMI expression SEMI
-				| SEMI SEMI forUpdate
-	'''
-
-	pass
-
-
-def p_forInit(p):
-	'''
-	 forInit :  localVariableDeclaration 
-	| expressionList
-	'''
-
-	pass
-
-
-def p_enhancedForControl(p):
-	'''
-	 enhancedForControl :  variableModifiers type Identifier COLON expression
-	 					| type Identifier COLON expression
-	'''
-
-	pass
-
-
-def p_forUpdate(p):
-	'''
-	 forUpdate :  expressionList
-	'''
-
-	pass
-
-
-def p_parExpression(p):
-	'''
-	 parExpression :  LPAREN expression RPAREN
-	'''
-
-	pass
-
-def p_COMMA_expression(p):
-	'''
-	 COMMA_expression : COMMA expression
-	'''
-
-	pass
-
-def p_COMMA_expressions(p):
-	'''
-		COMMA_expressions : COMMA_expression
-						| COMMA_expressions COMMA_expression
 	'''
 
 
-# expression COMMA expression ....
-def p_expressionList(p):
-	'''
-	 expressionList : expression COMMA_expressions
-		| expression 
-	'''
 
-	pass
-
+def p_ExpressionStatement(p):
+	'''
+		expressionStatement : statementExpression SEMI
+		| explicitConstructorInvocation
+	'''
 
 def p_statementExpression(p):
 	'''
-	 statementExpression :  expression
+		statementExpression : assignment
+		| preIncrementExpression
+		| preDecrementExpression
+		| postIncrementExpression
+		| postDecrementExpression
+		| methodInvocation
+		| classInstanceCreationExpression
 	'''
 
-	pass
+def p_comma_opt(p):
+	'''
+		comma_opt : COMMA
+		| empty
+	'''
 
+def p_arrayInitializer(p):
+	'''
+		arrayInitializer : BLPAREN comma_opt BRPAREN
+		| BLPAREN variableInitializers BRPAREN
+		| BLPAREN variableInitializers COMMA BRPAREN
+	'''
+
+def p_variableInitializers(p):
+	'''
+		variableInitializers : variableInitializer
+		| variableInitializers COMMA variableInitializer
+	'''
+
+def p_methodInvocation(p):
+	'''
+		methodInvocation : name LPAREN argumentList_opt RPAREN
+		| name DOT typeArguments Identifier LPAREN argumentList_opt RPAREN
+		| primary DOT typeArguments Identifier LPAREN argumentList_opt RPAREN
+		| SUPER DOT typeArguments Identifier LPAREN argumentList_opt RPAREN
+		| primary DOT Identifier LPAREN argumentList_opt RPAREN
+		| SUPER DOT Identifier LPAREN argumentList_opt RPAREN
+	'''
+
+def p_labeledStatement(p):
+	'''
+		labeldStatement : label COLON statement
+	'''
+
+def p_labeledStatementNoShortIf(p):
+	'''
+		labeledStatementNoShortIf : label COLON statementNoShortIf
+	'''
+
+def p_label(p):
+	'''
+		label : Identifier
+	'''
+
+def p_ifThenStatement(p):
+	'''
+		ifThenStatement : IF LPAREN expression RPAREN statement
+	'''
+
+def p_ifThenElseStatement(p):
+	'''
+		ifThenElseStatement : IF LPAREN expression RPAREN statementNoShortIf ELSE statement
+	'''
+
+def p_ifThenElseStatementNoShortIf(p):
+	'''
+		ifThenElseStatementNoShortIf : IF LPAREN expression RPAREN statementNoShortIf ELSE statementNoShortIf
+	'''
+
+def p_whileStatement(p):
+	'''
+		whileStatement : WHILE LPAREN expression RPAREN statement
+	'''
+
+def p_whileStatementNoShortIf(p):
+	'''
+		whileStatementNoShortIf : WHILE LPAREN expression RPAREN statementNoShortIf
+	'''
+
+def p_forStatement(p):
+	'''
+		forStatement : FOR LPAREN forInit_opt SEMI expression_opt SEMI forUpdate_opt RPAREN statement
+	'''
+
+def p_forStatementNoShortIf(p):
+	'''
+		forStatementNoShortIf : FOR LPAREN forInit_opt SEMI expression_opt SEMI forUpdate_opt RPAREN statementNoShortIf
+	'''
+
+def p_forInit_opt(p):
+	'''
+		forInit_opt : forInit
+		| empty
+	'''
+
+def p_forInit(p):
+	'''
+		forInit : statementExpressionList
+		| localVariableDeclaration
+	'''
+
+def p_statementExpressionList(p):
+	'''
+		statementExpressionList : statementExpression
+		| statementExpressionList COMMA statementExpression
+	'''
+
+def p_expression_opt(p):
+	'''
+		expression_opt : expression
+		| empty
+	'''
+
+def p_forUpdate_opt(p):
+	'''
+		forUpdate_opt : forUpdate
+		| empty
+	'''
+
+def p_forUpdate(p):
+	'''
+		forUpdate : statementExpressionList
+	'''
+
+def p_enhancedForStatement(p):
+	'''
+		enhancedForStatement : enhancedForStatementHead statement
+	'''
+
+def p_enhancedForStatementNoShortIf(p):
+	'''
+		enhancedForStatementNoShortIf : enhancedForStatementHead statementNoShortIf
+	'''
+
+def p_enhancedForStatementHead(p):
+	'''
+		enhancedForStatementHead : enhancedForStatementHeadInit COLON expression RPAREN
+	'''
+
+def p_enhancedForStatementHeadInit(p):
+	'''
+		enhancedForStatementHeadInit : FOR LPAREN type Identifier arrays_opt
+		| FOR LPAREN modifiers type Identifier arrays_opt
+	'''
+
+def p_statementNoShortIf(p):
+	'''
+		statementNoShortIf : statementWithoutTrailingSubStatement
+		| labeledStatementNoShortIf
+		| ifThenElseStatementNoShortIf
+		| whileStatementNoShortIf
+		| enhancedForStatementNoShortIf
+	'''
+
+def p_assertStatement(p):
+	'''
+		assertStatement : ASSERT expression SEMI
+		| ASSERT expression COLON expression SEMI
+	'''
+
+def p_empty_statement(p):
+	'''
+		emptyStatement : SEMI
+	'''
+
+def p_switch_statement(p):
+	'''
+		switchStatement : SWITCH LPAREN expression RPAREN switchBlock
+	'''
+
+def p_switchBlock(p):
+	'''
+		switchBlock : BLPAREN BRPAREN
+		| BLPAREN switchBlockStatements BRPAREN
+		| BLPAREN switchLabels BRPAREN
+		| BLPAREN switchBlockStatements switchLabels BRPAREN
+	'''
+
+def p_switchBlockStatements(p):
+	'''
+		switchBlockStatements : switchBlockStatement
+		| switchBlockStatements switchBlockStatement
+	'''
+
+def p_switchBlockStatement(p):
+	'''
+		switchBlockStatement : switchLabels blockStatements
+	'''
+
+def p_switchLabels(p):
+	'''
+		switchLabels : switchLabel
+		| switchLabels switchLabel
+	'''
+
+def p_switchLabel(p):
+	'''
+		switchLabel : CASE constantExpression COLON
+		| DEFAULT COLON
+	'''
 
 def p_constantExpression(p):
 	'''
-	 constantExpression :  expression
+		constantExpression : expression
 	'''
 
-	pass
+def p_doStatement(p):
+	'''
+		doStatement : DO statement WHILE LPAREN expression RPAREN SEMI
+	'''
 
-# expression begin
+def p_breakStatement(p):
+	'''
+		breakStatement : BREAK SEMI
+		| BREAK Identifier SEMI
+	'''
+
+def p_continueStatement(p):
+	'''
+		continueStatement : CONTINUE SEMI
+		| CONTINUE Identifier SEMI
+	'''
+
+def p_returnStatement(p):
+	'''
+		returnStatement : RETURN expression_opt SEMI
+	'''
+
+def p_synchronizedStatement(p):
+	'''
+		synchronizedStatement : SYNCHRONIZED LPAREN expression RPAREN block
+	'''
+
+def p_throwStatement(p):
+	'''
+		throwStatment : THROW expression SEMI
+	'''
+
+def p_tryStatement(p):
+	'''
+		tryStatement : TRY tryBlock catches
+		| TRY tryBlock catches_opt finally
+	'''
+
+def p_tryBlock(p):
+	'''
+		tryBlock : block
+	'''
+
+def p_catches_opt(p):
+	'''
+		catches_opt : catches
+		| empty
+	'''
+
+def p_catches(p):
+	'''
+		catches : catchClause
+		| catches catchClause
+	'''
+
+def p_catchClause(p):
+	'''
+		catchClause : CATCH LPAREN catchFormalParameter RPAREN block
+	'''
+
+def p_catchFormalParameter(p):
+	'''
+		catchFormalParameter : modifiers_opt catchType variableDeclaratorId
+	'''
+
+def p_catchType(p):
+	'''
+		catchType : unionType
+	'''
+
+def p_unionType(p):
+	'''
+		unionType : type
+		| unionType VERTICAL type
+	'''
+
+def p_tryStatementWithResources(p):
+	'''
+		tryStatementWithResources : TRY resourceSpecification tryBlock catches_opt
+		| TRY resourceSpecification tryBlock catches_opt finally
+	'''
+
+def p_resourceSpecification(p):
+	'''
+		resourceSpecification : LPAREN resources semi_opt RPAREN
+	'''
+
+def p_semi_opt(p):
+	'''
+		semi_opt : SEMI
+		| empty
+	'''
+
+def p_resources(p):
+	'''
+		resources : resource
+		| resources trailingSemicolon resource
+	'''
+
+def p_trailingSemicolon(p):
+	'''
+		trailingSemicolon : SEMI
+	'''
+
+def p_resource(p):
+	'''
+		resource : type variableDeclaratorId ASS variableInitializer
+		| modifiers type variableDeclaratorId ASS variableInitializer
+	'''
+
+def p_finally(p):
+	'''
+		finally : FINALLY block
+	'''
+
+def p_explicitConstructorInvocation(p):
+	'''
+		explicitConstructorInvocation : THIS LPAREN argumentList_opt RPAREN SEMI
+		| SUPER LPAREN argumentList_opt RPAREN SEMI
+		| typeArguments SUPER LPAREN argumentList RPAREN SEMI
+		| typeArguments THIS LPAREN argumentList_opt RPAREN SEMI
+		| primary DOT SUPER LPAREN argumentList_opt RPAREN SEMI
+		| name DOT SUPER LPAREN argumentList_opt RPAREN SEMI
+		| primary DOT THIS LPAREN argumentList_opt RPAREN SEMI
+		| name DOT THIS LPAREN argumentList_opt RPAREN SEMI
+		| primary DOT typeArguments SUPER LPAREN argumentList_opt RPAREN SEMI
+		| name DOT typeArguments SUPER LPAREN argumentList_opt RPAREN SEMI
+		| primary DOT typeArguments THIS LPAREN argumentList_opt RPAREN SEMI
+		| name DOT typeArguments THIS LPAREN argumentList_opt RPAREN SEMI
+	'''
+
+def p_classInstanceCreationExpression(p):
+	'''
+		classInstanceCreationExpression : NEW typeArguments classType LPAREN argumentList_opt RPAREN classBody_opt
+		| NEW classType LPAREN argumentList_opt RPAREN classBody_opt
+		| primary DOT NEW typeArguments classType LPAREN argumentList_opt RPAREN classBody_opt
+		| primary DOT NEW classType LPAREN argumentList_opt RPAREN classBody_opt
+		| classInstanceCreationExpressionName NEW classType LPAREN argumentList_opt RPAREN classBody_opt
+		| classInstanceCreationExpressionName NEW typeArguments classType LPAREN argumentList_opt RPAREN classBody_opt
+	'''
+
+def p_classInstanceCreationExpressionName(p):
+	'''
+		classInstanceCreationExpressionName : name DOT 
+	'''
+
+def p_classBody_opt(p):
+	'''
+		classBody_opt : classBody
+		| empty
+	'''
+
+def p_fieldAccess(p):
+	'''
+		fieldAccess : primary DOT Identifier
+		| SUPER DOT Identifier
+	'''
+
+def p_arrayAccess(p):
+	'''
+		arrayAccess : name FLPAREN expression FRPAREN
+		| primaryNoNewArray FLPAREN expression FRPAREN
+		| arrayCreationWithArrayInitializer FLPAREN expression FRPAREN
+	'''
+
+def p_arrayCreationWithArrayInitializer(p):
+	'''
+		arrayCreationWithArrayInitializer : NEW primitiveType arrayWithOrWithoutExprs arrayInitializer
+		| NEW classOrInterfaceType arrayWithOrWithoutExprs arrayInitializer
+	'''
+
+def p_arrayWithOrWithoutExprs(p):
+	'''
+		arrayWithOrWithoutExprs : arrayWithOrWithoutExpr
+		| arrayWithOrWithoutExprs arrayWithOrWithoutExpr
+	'''
+
+def p_arrayWithOrWithoutExpr(p):
+	'''
+		arrayWithOrWithoutExpr : FLPAREN expression FRPAREN
+		| FLPAREN FRPAREN
+	'''
+
+# * expression begin
+
+# * expression begin
 
 def p_expression(p):
 	'''
-	 expression : conditionalExpression assignmentOperator expression
-	 			| conditionalExpression
+		expression : assignmentExpression
 	'''
 
-	pass
+def p_expressionNotName(p):
+	'''
+		expressionNotName : assignmentExpressionNotName
+	'''
+
+def p_assignmentExpression(p):
+	'''
+		assignmentExpression : assignment
+		| conditionalExpression
+	'''
+
+def p_assignmentExpressionNotName(p):
+	'''
+		assignmentExpressionNotName : assignment
+		| conditionalExpressionNotName
+	'''
 
 
 def p_assignmentOperator(p):
 	'''
-	 assignmentOperator :  EQUALS 
+	 assignmentOperator :  ASS 
 	| ASS_ADD 
 	| ASS_SUB 
 	| ASS_MUL 
@@ -1677,430 +1451,326 @@ def p_assignmentOperator(p):
 	| ASS_SHR
 	'''
 
-	pass
+def p_assignment(p):
+	'''
+		assignment : postfixExpression assignmentOperator assignmentExpression
+	'''
 
 def p_conditionalExpression(p):
 	'''
-	 conditionalExpression : conditionalOrExpressions
-						| conditionalOrExpressions QUES expression COLON expression
+		conditionalExpression : conditionalOrExpression
+		| conditionalOrExpression QUES expression COLON conditionalExpression
 	'''
 
-	pass
-
-
-# begin
-
-def p_conditionalOrExpressions(p):
+def p_conditionalExpressionNotName(p):
 	'''
-		conditionalOrExpressions : conditionalOrExpression
-								| conditionalOrExpressions conditionalOrExpression 
+		conditionalExpressionNotName : conditionalOrExpressionNotName
+		| conditionalOrExpressionNotName QUES expression COLON conditionalExpression
+		| name QUES expression COLON conditionalExpression
 	'''
 
 def p_conditionalOrExpression(p):
 	'''
-	 conditionalOrExpression : conditionalAndExpressions
-	 						| OP_LOR conditionalAndExpression
+		conditionalOrExpression : conditionalAndExpression
+		| conditionalOrExpression OP_LOR conditionalAndExpression
 	'''
 
-	pass
-
-def p_conditionalAndExpressions(p):
+def p_conditionalOrExpressionNotName(p):
 	'''
-		conditionalAndExpressions : conditionalAndExpression
-								| conditionalAndExpressions conditionalAndExpression
+		conditionalOrExpressionNotName : conditionalAndExpressionNotName
+		| conditionalOrExpressionNotName OP_LOR conditionalAndExpression
+		| name OP_LOR conditionalAndExpression
 	'''
 
 def p_conditionalAndExpression(p):
 	'''
-	 conditionalAndExpression : inclusiveOrExpressions
-	 						| OP_LAND inclusiveOrExpressions
+		conditionalAndExpression : inclusiveOrExpression
+		| conditionalAndExpression OP_LAND inclusiveOrExpression
 	'''
 
-	pass
-
-def p_inclusiveOrExpressions(p):
+def p_conditionalAndExpressionNotName(p):
 	'''
-		inclusiveOrExpressions : inclusiveOrExpression
-								| inclusiveOrExpressions inclusiveOrExpression
+		conditionalAndExpressionNotName : inclusiveOrExpressionNotName
+		| conditionalAndExpressionNotName OP_LAND inclusiveOrExpression
+		| name OP_LAND inclusiveOrExpression
 	'''
 
 def p_inclusiveOrExpression(p):
 	'''
-	 inclusiveOrExpression : exclusiveOrExpressions
-	 					| VERTICAL exclusiveOrExpressions
+		inclusiveOrExpression : exclusiveOrExpression
+		| inclusiveOrExpression VERTICAL exclusiveOrExpression
 	'''
-
-	pass
-
-def p_exclusiveOrExpressions(p):
+def p_inclusiveOrExpressionNotName(p):
 	'''
-		exclusiveOrExpressions : exclusiveOrExpression
-							| exclusiveOrExpressions exclusiveOrExpression
+		inclusiveOrExpressionNotName : exclusiveOrExpressionNotName
+		| inclusiveOrExpressionNotName VERTICAL exclusiveOrExpression
+		| name VERTICAL exclusiveOrExpression
 	'''
 
 def p_exclusiveOrExpression(p):
 	'''
-	 exclusiveOrExpression : andExpressions
-	 					| CARET andExpressions
+		exclusiveOrExpression : andExpression
+		| exclusiveOrExpression CARET andExpression
 	'''
 
-	pass
+def p_exclusiveOrExpressionNotName(p):
+	'''
+		exclusiveOrExpressionNotName : andExpressionNotName
+		| exclusiveOrExpressionNotName CARET andExpression
+		| name CARET andExpression
+	'''
 
-def p_andExpressions(p):
-	'''
-		andExpressions : andExpression
-					| andExpressions andExpression
-	'''
 
 def p_andExpression(p):
 	'''
-	 andExpression : equalityExpressions
-	 			| AND equalityExpressions
+		andExpression : equalityExpression
+		| andExpression AND equalityExpression
 	'''
 
-	pass
+def p_andExpressionNotName(p):
+	'''
+		andExpressionNotName : equalityExpressionNotName
+		| andExpressionNotName AND equalityExpression
+		| name AND equalityExpression
+	'''
 
-def p_equalityExpressions(p):
-	'''
-		equalityExpressions : equalityExpression
-						| equalityExpressions equalityExpression
-	'''
 
 def p_equalityExpression(p):
 	'''
-	 equalityExpression : instanceOfExpressions
-	 					| OP_EQ instanceOfExpressions
-						| OP_NE instanceOfExpressions
+		equalityExpression : instanceOfExpression
+		| equalityExpression OP_EQ instanceOfExpression
+		| equalityExpression OP_NE instanceOfExpression
 	'''
 
-	pass
-
-def p_instanceOfExpressions(p):
+def p_equalityExpressionNotName(p):
 	'''
-		instanceOfExpressions : instanceOfExpression
-							| instanceOfExpressions instanceOfExpression
+		equalityExpressionNotName : instanceOfExpressionNotName
+		| equalityExpressionNotName OP_EQ instanceOfExpression
+		| equalityExpressionNotName OP_NE instanceOfExpression
+		| name OP_EQ instanceOfExpression
+		| name OP_NE instanceOfExpression
 	'''
 
 
 def p_instanceOfExpression(p):
 	'''
-	 instanceOfExpression : relationalExpressions INSTANCEOF type
-	 					| relationalExpressions
+		instanceOfExpression : relationalExpression
+		| instanceOfExpression INSTANCEOF referenceType
 	'''
 
-	pass
-
-def p_relationalOp(p):
+def p_instanceOfExpressionNotName(p):
 	'''
-	 relationalOp :  OP_LE 
-	| OP_GE 
-	| LESS 
-	| MORE
-	'''
-
-	pass
-
-def p_shiftOp(p):
-	'''
-	 shiftOp :  MORE MORE
-	| MORE MORE MORE 
-	| OP_SHL
-	'''
-
-def p_relationalExpressions(p):
-	'''
-		relationalExpressions : relationalExpression
-						| relationalExpressions relationalExpression
+		instanceOfExpressionNotName : relationalExpressionNotName
+		| instanceOfExpressionNotName INSTANCEOF referenceType
+		| name INSTANCEOF referenceType
 	'''
 
 def p_relationalExpression(p):
 	'''
-		relationalExpression : shiftExpressions
-							| shiftExpressions shiftOp
+		relationalExpression : shiftExpression
+		| relationalExpression LESS shiftExpression
+		| relationalExpression OP_GE shiftExpression
+		| relationalExpression MORE shiftExpression
+		| relationalExpression OP_LE shiftExpression
 	'''
 
-def p_shiftExpressions(p):
+def p_relationalExpressionNotName(p):
 	'''
-		shiftExpressions : shiftExpression
-						| shiftExpressions shiftExpression
+		relationalExpressionNotName : shiftExpressionNotName
+		| relationalExpressionNotName LESS shiftExpression
+		| relationalExpressionNotName OP_GE shiftExpression
+		| relationalExpressionNotName MORE shiftExpression
+		| relationalExpressionNotName OP_LE shiftExpression
+		| name LESS shiftExpression
+		| name OP_GE shiftExpression
+		| name MORE shiftExpression
+		| name OP_LE shiftExpression
 	'''
 
 def p_shiftExpression(p):
 	'''
-		shiftExpression : additiveExpressions
-						| relationalOp additiveExpressions
+		shiftExpression : additiveExpression
+		| shiftExpression OP_SHR additiveExpression
+		| shiftExpression OP_SHL additiveExpression
+		| shiftExpression OP_SHRR additiveExpression
 	'''
 
-def p_additiveExpressions(p):
+def p_shiftExpressionNotName(p):
 	'''
-		additiveExpressions : additiveExpression
-						| additiveExpressions additiveExpression
+		shiftExpressionNotName : additiveExpressionNotName
+		| shiftExpressionNotName OP_SHR additiveExpression
+		| shiftExpressionNotName OP_SHL additiveExpression
+		| shiftExpressionNotName OP_SHRR additiveExpression
+		| name OP_SHR additiveExpression
+		| name OP_SHL additiveExpression
+		| name OP_SHRR additiveExpression
 	'''
 
 
 def p_additiveExpression(p):
 	'''
-	 additiveExpression : multiplicativeExpressions
-	 					| PLUS multiplicativeExpressions
-						| DASH multiplicativeExpressions
+		additiveExpression : multiplicativeExpression
+		| additiveExpression PLUS multiplicativeExpression
+		| additiveExpression DASH multiplicativeExpression
 	'''
 
-	pass
-
-def p_multiplicativeExpressions(p):
+def p_additiveExpressionNotName(p):
 	'''
-		multiplicativeExpressions : multiplicativeExpression
-						| multiplicativeExpression multiplicativeExpressions
+		additiveExpressionNotName : multiplicativeExpressionNotName
+		| additiveExpressionNotName PLUS multiplicativeExpression
+		| additiveExpressionNotName DASH multiplicativeExpression
+		| name PLUS multiplicativeExpression
+		| name DASH multiplicativeExpression
 	'''
 
-#multiplicativeExpression
-#    :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )*
-#    ;
 def p_multiplicativeExpression(p):
 	'''
-	 multiplicativeExpression : unaryExpressions
-	 		| MULT unaryExpressions
-			| SLASH unaryExpressions
-			| PERCENT unaryExpressions 
+		multiplicativeExpression : unaryExpression
+	 	| multiplicativeExpression MULT unaryExpression
+		| multiplicativeExpression SLASH unaryExpression
+		| multiplicativeExpression PERCENT unaryExpression
 	'''
 
-	pass
-
-def p_unaryExpressions(p):
+def p_multiplicativeExpressionNotName(p):
 	'''
-		unaryExpressions : unaryExpression
-					| unaryExpressions unaryExpression 
+		multiplicativeExpressionNotName : unaryExpressionNotName
+	 	| multiplicativeExpressionNotName MULT unaryExpression
+		| multiplicativeExpressionNotName SLASH unaryExpression
+		| multiplicativeExpressionNotName PERCENT unaryExpression
+	 	| name MULT unaryExpression
+		| name SLASH unaryExpression
+		| name PERCENT unaryExpression
 	'''
 
-# multiplicativeExpression -- end
 
 def p_unaryExpression(p):
 	'''
-	 unaryExpression :  PLUS unaryExpression 
-	| DASH unaryExpression 
-	| OP_INC unaryExpression 
-	| OP_DEC unaryExpression 
-	| unaryExpressionNotPlusMinus
+		unaryExpression : preIncrementExpression
+		| preDecrementExpression
+		| PLUS unaryExpression
+		| DASH unaryExpression
+		| unaryExpressionNotPlusMinus
 	'''
 
-	pass
-
-
-def p_INC_DEC(p):
+def p_unaryExpressionNotName(p):
 	'''
-	 INC_DEC :  OP_INC 
-	| OP_DEC
-	'''
-
-	pass
-
-def p_selectors(p):
-	'''
-	 selectors : selector
-		| selectors selector
+		unaryExpressionNotName : preIncrementExpression
+		| preDecrementExpression
+		| PLUS unaryExpression
+		| DASH unaryExpression
+		| unaryExpressionNotPlusMinusNotName
 	'''
 
-	pass
+
+def p_preIncrementExpression(p):
+	'''
+		preIncrementExpression : OP_INC unaryExpression
+	'''
+
+def p_preDecrementExpression(p):
+	'''
+		preDecrementExpression : OP_DEC unaryExpression
+	'''
+
+def p_postIncrementExpression(p):
+	'''
+		postIncrementExpression : postfixExpression OP_INC
+	'''
+
+def p_postDecrementExpression(p):
+	'''
+		postDecrementExpression : postfixExpression OP_DEC
+	'''
 
 
 def p_unaryExpressionNotPlusMinus(p):
 	'''
-	 unaryExpressionNotPlusMinus : TILDE unaryExpression
-								 | EXCLAMATION unaryExpression
-								 | castExpression
-								 | primary selectors INC_DEC
-								 | primary INC_DEC
-								 | primary selectors
-								 | primary
+		unaryExpressionNotPlusMinus : TILDE unaryExpression
+		| EXCLAMATION unaryExpression
+		| postfixExpression
+		| castExpression
 	'''
 
-	pass
+def p_unaryExpressionNotPlusMinusNotName(p):
+	'''
+		unaryExpressionNotPlusMinusNotName : TILDE unaryExpression
+		| EXCLAMATION unaryExpression
+		| postfixExpressionNotName
+		| castExpression
+	'''
+
+def p_postfixExpression(p):
+	'''
+		postfixExpression : primary
+		| name
+		| postIncrementExpression
+		| postDecrementExpression
+	'''
+
+def p_postfixExpressionNotName(p):
+	'''
+		postfixExpressionNotName : primary
+		| postIncrementExpression
+		| postDecrementExpression
+	'''
+
+def p_primary(p):
+	'''
+		primary : primaryNoNewArray
+		| arrayCreationWithArrayInitializer
+		| arrayCreationWithoutArrayInitializer
+	'''
+
+def p_primaryNoNewArray(p):
+	'''
+		primaryNoNewArray : literal
+		| THIS
+		| classInstanceCreationExpression
+		| fieldAccess
+		| methodInvocation
+		| arrayAccess
+		| LPAREN name RPAREN
+		| LPAREN expressionNotName RPAREN
+		| name DOT THIS
+		| name DOT SUPER
+		| name DOT CLASS
+		| name arrays DOT CLASS
+		| primitiveType arrays DOT CLASS
+		| primitiveType DOT CLASS
+	'''
 
 def p_castExpression(p):
 	'''
-	 castExpression :  LPAREN primitiveType RPAREN unaryExpression 
-					| LPAREN type RPAREN unaryExpressionNotPlusMinus
-					| LPAREN expression RPAREN unaryExpressionNotPlusMinus
-					| LPAREN type RPAREN
-					| LPAREN expression RPAREN
+	 	castExpression :  LPAREN primitiveType arrays_opt RPAREN unaryExpression
+		| LPAREN name typeArguments arrays_opt RPAREN unaryExpressionNotPlusMinus
+		| LPAREN name typeArguments DOT classOrInterfaceType arrays_opt RPAREN unaryExpressionNotPlusMinus
+		| LPAREN name RPAREN unaryExpressionNotPlusMinus
+		| LPAREN name arrays RPAREN unaryExpressionNotPlusMinus
 	'''
 
-	pass
-
-def p_CallBody(p):
+def p_arrayCreationWithoutArrayInitializer(p):
 	'''
-		CallBody : DOT Identifier
-				| DOT CLASS
+		arrayCreationWithoutArrayInitializer : NEW primitiveType arrayWithOrWithoutExprs
+		| NEW classOrInterfaceType arrayWithOrWithoutExprs
 	'''
 
-def p_CallBodys(p):
+def p_literal(p):
 	'''
-		CallBodys : CallBody
-					| CallBody CallBodys
-	'''
-
-#primary
-#    :   parExpression
-#    |   'this' ('.' Identifier)* (identifierSuffix)?
-#    |   'super' superSuffix
-#    |   literal
-#    |   'new' creator
-#    |   Identifier ('.' Identifier)* (identifierSuffix)?
-#    |   primitiveType ('[' ']')* '.' 'class'
-#    |   'void' '.' 'class'
-#    ;
-def p_primary(p):
-	'''
-	 primary : parExpression
-		| THIS CallBodys identifierSuffix
-		| THIS CallBodys
-		| THIS identifierSuffix
-		| THIS
-		| SUPER superSuffix
-		| literal
-		| NEW creator
-		| Identifier CallBodys identifierSuffix
-		| Identifier CallBodys
-		| Identifier identifierSuffix
-		| Identifier
-		| primitiveType arrays DOT CLASS
-		| primitiveType  DOT CLASS
-		| VOID DOT CLASS
-	'''
-
-	pass
-
-def p_FL_expression_FR(p):
-	'''
-		FL_expression_FR : FLPAREN expression FRPAREN
-	'''
-
-def p_FL_expression_FRs(p):
-	'''
-	 FL_expression_FRs : FL_expression_FR
-		| FL_expression_FRs FL_expression_FR
-	'''
-
-	pass
-
-def p_identifierSuffix(p):
-	'''
-	 identifierSuffix :  arrays DOT CLASS 
-	| FL_expression_FRs
-	| arguments 
-	| DOT CLASS 
-	| DOT explicitGenericInvocation 
-	| DOT THIS 
-	| DOT SUPER arguments 
-	| DOT NEW innerCreator
+		literal :  integerLiteral 
+		| FloatingPointLiteral 
+		| CharacterLiteral 
+		| StringLiteral 
+		| booleanLiteral 
+		| NULL
 	'''
 
 	pass
 
 
-def p_creator(p):
+def p_booleanLiteral(p):
 	'''
-	 creator :  nonWildcardTypeArguments createdName classCreatorRest 
-	| createdName arrayCreatorRest 
-	| createdName classCreatorRest
-	'''
-
-	pass
-
-
-def p_createdName(p):
-	'''
-	 createdName :  classOrInterfaceType 
-	| primitiveType
-	'''
-
-	pass
-
-
-def p_nonWildcardTypeArguments_empty(p):
-	'''
-		nonWildcardTypeArguments_empty : nonWildcardTypeArguments
-										|
-	'''
-
-
-def p_innerCreator(p):
-	'''
-	 innerCreator : nonWildcardTypeArguments_empty Identifier classCreatorRest
-	'''
-
-	pass
-
-#arrayCreatorRest
-#    :   '['
-#        (   ']' ('[' ']')* arrayInitializer
-#        |   expression ']' ('[' expression ']')* ('[' ']')*
-#        )
-#    ;
-
-def p_arrayCreatorRest(p):
-	'''
-	 arrayCreatorRest :  FLPAREN FRPAREN arrays arrayInitializer
-						| FLPAREN FRPAREN arrayInitializer
-						| FLPAREN expression FRPAREN FL_expression_FRs arrays
-						| FLPAREN expression FRPAREN
-						| FLPAREN expression FRPAREN FL_expression_FRs
-						| FLPAREN expression FRPAREN arrays
-	'''
-
-	pass
-
-
-def p_classCreatorRest(p):
-	'''
-	 classCreatorRest : arguments classBody_once
-	'''
-
-	pass
-
-
-def p_explicitGenericInvocation(p):
-	'''
-	 explicitGenericInvocation :  nonWildcardTypeArguments Identifier arguments
-	'''
-
-	pass
-
-
-def p_nonWildcardTypeArguments(p):
-	'''
-	 nonWildcardTypeArguments :  LESS typeList MORE
-	'''
-
-	pass
-
-
-def p_selector(p):
-	'''
-	 selector : DOT Identifier arguments
-		| DOT Identifier 
-		| DOT THIS
-		| DOT SUPER superSuffix
-		| DOT NEW innerCreator
-		| FLPAREN expression FRPAREN
-	'''
-
-	pass
-
-
-def p_superSuffix(p):
-	'''
-	 superSuffix : arguments
-		| DOT Identifier arguments
-		| DOT Identifier
-	'''
-
-	pass
-
-def p_arguments(p):
-	'''
-	 arguments : LPAREN expressionList RPAREN
-	 			| LPAREN RPAREN
+		booleanLiteral :  TRUE 
+		| FALSE
 	'''
 
 	pass
@@ -2108,21 +1778,23 @@ def p_arguments(p):
 def p_FloatingPointLiteral( p ):
 	'''
 		FloatingPointLiteral : NON_INTEGER_1
-					| NON_INTEGER_2
-					| NON_INTEGER_3
-					| NON_INTEGER_4
+		| NON_INTEGER_2
+		| NON_INTEGER_3
+		| NON_INTEGER_4
+		| NON_INTEGER_5
+		| NON_INTEGER_6
 	'''
 	pass
 
 def p_integerLiteral(p):
 	'''
 		integerLiteral : LONG_NUMBER
-					| LONG_HEX_NUMBER
+		| LONG_HEX_NUMBER
 	'''
 	pass
 
 
-	#### Empty
+#### Empty
    
 def p_empty( p ):
 	'''empty : '''
