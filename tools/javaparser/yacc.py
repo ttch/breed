@@ -14,6 +14,7 @@
 import ply.yacc as yacc
 import lex
 from collections import deque
+import objectTree
 
 tokens = lex.tokens
 
@@ -22,7 +23,7 @@ tokens = lex.tokens
 def p_compilationUnit(p):
 	'''
 		compilationUnit : packageDeclaration importDeclarations typeDeclarations
-		| packageDeclaration importDeclarations
+		| packageDeclaration importDeclarations 
 		| packageDeclaration typeDeclarations
 		| packageDeclaration
 		| typeDeclarations
@@ -48,10 +49,14 @@ def p_packageDeclaration(p):
 		packageDeclaration : packageDeclarationName SEMI
 	'''
 
-def p_packageDeclarationName(p):
+def p_packageDeclarationName1(p):
 	'''
 		packageDeclarationName : modifiers PACKAGE name
-		| PACKAGE name
+	'''
+
+def p_packageDeclarationName2(p):
+	'''
+		packageDeclarationName : PACKAGE name
 	'''
 
 def p_importDeclaration(p):
@@ -66,15 +71,19 @@ def p_singleTypeImportDeclaration(p):
 	'''
 		singleTypeImportDeclaration : IMPORT name SEMI
 	'''
+	print p[2].nameList
+	#objectTree.cl.addImport(ImportObject().addName())
+
 def p_typeImportOnDemandDeclaration(p):
 	'''
 		typeImportOnDemandDeclaration : IMPORT name DOT MULT SEMI
 	'''
+	#print p[0], p[1] , p[2], p[3], p[4]
+
 
 def p_singleStaticImportDeclaration(p):
 	'''
 		singleStaticImportDeclaration : IMPORT STATIC name SEMI
-
 	'''
 
 def p_staticImportOnDemandDeclaration(p):
@@ -99,17 +108,22 @@ def p_name(p):
 		name : simpleName
 		| qualifiedName
 	'''
+	p[0] = p[1]
 
 def p_simpleName(p):
 	'''
 		simpleName : Identifier
 	'''
+	#if p[0] == None : p[0] = objectTree.Name()
+	p[0] = objectTree.Name( [ p[1] ] )
 
 def p_qualifiedName(p):
 	'''
 		qualifiedName : name DOT simpleName		
 
 	'''
+	#p[0] = "%s.%s" % ( p[1] , p[3] )
+	p[0] = p[1] + p[3]
 # name end
 
 # Types, Values, and Variables * begin
@@ -1799,6 +1813,8 @@ def p_integerLiteral(p):
 def p_empty( p ):
 	'''empty : '''
 
+
+
 #### Catastrophic error handler
 is_pass = True
 def p_error(p):
@@ -1818,6 +1834,9 @@ def get_yacc(l,filename,debug):
 		result = b.parse(lexer = l , debug=2)
 	else:
 		result = b.parse(lexer = l , debug=0)
+
+
+	objectTree.printAll()
 
 	if b.error : return None
 	global is_pass

@@ -43,7 +43,6 @@ def main(filename,debug=False):
 	s = file_.getSource( filename )
 
 	lexer.input(s)
-
 	yacc.get_yacc(lexer,filename,debug)
 
 	#for x in file_.getTokenList(lexer):
